@@ -3,6 +3,7 @@ ULX3S Documentation
 
 * Home: https://radiona.org/ulx3s/
 * Manual: https://github.com/emard/ulx3s/blob/master/doc/MANUAL.md
+* More links: https://ulx3s.github.io/
 
 MIPI CSI/Camera Info
 ====================
