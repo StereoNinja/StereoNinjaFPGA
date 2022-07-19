@@ -29,8 +29,8 @@ Enable 5P     5N
 8  Clk_N
 9  Clk_P
 10 GND
-11 GPIO/Enabel
-12 x
+11 GPIO/Enable
+12 --
 13 SCL
 14 SDA
 15 3V3
