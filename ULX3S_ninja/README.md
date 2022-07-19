@@ -13,7 +13,8 @@ SCL    6P     7P
 SDA    6N     7N
 Enable 5P     5N
 ```
-  * Differential pair 12 is differential primary clock capable, see https://github.com/emard/ulx3s/blob/master/doc/MANUAL.md
+
+\* Differential pair 12 is differential primary clock capable, see https://github.com/emard/ulx3s/blob/master/doc/MANUAL.md
 
 # Pinout Raspi Camera FFC connector
 
