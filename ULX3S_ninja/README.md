@@ -11,7 +11,7 @@ lane1  9      11     (differential pair)
 clk    12*    13     (differential pair)
 SCL    6P     7P
 SDA    6N     7N
-Enable 5P     5N
+Enable 5N     5N     (both cams!)
 ```
 
 \* Differential pair 12 is differential primary clock capable, see https://github.com/emard/ulx3s/blob/master/doc/MANUAL.md
