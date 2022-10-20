@@ -2,8 +2,13 @@
 .DELETE_ON_ERROR:
 TOPMOD  := blinky
 VLOGFIL := $(TOPMOD).v
+VCDFILE := $(TOPMOD).vcd
+SIMPROG := $(TOPMOD)_tb
+RPTFILE := $(TOPMOD).rpt
 BINFILE := $(TOPMOD).bin
+SIMFILE := $(SIMPROG).cpp
 VDIRFB  := ./obj_dir
+#COSIMS  := uartsim.cpp
 all: $(VCDFILE)
 
 GCC := g++
@@ -66,7 +71,7 @@ ulx3s.bit: ulx3s_out.config
 	ecppack ulx3s_out.config ulx3s.bit
 
 ulx3s_out.config: blinky.json
-	nextpnr-ecp5 --85k --json blinky.json \
+	nextpnr-ecp5 --85k --json blinky.json  \
 		--lpf ulx3s_v20.lpf \
 		--textcfg ulx3s_out.config 
 
@@ -74,4 +79,4 @@ blinky.json: blinky.ys blinky.v
 	yosys blinky.ys 
 
 prog: ulx3s.bit
-	ujprog ulx3s.bit
+	sudo ~wkt/.bin/ujprog *.bit

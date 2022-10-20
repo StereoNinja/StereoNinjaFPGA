@@ -1,9 +1,14 @@
 .PHONY: all
 .DELETE_ON_ERROR:
-TOPMOD  := blinky
+TOPMOD  := HDMI_test
 VLOGFIL := $(TOPMOD).v
+VCDFILE := $(TOPMOD).vcd
+SIMPROG := $(TOPMOD)_tb
+RPTFILE := $(TOPMOD).rpt
 BINFILE := $(TOPMOD).bin
+SIMFILE := $(SIMPROG).cpp
 VDIRFB  := ./obj_dir
+#COSIMS  := uartsim.cpp
 all: $(VCDFILE)
 
 GCC := g++
@@ -66,7 +71,7 @@ ulx3s.bit: ulx3s_out.config
 	ecppack ulx3s_out.config ulx3s.bit
 
 ulx3s_out.config: HDMI_test.json
-	nextpnr-ecp5 --85k --json HDMI_test.json \
+	nextpnr-ecp5 --85k --json HDMI_test.json  \
 		--lpf ulx3s_v20.lpf \
 		--textcfg ulx3s_out.config 
 
@@ -74,4 +79,4 @@ HDMI_test.json: HDMI_test.ys HDMI_test.v
 	yosys HDMI_test.ys 
 
 prog: ulx3s.bit
-	ujprog ulx3s.bit
+	sudo ~wkt/.bin/ujprog *.bit
