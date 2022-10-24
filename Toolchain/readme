@@ -11,3 +11,5 @@ openFPGALoader: https://github.com/trabucayre/openFPGALoader
 Simulator: icarus/iverilog and verilator + gtkwave
 
 IDE: Eclips + SVEditor Plugin
+
+primitives: https://github.com/YosysHQ/nextpnr/blob/master/ecp5/docs/primitives.md
