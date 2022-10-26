@@ -16,7 +16,7 @@ HDMI/DVI Documentation
 ==================
 
 * HDMI Specs: https://www.google.com/search?q=%22HDMI+Specification+Version%22+%22HDMI+Licensing%2C+LLC%22+ext%3Apdf
-https://projectf.io/posts/video-timings-vga-720p-1080p/
+* HDMI Timing Specs: https://projectf.io/posts/video-timings-vga-720p-1080p/
 
 Related Projects
 ================
