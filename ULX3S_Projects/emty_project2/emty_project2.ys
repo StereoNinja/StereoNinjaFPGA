@@ -1,0 +1,2 @@
+read_verilog Vemty_project2.v
+synth_ecp5 -noccu2 -nomux -nodram -json Vemty_project2.json

@@ -30,7 +30,7 @@ module TMDS_Encoder(input clklow,input clkhigh,input reset,input [1:0]state
 						end
 					endcase
 				end
-				'h1: begin	//h0 refers to Data Island coding	
+				'h1: begin	//h1 refers to Data Island coding	
 					case (aux_data)
 						'h0: begin
 							q_out='b1010011100;	
@@ -84,7 +84,7 @@ module TMDS_Encoder(input clklow,input clkhigh,input reset,input [1:0]state
 						end
 					endcase
 				end
-				'h2: begin	//h0 refers to Video Data coding	
+				'h2: begin	//h2 refers to Video Data coding	
 					cnt_old=cnt;
 					//cnt=cnt(pix_data);
 					if ((N1(pix_data)>4) || (N1(pix_data)=='d4 && pix_data[0]=='b0)) begin
