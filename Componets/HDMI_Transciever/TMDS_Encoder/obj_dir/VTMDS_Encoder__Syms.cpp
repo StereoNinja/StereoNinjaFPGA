@@ -1,13 +1,14 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "VHDMI_test__Syms.h"
-#include "VHDMI_test.h"
+#include "VTMDS_Encoder__Syms.h"
+#include "VTMDS_Encoder.h"
+#include "VTMDS_Encoder___024unit.h"
 
 
 
 // FUNCTIONS
-VHDMI_test__Syms::VHDMI_test__Syms(VHDMI_test* topp, const char* namep)
+VTMDS_Encoder__Syms::VTMDS_Encoder__Syms(VTMDS_Encoder* topp, const char* namep)
     // Setup locals
     : __Vm_namep(namep)
     , __Vm_activity(false)

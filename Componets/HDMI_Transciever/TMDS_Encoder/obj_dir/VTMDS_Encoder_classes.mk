@@ -2,7 +2,7 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See VHDMI_test.mk for the caller.
+# See VTMDS_Encoder.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (from --threads, --trace-threads or use of classes)
@@ -23,20 +23,22 @@ VM_TRACE_FST_WRITER_THREAD = 0
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	VHDMI_test \
+	VTMDS_Encoder \
+	VTMDS_Encoder___024unit \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	VHDMI_test__Slow \
+	VTMDS_Encoder__Slow \
+	VTMDS_Encoder___024unit__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
-	VHDMI_test__Trace \
+	VTMDS_Encoder__Trace \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	VHDMI_test__Syms \
-	VHDMI_test__Trace__Slow \
+	VTMDS_Encoder__Syms \
+	VTMDS_Encoder__Trace__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

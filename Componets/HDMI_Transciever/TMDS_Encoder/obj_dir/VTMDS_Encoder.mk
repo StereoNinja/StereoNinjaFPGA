@@ -2,9 +2,9 @@
 # DESCRIPTION: Verilator output: Makefile for building Verilated archive or executable
 #
 # Execute this makefile from the object directory:
-#    make -f VHDMI_test.mk
+#    make -f VTMDS_Encoder.mk
 
-default: VHDMI_test__ALL.a
+default: VTMDS_Encoder__ALL.a
 
 ### Constants...
 # Perl executable (from $PERL)
@@ -28,9 +28,9 @@ VM_SC_TARGET_ARCH = linux
 
 ### Vars...
 # Design prefix (from --prefix)
-VM_PREFIX = VHDMI_test
+VM_PREFIX = VTMDS_Encoder
 # Module prefix (from --prefix)
-VM_MODPREFIX = VHDMI_test
+VM_MODPREFIX = VTMDS_Encoder
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
 
@@ -46,7 +46,7 @@ VM_USER_DIR = \
 
 ### Default rules...
 # Include list of all generated classes
-include VHDMI_test_classes.mk
+include VTMDS_Encoder_classes.mk
 # Include global rules
 include $(VERILATOR_ROOT)/include/verilated.mk
 

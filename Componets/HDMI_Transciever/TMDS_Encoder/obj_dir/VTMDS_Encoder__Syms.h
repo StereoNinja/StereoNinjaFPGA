@@ -4,16 +4,17 @@
 // Internal details; most calling programs do not need this header,
 // unless using verilator public meta comments.
 
-#ifndef _VHDMI_TEST__SYMS_H_
-#define _VHDMI_TEST__SYMS_H_  // guard
+#ifndef _VTMDS_ENCODER__SYMS_H_
+#define _VTMDS_ENCODER__SYMS_H_  // guard
 
 #include "verilated.h"
 
 // INCLUDE MODULE CLASSES
-#include "VHDMI_test.h"
+#include "VTMDS_Encoder.h"
+#include "VTMDS_Encoder___024unit.h"
 
 // SYMS CLASS
-class VHDMI_test__Syms : public VerilatedSyms {
+class VTMDS_Encoder__Syms : public VerilatedSyms {
   public:
     
     // LOCAL STATE
@@ -23,11 +24,11 @@ class VHDMI_test__Syms : public VerilatedSyms {
     bool __Vm_didInit;
     
     // SUBCELL STATE
-    VHDMI_test*                    TOPp;
+    VTMDS_Encoder*                 TOPp;
     
     // CREATORS
-    VHDMI_test__Syms(VHDMI_test* topp, const char* namep);
-    ~VHDMI_test__Syms() {}
+    VTMDS_Encoder__Syms(VTMDS_Encoder* topp, const char* namep);
+    ~VTMDS_Encoder__Syms() {}
     
     // METHODS
     inline const char* name() { return __Vm_namep; }
