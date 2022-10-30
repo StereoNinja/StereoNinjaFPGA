@@ -1,0 +1,2 @@
+read_verilog VHDMI_Transciever.v
+synth_ecp5 -noccu2 -nomux -nodram -json VHDMI_Transciever.json

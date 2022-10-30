@@ -2,6 +2,7 @@
 ## Verilator Rules
 ##
 .PHONY: all
+
 #.DELETE_ON_ERROR:
 TOPMOD  := test_project
 VLOGFIL := $(TOPMOD).v
