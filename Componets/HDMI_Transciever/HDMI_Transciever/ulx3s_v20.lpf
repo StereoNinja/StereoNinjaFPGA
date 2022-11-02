@@ -3,9 +3,11 @@ BLOCK ASYNCPATHS;
 ## ULX3S v2.0 and v2.1
 
 # The clock "usb" and "gpdi" sheet
-LOCATE COMP "pixclk" SITE "G2";
-IOBUF  PORT "pixclk" PULLMODE=NONE IO_TYPE=LVCMOS33;
-FREQUENCY PORT "pixclk" 25 MHZ;
+LOCATE COMP "clk_low" SITE "G2";
+IOBUF  PORT "clk_low" PULLMODE=NONE IO_TYPE=LVCMOS33;
+FREQUENCY PORT "clk_low" 25 MHZ;
+
+FREQUENCY PORT "clk_high" 250 MHZ;
 
 # JTAG and SPI FLASH voltage 3.3V and options to boot from SPI flash
 # write to FLASH possible any time from JTAG:

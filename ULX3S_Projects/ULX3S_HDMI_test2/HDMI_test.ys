@@ -1,2 +1,2 @@
-read_verilog HDMI_test.v
-synth_ecp5 -noccu2 -nomux -nodram -json HDMI_test.json
+read_verilog HDMI_test.v clock.v
+synth_ecp5 -json HDMI_test.json

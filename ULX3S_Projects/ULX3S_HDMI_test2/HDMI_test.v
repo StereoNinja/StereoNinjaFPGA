@@ -4,7 +4,9 @@
 
 module HDMI_test(
 	input pixclk,  // 25MHz
-	input clk_TMDS,//250MHz Simulation only
+	
+	input clk_TMDS,	
+	
 	output [3:0] TMDSd	
 );
 
@@ -24,9 +26,9 @@ always @(posedge pixclk) vSync <= (CounterY>=490) && (CounterY<492);
 wire [7:0] W = {8{CounterX[7:0]==CounterY[7:0]}};
 wire [7:0] A = {8{CounterX[7:5]==3'h2 && CounterY[7:5]==3'h2}};
 reg [7:0] red, green, blue;
-always @(posedge pixclk) red <= ({CounterX[5:0] & {6{CounterY[4:3]==~CounterX[4:3]}}, 2'b00} | W) & ~A;
-always @(posedge pixclk) green <= (CounterX[7:0] & {8{CounterY[6]}} | W) & ~A;
-always @(posedge pixclk) blue <= CounterY[7:0] | W | A;
+always @(posedge pixclk) red <= 255;//({CounterX[5:0] & {6{CounterY[4:3]==~CounterX[4:3]}}, 2'b00} | W) & ~A;
+always @(posedge pixclk) green <=255;// (CounterX[7:0] & {8{CounterY[6]}} | W) & ~A;
+always @(posedge pixclk) blue <=255;// CounterY[7:0] | W | A;
 
 ////////////////////////////////////////////////////////////////////////
 wire [9:0] TMDS_red, TMDS_green, TMDS_blue;
@@ -35,8 +37,10 @@ TMDS_encoder encode_G(.clk(pixclk), .VD(green), .CD(2'b00)        , .VDE(DrawAre
 TMDS_encoder encode_B(.clk(pixclk), .VD(blue ), .CD({vSync,hSync}), .VDE(DrawArea), .TMDS(TMDS_blue));
 
 ////////////////////////////////////////////////////////////////////////
-//wire clk_TMDS, 
+//wire clk_TMDS; 
 wire DCM_TMDS_CLKFX;  // 25MHz x 10 = 250MHz
+
+//clock clkmult(.clkin_25MHz(pixclk),.clk_250MHz(clk_TMDS));
 
 //DCM_SP #(.CLKFX_MULTIPLY(10)) DCM_TMDS_inst(.CLKIN(pixclk), .CLKFX(clk_TMDS), .RST(1'b0));
 //BUFG BUFG_TMDSp(.I(DCM_TMDS_CLKFX), .O(clk_TMDS));
@@ -98,6 +102,7 @@ assign O = I;
 assign OB = ~I;
 
 endmodule
+
 
 
 

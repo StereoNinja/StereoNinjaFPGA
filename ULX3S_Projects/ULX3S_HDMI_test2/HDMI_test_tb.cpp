@@ -12,7 +12,7 @@
 
 int	main(int argc, char **argv) {
 	Verilated::commandArgs(argc, argv);
-	TESTB<VHDMI_test>	*tb
+	TESTB<VHDMI_test>*tb
 		= new TESTB<VHDMI_test>;
 	tb->opentrace("blinky.vcd");
 	//tb->m_core->btn= 0;
@@ -21,13 +21,10 @@ int	main(int argc, char **argv) {
 	printf("255\n");
 	int count =0;
 	int count2=0;
-	for (int i=0; i < 800*525*10; i++) {
+	for (int i=0; i < 100000; i++) {
 	  tb->tick();
 	  if(count ==9){
-	  printf(" %d %d %d ",
-	  			tb->m_core->HDMI_test__DOT__red,
-	  			tb->m_core->HDMI_test__DOT__green,
-	  			tb->m_core->HDMI_test__DOT__blue);
+
 
 	  count=0;
 	  if(count2>=52){

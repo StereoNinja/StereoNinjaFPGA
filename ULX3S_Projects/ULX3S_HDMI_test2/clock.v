@@ -8,7 +8,7 @@ module clock
 		output locked
 		);
 	wire int_locked;
-	`ifdef not VERILATOR
+	
 	(* ICP_CURRENT="9" *) (* LPF_RESISTOR="8" *) (* MFG_ENABLE_FILTEROPAMP="1" *) (* MFG_GMCREF_SEL="2" *)
 		EHXPLLL
 		#(
@@ -60,7 +60,7 @@ module clock
 			.LOCK(locked),
 			.INTLOCK(int_locked)
 		);
-	`endif
+	
 	
 
 endmodule

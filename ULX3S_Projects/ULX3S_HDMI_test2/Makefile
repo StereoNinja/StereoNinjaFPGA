@@ -44,12 +44,13 @@ test: $(VCDFILE)
 
 $(VCDFILE): $(SIMPROG)
 	./$(SIMPROG) > image.ppm
-
+	gtkwave blinky.vcd
 ## 
 .PHONY: clean
 clean:
 	rm -rf $(VDIRFB)/ $(SIMPROG) $(VCDFILE) image.ppm
-
+	rm -rf $(VDIRFB)/ $(SIMPROG) $(VCDFILE) blinky/ $(BINFILE) $(RPTFILE)
+	rm -rf HDMI_test.json ulx3s_out.config ulx3s.bit
 ##
 ## Find all of the Verilog dependencies and submodules
 ##
@@ -64,3 +65,17 @@ ifneq ($(DEPS),)
 include $(DEPS)
 endif
 endif
+
+ulx3s.bit: ulx3s_out.config
+	ecppack ulx3s_out.config ulx3s.bit
+
+ulx3s_out.config: HDMI_test.json
+	nextpnr-ecp5 --85k --json HDMI_test.json  \
+		--lpf ulx3s_v20.lpf \
+		--textcfg ulx3s_out.config 
+
+HDMI_test.json: HDMI_test.ys HDMI_test.v
+	yosys HDMI_test.ys 
+
+prog: ulx3s.bit
+	sudo ujprog *.bit

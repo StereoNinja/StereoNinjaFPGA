@@ -11,7 +11,6 @@
 
 // INCLUDE MODULE CLASSES
 #include "VHDMI_Transciever.h"
-#include "VHDMI_Transciever___024unit.h"
 
 // SYMS CLASS
 class VHDMI_Transciever__Syms : public VerilatedSyms {

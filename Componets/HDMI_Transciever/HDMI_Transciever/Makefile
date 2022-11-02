@@ -66,3 +66,18 @@ ifneq ($(DEPS),)
 include $(DEPS)
 endif
 endif
+
+ulx3s.bit: ulx3s_out.config
+	ecppack ulx3s_out.config ulx3s.bit
+
+ulx3s_out.config: HDMI_Transciever.json
+	nextpnr-ecp5 --85k --json HDMI_Transciever.json  \
+		--lpf ulx3s_v20.lpf \
+		 --lpf-allow-unconstrained \
+		--textcfg ulx3s_out.config 
+
+HDMI_Transciever.json: HDMI_Transciever.ys HDMI_Transciever.v TMDS_Encoder.v
+	yosys HDMI_Transciever.ys 
+
+prog: ulx3s.bit
+	sudo jprog *.bit

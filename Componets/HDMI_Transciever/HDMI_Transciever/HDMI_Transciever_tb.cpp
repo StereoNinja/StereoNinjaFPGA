@@ -25,12 +25,15 @@ int	main(int argc, char **argv) {
     uint16_t data_g=0;
     uint16_t data_r=0;
     int count=0;
-	for (int i=0; i < 10*(800*525); i++) {
+    int posedge_old=0;
+    int posedge=0;
+	for (int i=0; i < 10*(16*19)*2; i++) {
 	    tb->tick();
 
 	    data_b |=(tb->m_core->blue)<<count;
 	    data_g |=(tb->m_core->green)<<count;
 	    data_r |=(tb->m_core->red)<<count;
+
 	    //printf("%b\n",data);
 	    if((i+1)%10==0){
 	    	/////////////////////decode
@@ -38,7 +41,7 @@ int	main(int argc, char **argv) {
 	    	uint8_t res_g=0;
 	    	uint8_t res_r=0;
 
-	    	if(((0b1000000000)|data_b)>0){
+	    	/*if(((0b1000000000)|data_b)>0){
 	    		data_b=~data_b & 0b1111111111;
 	    	}
 	    	if(((0b0100000000)|data_b)>0){
@@ -64,20 +67,21 @@ int	main(int argc, char **argv) {
 	    		    		    	}
 	    		    		    	else{
 	    		    		    		res_r = ~(data_r^(data_r<<1));
-	    		    		    	}
+	    		    		    	}*/
 
 	    	/////////////////////
-	    if(tb->m_core->HDMI_Transciever__DOT__H_VSync_Ctr_0==1){
-	    	printf("(  hs   )");
-	    } else if (tb->m_core->HDMI_Transciever__DOT__H_VSync_Ctr_0==2) {
+	   /*if (tb->m_core->HDMI_Transciever__DOT__hdmi__DOT__hSync==1 and tb->m_core->HDMI_Transciever__DOT__hdmi__DOT__vSync==1) {
+		   printf("(  hs vs)");
+	    }
+	    else if(tb->m_core->HDMI_Transciever__DOT__hdmi__DOT__hSync==1){
+	    	printf("(  hs %.3d  )",tb->m_core->HDMI_Transciever__DOT__hdmi__DOT__CounterX);
+	    } else if (tb->m_core->HDMI_Transciever__DOT__hdmi__DOT__vSync==1) {
 	    	printf("(  vs   )");
-		} else if (tb->m_core->HDMI_Transciever__DOT__H_VSync_Ctr_0==3) {
-			printf("(  hs vs)");
-		}else  {
-			printf("%.3d,%.3d,%.3d",res_b,res_g,res_r);
-		}
+		} else  {*/
+			printf("%.3x,%.3x,%.3x",data_b,data_g,data_r);
+		//}
 	    printf("|");
-	    if(tb->m_core->HDMI_Transciever__DOT__h==15){
+	    if(tb->m_core->HDMI_Transciever__DOT__hdmi__DOT__CounterX==7){
 	    	printf("\n");
 	    }
 
@@ -90,6 +94,7 @@ int	main(int argc, char **argv) {
 	    	    }else{
 	    	    count++;
 	    	    }
+
 	}
 	printf("\n\nSimulation complete\n");
 }
