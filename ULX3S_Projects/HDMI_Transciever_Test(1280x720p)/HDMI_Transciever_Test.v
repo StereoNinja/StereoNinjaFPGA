@@ -3,7 +3,7 @@ module HDMI_Transciever_Test(
 		//input clk_high,
 		output [3:0] TMDSd
 		);
-	wire clk_high;
+	wire clk_high,clk_low;
 	reg[7:0] blue,green,red;
 	reg[7:0] cnt;
 	wire[3:0]TMDSd_r;
@@ -11,16 +11,16 @@ module HDMI_Transciever_Test(
 	reg[25:0] cntY;
 	reg[25:0] cntX;
 	
-	clock clkmult(.clkin_25MHz(pixclk),.clk_250MHz(clk_high));		
+	clock clkmult(.clkin_25MHz(pixclk),.clk_250MHz(clk_high),.clk_25MHz(clk_low));		
 	HDMI_Transciever #(
-			.h_pixel(640),				  
-			.h_front_porch(16),		
-			.h_back_porch(48),		
-			.h_tot_pixel(800),				  
-			.v_pixel(480),				  
-			.v_front_porch(10),		
-			.v_back_porch(33),		
-			.v_tot_pixel(525)) HDMI (.clk_low(pixclk),.clk_high(clk_high),.red(red),.green(green),.blue(blue),.TMDSd(TMDSd),.cntX(cntX),.cntY(cntY));	
+			.h_pixel(800),				  
+			.h_front_porch(40),		
+			.h_back_porch(88),		
+			.h_tot_pixel(1056),				  
+			.v_pixel(600),				  
+			.v_front_porch(1),		
+			.v_back_porch(23),		
+			.v_tot_pixel(628)) HDMI (.clk_low(clk_low),.clk_high(clk_high),.red(red),.green(green),.blue(blue),.TMDSd(TMDSd),.cntX(cntX),.cntY(cntY));	
 	always @(posedge pixclk) begin
 		red<=0;
 		green<=0;
@@ -96,9 +96,9 @@ module clock
 			.CLKOP_ENABLE("ENABLED"),
 			.CLKOS3_DIV(0),
 			.CLKOS2_DIV(20),
-			.CLKOS_DIV(2),
+			.CLKOS_DIV(4),
 			.CLKOP_DIV(4),
-			.CLKFB_DIV(5),
+			.CLKFB_DIV(8),
 			.CLKI_DIV(1),
 			.FEEDBK_PATH("CLKOP")
 		)

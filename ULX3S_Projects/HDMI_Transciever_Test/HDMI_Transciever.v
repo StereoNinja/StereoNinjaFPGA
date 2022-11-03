@@ -1,16 +1,17 @@
-module HDMI_Transciever(input clk_low,input clk_high,/*,input reset,*/input[7:0] red,input[7:0] green,input[7:0] blue,output[25:0] cntX,output[25:0]cntY,
-						output[3:0] TMDSd);
-	////////////////////////////////////////////////////////////////////////
-	parameter
+module HDMI_Transciever
+		#(parameter
 		h_pixel=640,				  
 		h_front_porch=16,		
 		h_back_porch=48,		
-		h_tot_pixel=800,
-				  
+		h_tot_pixel=800,				  
 		v_pixel=480,				  
 		v_front_porch=10,		
 		v_back_porch=33,		
-		v_tot_pixel=525;	
+		v_tot_pixel=525)
+		(input clk_low,input clk_high,/*,input reset,*/input[7:0] red,input[7:0] green,input[7:0] blue,output[25:0] cntX,output[25:0]cntY,
+						output[3:0] TMDSd);
+	////////////////////////////////////////////////////////////////////////
+		
 	////////////////////////////////////////////////////////////////////////
 		reg [9:0] CounterX, CounterY;
 		reg hSync, vSync;
