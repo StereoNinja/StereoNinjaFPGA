@@ -8,12 +8,13 @@ module HDMI_Transciever_Test(
 	reg[7:0] cnt;
 	wire[3:0]TMDSd_r;
 	wire clk_high;
+	reg[25:0] ram_adress;
 	clock clkmult(.clkin_25MHz(pixclk),.clk_250MHz(clk_high));		
-	HDMI_Transciever HDMI (.clk_low(pixclk),.clk_high(clk_high),.red(red),.green(green),.blue(blue),.TMDSd(TMDSd));	
+	HDMI_Transciever HDMI (.clk_low(pixclk),.clk_high(clk_high),.red(red),.green(green),.blue(blue),.TMDSd(TMDSd),.ram_addr(ram_adress));	
 	always @(posedge pixclk) begin
-		blue<=cnt;
-		green<=cnt;
-		red<=cnt;
+		blue<=ram_adress[7:0];
+		green<=ram_adress[8:1];
+		red<=ram_adress[9:2];
 		cnt<=cnt+1;
 	end
 endmodule
