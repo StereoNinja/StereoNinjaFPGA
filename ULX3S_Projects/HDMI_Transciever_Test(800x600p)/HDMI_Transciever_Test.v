@@ -25,27 +25,46 @@ module HDMI_Transciever_Test(
 		red<=0;
 		green<=0;
 		blue<=0;
-		if(cntX<320&&cntY<240) begin
+		if(cntX>00&&cntX<200&&cntY<300) begin
 			red<=255;
 			green<=0;
 			blue<=0;
 		end
-		if(cntX>320&&cntY<240) begin
+		if(cntX>200&&cntX<400&&cntY<300) begin
 			red<=0;
 			green<=255;
 			blue<=0;
 		end		
-		if(cntX<320&&cntY>240) begin
+		if(cntX>400&&cntX<600&&cntY<300) begin
 			red<=0;
 			green<=0;
 			blue<=255;
 		end
-		if(cntX>320&&cntY>240) begin
+		if(cntX>600&&cntX<800&&cntY<300) begin
 			red<=255;
 			green<=255;
 			blue<=255;
 		end
-		
+		if(cntX>00&&cntX<200&&cntY>300) begin
+			red<=0;
+			green<=0;
+			blue<=0;
+		end
+		if(cntX>200&&cntX<400&&cntY>300) begin
+			red<=255;
+			green<=255;
+			blue<=0;
+		end		
+		if(cntX>400&&cntX<600&&cntY>300) begin
+			red<=255;
+			green<=0;
+			blue<=255;
+		end
+		if(cntX>600&&cntX<800&&cntY>300) begin
+			red<=0;
+			green<=255;
+			blue<=255;
+		end
 		
 		
 	end
