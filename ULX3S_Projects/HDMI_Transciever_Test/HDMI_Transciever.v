@@ -1,4 +1,4 @@
-module HDMI_Transciever(input clk_low,input clk_high,/*,input reset,*/input[7:0] red,input[7:0] green,input[7:0] blue,output[25:0] ram_addr,
+module HDMI_Transciever(input clk_low,input clk_high,/*,input reset,*/input[7:0] red,input[7:0] green,input[7:0] blue,output[25:0] cntX,output[25:0]cntY,
 						output[3:0] TMDSd);
 	////////////////////////////////////////////////////////////////////////
 	parameter
@@ -16,7 +16,10 @@ module HDMI_Transciever(input clk_low,input clk_high,/*,input reset,*/input[7:0]
 		reg hSync, vSync;
 		reg[25:0] adress;
 		reg[1:0]  DrawArea;
-		always @(posedge clk_low) adress<=(CounterY==v_tot_pixel-1) ? 0 : adress+1;
+		always @(posedge clk_low) adress<=(CounterY==v_tot_pixel-1) ? 0 : adress+1;	
+		
+		assign cntX=CounterX;
+		assign cntY=CounterY;
 		
 		always @(posedge clk_low) DrawArea <= (CounterX<h_pixel) && (CounterY<v_pixel);
 		always @(posedge clk_low) CounterX <= (CounterX==h_tot_pixel-1) ? 0 : CounterX+1;
@@ -50,6 +53,6 @@ module HDMI_Transciever(input clk_low,input clk_high,/*,input reset,*/input[7:0]
 		TMDS_Encoder encoder0 (.clklow(clk_low),.clkhigh(clk_high),.reset(reset),.state(DrawArea),.pix_data(blue),.H_VSync_Ctr({vSync,hSync}),.q_out(TMDS_blue));
 		TMDS_Encoder encoder1 (.clklow(clk_low),.clkhigh(clk_high),.reset(reset),.state(DrawArea),.pix_data(green),.H_VSync_Ctr(2'b0),.q_out(TMDS_green));
 		TMDS_Encoder encoder2 (.clklow(clk_low),.clkhigh(clk_high),.reset(reset),.state(DrawArea),.pix_data(red),.H_VSync_Ctr(2'b0),.q_out(TMDS_red));	
-		assign ram_addr= adress;
+		
 endmodule
 
