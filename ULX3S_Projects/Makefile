@@ -1,5 +1,5 @@
 .PHONY: all
-PRJNAME :=HDMI_Transciever_Test
+PRJNAME :=SERIAL
 #PRJNAME := test_project
 create:
 	mkdir $(PRJNAME)	

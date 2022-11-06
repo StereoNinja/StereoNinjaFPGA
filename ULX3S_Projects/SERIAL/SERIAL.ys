@@ -1,0 +1,2 @@
+read_verilog VSERIAL.v
+synth_ecp5 -noccu2 -nomux -nodram -json VSERIAL.json

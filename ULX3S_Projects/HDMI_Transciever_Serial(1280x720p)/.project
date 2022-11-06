@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>emty_project</name>
+	<name>HDMI_Transciever_Test(1280x720p)</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -18,7 +18,7 @@
 		<link>
 			<name>External SV Files</name>
 			<type>2</type>
-			<locationURI>svext://emty_project</locationURI>
+			<locationURI>svext://HDMI_Transciever_Test(1280x720p)</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

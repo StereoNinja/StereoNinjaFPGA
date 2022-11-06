@@ -23,21 +23,21 @@ module HDMI_Transciever
 		if(reset==1)begin
 			CounterX<=0;
 		end else begin
-			if(CounterX==h_tot_pixel-1)begin
-				CounterX <=0;
-				//addr<=0;
-			end else begin
-				CounterX <=CounterX+1;
-				addr<=addr+1;
-			end
-			vSync <= ((CounterY>=v_pixel+v_front_porch) && (CounterY<v_tot_pixel-v_back_porch)&&(CounterX<h_tot_pixel-2))||((CounterY==v_pixel+v_front_porch-1)&& (CounterX>=h_tot_pixel-2));
-			if(CounterX==h_tot_pixel-1)begin			
-				CounterY <= (CounterY==v_tot_pixel-1) ? 0 : CounterY+1;	
-				addr <= (CounterY==v_tot_pixel-1) ? 0 : addr+1;	
+		if(CounterX==h_tot_pixel-1)begin
+			CounterX <=0;
+			//addr<=0;
+		end else begin
+			CounterX <=CounterX+1;
+			addr<=addr+1;
+		end
+		vSync <= ((CounterY>=v_pixel+v_front_porch) && (CounterY<v_tot_pixel-v_back_porch)&&(CounterX<h_tot_pixel-2))||((CounterY==v_pixel+v_front_porch-1)&& (CounterX>=h_tot_pixel-2));
+		if(CounterX==h_tot_pixel-1)begin			
+			CounterY <= (CounterY==v_tot_pixel-1) ? 0 : CounterY+1;	
+			addr <= (CounterY==v_tot_pixel-1) ? 0 : addr+1;	
 			
-			end
+		end
 		end		
-	end	
+		end	
 	
 	/*always @(posedge clk_low)begin 
 		if(reset==1) begin
@@ -70,11 +70,11 @@ module HDMI_Transciever
 			TMDS_mod10<=0;	
 		end
 		else begin
-			TMDS_shift_red   <= TMDS_shift_load ? TMDS_red   : TMDS_shift_red  [9:2];
-			TMDS_shift_green <= TMDS_shift_load ? TMDS_green : TMDS_shift_green[9:2];
-			TMDS_shift_blue  <= TMDS_shift_load ? TMDS_blue  : TMDS_shift_blue [9:2];	
-			TMDS_mod10 <= (TMDS_mod10==4'd4) ? 4'd0 : TMDS_mod10+4'd1;
-		end
+		TMDS_shift_red   <= TMDS_shift_load ? TMDS_red   : TMDS_shift_red  [9:2];
+		TMDS_shift_green <= TMDS_shift_load ? TMDS_green : TMDS_shift_green[9:2];
+		TMDS_shift_blue  <= TMDS_shift_load ? TMDS_blue  : TMDS_shift_blue [9:2];	
+		TMDS_mod10 <= (TMDS_mod10==4'd4) ? 4'd0 : TMDS_mod10+4'd1;
+	end
 	end
 
 	ODDRX1F ddr_r(.D0(TMDS_shift_red[0]),.D1(TMDS_shift_red[1]),.SCLK(clk_high),.Q(TMDS_r));
@@ -93,5 +93,8 @@ module HDMI_Transciever
 	TMDS_Encoder encoder0 (.reset(reset),.clklow(clk_low),.reset(reset),.state(DrawArea),.pix_data(blue),.H_VSync_Ctr({vSync,hSync}),.q_out(TMDS_blue));
 	TMDS_Encoder encoder1 (.reset(reset),.clklow(clk_low),.reset(reset),.state(DrawArea),.pix_data(green),.H_VSync_Ctr(2'b0),.q_out(TMDS_green));
 	TMDS_Encoder encoder2 (.reset(reset),.clklow(clk_low),.reset(reset),.state(DrawArea),.pix_data(red),.H_VSync_Ctr(2'b0),.q_out(TMDS_red));	
+	
+
+	
 		
 endmodule

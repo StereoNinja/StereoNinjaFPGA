@@ -14,7 +14,7 @@ module TMDS_Encoder(input clklow,input reset,input [1:0]state
 	wire q_m1=(((N1(pix_data)>4)||(N1(pix_data)=='d4 && pix_data[0]=='b0))? q_m0~^pix_data[1]:q_m0^pix_data[1]);
 	wire q_m2=(((N1(pix_data)>4)||(N1(pix_data)=='d4 && pix_data[0]=='b0))? q_m1~^pix_data[2]:q_m1^pix_data[2]);
 	wire q_m3=(((N1(pix_data)>4)||(N1(pix_data)=='d4 && pix_data[0]=='b0))? q_m2~^pix_data[3]:q_m2^pix_data[3]);
-	wire q_m4=(((N1(pix_data)>4)||(N1(pix_data)=='d4 && pix_data[0]=='b0))? q_m2~^pix_data[4]:q_m3^pix_data[4]);
+	wire q_m4=(((N1(pix_data)>4)||(N1(pix_data)=='d4 && pix_data[0]=='b0))? q_m3~^pix_data[4]:q_m3^pix_data[4]);
 	wire q_m5=(((N1(pix_data)>4)||(N1(pix_data)=='d4 && pix_data[0]=='b0))? q_m4~^pix_data[5]:q_m4^pix_data[5]);
 	wire q_m6=(((N1(pix_data)>4)||(N1(pix_data)=='d4 && pix_data[0]=='b0))? q_m5~^pix_data[6]:q_m5^pix_data[6]);
 	wire q_m7=(((N1(pix_data)>4)||(N1(pix_data)=='d4 && pix_data[0]=='b0))? q_m6~^pix_data[7]:q_m6^pix_data[7]);
@@ -30,28 +30,26 @@ module TMDS_Encoder(input clklow,input reset,input [1:0]state
 	wire[31:0] cnt1=cnt_old+(N1(q_m[7:0])-N0(q_m[7:0]));
 	wire[31:0] cnt2=cnt_old+2*q_m[8]+N0(q_m[7:0])-N1(q_m[7:0]);
 	wire[31:0] cnt3=cnt_old-2*(!q_m[8])+N1(q_m[7:0])-N0(q_m[7:0]);	
-	wire[31:0] cnt=(reset==1)?0:((cnt_old==0)||(N1(q_m[7:0])==N0(q_m[7:0]))) ? ((q_m[8]==0)? cnt0 : cnt1 ) :(((cnt_old>0 && N1(q_m[7:0])>N0(q_m[7:0]))||(cnt_old<0 && (N0(q_m[7:0])>N1(q_m[7:0]))))? cnt2:cnt3);
+	wire[31:0] cnt=(reset==1)?0:(((cnt_old==0)||(N1(q_m[7:0])==N0(q_m[7:0]))) ? ((q_m[8]==0)? cnt0 : cnt1 ) :(((cnt_old>0 && N1(q_m[7:0])>N0(q_m[7:0]))||(cnt_old<0 && (N0(q_m[7:0])>N1(q_m[7:0]))))? cnt2:cnt3));
 	
 	
 	wire[10:0] tmds_cnt=(H_VSync_Ctr[1]==1)?((H_VSync_Ctr[0]==1)?10'b1010101011 :10'b0101010100 ) : ((H_VSync_Ctr[0]==1)? 10'b0010101011 : 10'b1101010100);
 		
 	always @(posedge clklow) begin	
 		if(reset==1) begin
-			cnt_old<=0;
-			q_out1<=0;
+			cnt_old=0;
+			q_out1=0;
 		end
 		else begin
 			cnt_old<=cnt;
 			case (state) 
 				'b00: begin	//h0 refers to Control Period coding
-					cnt_old<=0;
-					q_out1<=tmds_cnt;				
-				end
-				2'b10: begin	//h1 refers to Data Island coding	
-					cnt_old<=0;					
-				end
+					cnt_old=0;
+					q_out1=tmds_cnt;				
+				end			
 				2'b01: begin	//h2 refers to Video Data coding				
 					q_out1=q_out2;					
+						
 				end
 				default: begin
 					q_out1='b0000000000;
