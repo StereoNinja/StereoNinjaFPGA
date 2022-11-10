@@ -7,13 +7,13 @@
 #include <sys/types.h>
 #include <signal.h>
 #include "verilated.h"
-#include "VSERIAL"
+#include "VRam_Controller"
 #include "testb.h"
 
 int	main(int argc, char **argv) {
 	Verilated::commandArgs(argc, argv);
-	TESTB<VSERIAL>	*tb
-		= new TESTB<VSERIAL>;
+	TESTB<VRam_Controller>	*tb
+		= new TESTB<VRam_Controller>;
 	tb->opentrace("blinky.vcd");
 	//tb->m_core->btn= 0;
 

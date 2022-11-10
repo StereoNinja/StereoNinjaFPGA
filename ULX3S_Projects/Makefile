@@ -1,6 +1,6 @@
 .PHONY: all
-PRJNAME :=SERIAL
-#PRJNAME := test_project
+PRJNAME :=Ram_Controller
+#PRJNAME := Ram_Controller
 create:
 	mkdir $(PRJNAME)	
 	#  ./$(PRJNAME)/$(PRJNAME).v   ./$(PRJNAME)/$(PRJNAME)_tb.cpp  ./$(PRJNAME)/testb.h ./$(PRJNAME)/$(PRJNAME).ys ./$(PRJNAME)/ulx3s_empty.config ./$(PRJNAME)/ulx3s_v20.lpf  ./$(PRJNAME)/Makefile
