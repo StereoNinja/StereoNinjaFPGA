@@ -1,6 +1,6 @@
 import serial 
 
-def writePix(red,green,blue,addr):    
+def writePix(data0,data1,addr):    
           ser.write(b'\xAF')
           ser.flush()         
           s=ser.read(1)
@@ -21,21 +21,16 @@ def writePix(red,green,blue,addr):
           s=ser.read(1)
           if s==b'\x12':
             print("add2") 
-          ser.write(red)
+          ser.write(data0)
           ser.flush()
           s=ser.read(1)
           if s==b'\x13':
             print("red") 
-          ser.write(green) 
+          ser.write(data1) 
           ser.flush()
           s=ser.read(1)
           if s==b'\x14':
-            print("green") 
-          ser.write(blue) 
-          ser.flush()
-          s=ser.read(1)
-          if s==b'\x15':
-            print("blue") 
+            print("green")           
           ser.write(b'\xA1') 
           ser.flush()        
           s=ser.read(1)
@@ -43,7 +38,7 @@ def writePix(red,green,blue,addr):
             print("ram_sequence over") 
 
 #ser=serial.Serial('/dev/ttyUSB0')
-ser=serial.Serial('/dev/ttyUSB0',115200)
+ser=serial.Serial('/dev/ttyUSB1',115200)
 print(ser.name)
 while 1:
     x=input("Eingabe: ")
@@ -113,8 +108,11 @@ while 1:
             print("ram_sequence over")
             
         case "wr_pix":
-            writePix(b'\xaa',b'\xbb',b'\xcc',80) 
+            writePix(b'\xab',b'\xcd',80)
             
+        case "wr_pix2":
+            writePix(b'\xef',b'\xfe',80) 
+                         
         case "read":
           ser.write(b'\x20')         
           s=ser.read(1)

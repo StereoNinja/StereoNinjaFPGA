@@ -1,4 +1,4 @@
-module SERIAL(input clk,input reset,input RX,output TX,output vid_en,wr_ram,re_ram,output[7:0] green_r,red_r,blue_r,output[25:0]addr,output [7:0]led,input[23:0] rgb_in);
+module SERIAL(input clk,input reset,input RX,output TX,output vid_en,wr_ram,re_ram,output[7:0] data0,output[7:0] data1,output[25:0]addr,output [7:0]led,input[15:0] rgb_in,input re_valid,wr_valid,ack_wr,ack_re);
 reg[7:0] state=0;	
 reg[7:0] datain;
 reg[7:0] dataout;
@@ -22,7 +22,7 @@ localparam[7:0] addr_r0=13;
 localparam[7:0] addr_r1=14;
 localparam[7:0] addr_r2=15;
 localparam[7:0] send_color=16;
-
+reg[15:0]  buffer=0;
 
 always @(posedge clk) begin
 	if(reset==1) begin
@@ -31,8 +31,8 @@ always @(posedge clk) begin
 		send_data=0;
 	end else begin
 		vid_en<=0;
-		wr_ram<=0;
-		re_ram<=0;
+	//	wr_ram<=0;
+	//	re_ram<=0;
 	case (state)
     idle: begin//idle
     	wr_ram<=0;
@@ -74,7 +74,12 @@ always @(posedge clk) begin
 		end
 	end
 	write_ram: begin//write_ram
-		wr_ram<=0;	
+		buffer=0;
+		if(wr_valid==1) begin
+			state<=0;
+			send_data<=1;
+			dataout<='hf7;		
+		end		
 		if(data_ready==1&&datain=='hA0)begin
 			state<=0;
 			send_data<=1;
@@ -82,12 +87,18 @@ always @(posedge clk) begin
 		end else if(data_ready==1&&datain=='hAF)begin
 			state<=4;
 			send_data<=1;
-			dataout<='hAF;			
+			dataout<='hAF;	
+			wr_ram<=0;
 		end else begin   	
 			send_data<=0;
+		end		
+		if(ack_wr==1) begin
+			//wr_ram<=0;
 		end
+		
+		
 	end	
-	header_w: begin//header	
+	header_w: begin//header		
 		if(data_ready==1)begin
 			state<=5;
 			addr[7:0]=datain;
@@ -120,7 +131,7 @@ always @(posedge clk) begin
 	addr_w2: begin//addr2
 		if(data_ready==1)begin
 			state<=8;
-			red_r=datain;
+			data0<=datain;
 			send_data<=1;
 			dataout<='h13;
 		end else begin
@@ -130,14 +141,14 @@ always @(posedge clk) begin
 	red: begin//red			
 		if(data_ready==1)begin
 			state<=9;
-			green_r=datain;	
+			data1<=datain;	
 			send_data<=1;
 			dataout<='h14;
 		end else begin
 			send_data<=0;
 		end
 	end	
-	green: begin//green			
+	/*green: begin//green			
 		if(data_ready==1)begin
 			state<=10;
 			blue_r=datain;	
@@ -146,18 +157,20 @@ always @(posedge clk) begin
 		end else begin
 			send_data<=0;
 		end
-	end	
-	blue: begin//blue			
+	end	*/
+	green: begin//blue			
 		if(data_ready==1&&datain=='hA1)begin
 			state<=3;
 			send_data<=1;
-			dataout<='hA1;
+			dataout<='ha1;
 			wr_ram<=1;
 		end else begin   	
-			send_data<=0;
+			send_data<=0;			
 		end
 	end
-	read_ram: begin//read_ram	
+	read_ram: begin//read_ram
+		//wr_ram<=0;
+		//re_ram<=1;
 		if(data_ready==1&&datain=='h22)begin
 			state<=header_r;
 			send_data<=1;
@@ -195,26 +208,36 @@ always @(posedge clk) begin
 			state<=addr_r2;
 			send_data<=1;
 			dataout<='h26;
-			addr[23:16]=datain;
+			addr[23:16]<=datain;	
 			re_ram<=1;
-		end else begin
+		end else begin			
 			send_data<=0;
 		end
+		
 	end
-	addr_r2: begin//add_r2	
+	addr_r2: begin//add_r2
+		if(re_valid==1) begin
+			
+		end		
 		if(data_ready==1&&datain=='h27)begin
 			state<=send_color;
 			send_data<=1;			
-			dataout<=rgb_in[7:0];			
+			dataout<=rgb_in[7:0];	
+			//re_ram<=0;
 		end else begin
 			send_data<=0;
+		end		
+		if(ack_re==1) begin
+			re_ram<=0;				
 		end
+		
 	end
 	send_color: begin//send_color	
 		if(data_ready==1&&datain=='h28)begin
 			state<=read_ram;
 			send_data<=1;			
 			dataout<=rgb_in[15:8];
+			re_ram<=0;
 		end else begin
 			send_data<=0;
 		end

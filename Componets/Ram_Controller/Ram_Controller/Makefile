@@ -79,7 +79,7 @@ ulx3s_out.config: Ram_Controller.json
 		--lpf ulx3s_v20.lpf \
 		--package CABGA381 \
 		--textcfg ulx3s_out.config\
-		--lpf-allow-unconstrained
+		#--lpf-allow-unconstrained
 		#--package CABGA381 \
 		
 		#--package CABGA381 \

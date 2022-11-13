@@ -45,7 +45,7 @@ IOBUF  PORT "led[7]" PULLMODE=NONE IO_TYPE=LVCMOS33 DRIVE=4;
 
 ## Pushbuttons "blinkey", "flash", "power", "gpdi" sheet
 LOCATE COMP "btn[0]" SITE "D6";  # BTN_PWRn (inverted logic)
-LOCATE COMP "btn[1]" SITE "R1";  # FIRE1
+LOCATE COMP "reset" SITE "R1";  # FIRE1
 LOCATE COMP "btn[2]" SITE "T1";  # FIRE2
 LOCATE COMP "btn[3]" SITE "R18"; # UP W1->R18
 LOCATE COMP "btn[4]" SITE "V1";  # DOWN
