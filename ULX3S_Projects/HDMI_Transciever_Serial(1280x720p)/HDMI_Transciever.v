@@ -22,18 +22,21 @@ module HDMI_Transciever
 	always @(posedge clk_low)begin
 		if(reset==1)begin
 			CounterX<=0;
+			addr=0;
 		end else begin
+			
 		if(CounterX==h_tot_pixel-1)begin
 			CounterX <=0;
-			//addr<=0;
+			//addr=CounterY*1280;
 		end else begin
-			CounterX <=CounterX+1;
-			addr<=addr+1;
+			CounterX <=CounterX+1;		
+			addr=(DrawArea==1)?addr+1:addr;
+			
 		end
 		vSync <= ((CounterY>=v_pixel+v_front_porch) && (CounterY<v_tot_pixel-v_back_porch)&&(CounterX<h_tot_pixel-2))||((CounterY==v_pixel+v_front_porch-1)&& (CounterX>=h_tot_pixel-2));
 		if(CounterX==h_tot_pixel-1)begin			
 			CounterY <= (CounterY==v_tot_pixel-1) ? 0 : CounterY+1;	
-			addr <= (CounterY==v_tot_pixel-1) ? 0 : addr+1;	
+			addr = (CounterY==v_tot_pixel-1) ? 0 : addr;	
 			
 		end
 		end		
