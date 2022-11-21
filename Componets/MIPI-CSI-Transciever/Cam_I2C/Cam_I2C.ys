@@ -1,0 +1,2 @@
+read_verilog VCam_I2C.v
+synth_ecp5 -noccu2 -nomux -nodram -json VCam_I2C.json

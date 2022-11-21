@@ -1,5 +1,5 @@
 .PHONY: all
-PRJNAME :=Ram_Controller
+PRJNAME :=Cam_I2C
 #PRJNAME := Ram_Controller
 create:
 	mkdir $(PRJNAME)	
