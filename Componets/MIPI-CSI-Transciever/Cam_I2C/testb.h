@@ -77,18 +77,18 @@ public:
 		// of the clock.  This is necessary since some of the 
 		// connection modules may have made changes, for which some
 		// logic depends.  This forces that logic to be recalculated
-		// before the top of the clock.
+		// before the top of the clock
 		eval();
-		//m_core->clklow = (((m_tickcount-1)%10)<5) ? 1 : 0;
-				m_core->clk400kHz = 1;
+				m_core->clk400kHz= (((m_tickcount-1)%4)<2) ? 1 : 0;
+						m_core->clk1_6MHz = 1;
+						eval();
+						if (m_trace) m_trace->dump((vluint64_t)(10*m_tickcount));
+						m_core->clk1_6MHz = 0;
 				eval();
-				if (m_trace) m_trace->dump((vluint64_t)(10*m_tickcount));
-				m_core->clk400kHz = 0;
-		eval();
-		if (m_trace) {
-			m_trace->dump((vluint64_t)(10*m_tickcount+5));
-			m_trace->flush();
-		}
+				if (m_trace) {
+					m_trace->dump((vluint64_t)(10*m_tickcount+5));
+					m_trace->flush();
+				}
 	}
 
 	unsigned long	tickcount(void) {

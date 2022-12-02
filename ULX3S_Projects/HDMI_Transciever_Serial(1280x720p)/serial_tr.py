@@ -75,7 +75,7 @@ def readPix(addr):
 
 
 #ser=serial.Serial('/dev/ttyUSB0')
-ser=serial.Serial('/dev/ttyUSB1',115200)
+ser=serial.Serial('/dev/ttyUSB0',115200)
 print(ser.name)
 while 1:
     x=input("Eingabe: ")

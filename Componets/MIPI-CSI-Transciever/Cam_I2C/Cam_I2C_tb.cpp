@@ -19,10 +19,11 @@ int	main(int argc, char **argv) {
 
 
 	for (int i=0; i < 1000; i++) {
-		tb->m_core->send_data=1;
+		if( i>10)
+			tb->m_core->send_data=1;
 		tb->m_core->register_in=43690;
-		tb->m_core->slave_addr=170;
-		tb->m_core->datain=170;
+		tb->m_core->slave_addr=16;
+		tb->m_core->datain=171;
 	    tb->tick();
 	    if(i==9){
 	    	tb->m_core->ackn=1;

@@ -50,7 +50,10 @@ $(VCDFILE): $(SIMPROG)
 .PHONY: clean
 clean:
 	rm -rf $(VDIRFB)/ $(SIMPROG) $(VCDFILE) 
-
+	rm -rf $(VDIRFB)/ $(SIMPROG) $(VCDFILE) 
+	rm -rf $(TOPMOD).json
+	rm -rf ulx3s.bit
+	rm -rf ulx3s_out.config
 ##
 ## Find all of the Verilog dependencies and submodules
 ##
@@ -65,3 +68,25 @@ ifneq ($(DEPS),)
 include $(DEPS)
 endif
 endif
+
+ulx3s.bit: ulx3s_out.config
+	ecppack ulx3s_out.config ulx3s.bit
+
+
+ulx3s_out.config: Cam_I2C.json
+	nextpnr-ecp5 --85k --json Cam_I2C.json  \
+		--lpf ulx3s_v20.lpf \
+		--package CABGA381 \
+		--textcfg ulx3s_out.config\
+		--lpf-allow-unconstrained
+		#--package CABGA381 \
+		
+		#--package CABGA381 \
+		#--textcfg ulx3s_out.config 
+		
+
+Cam_I2C.json: Cam_I2C.ys  
+	yosys Cam_I2C.ys 
+
+prog: ulx3s.bit
+	sudo ujprog *.bit
