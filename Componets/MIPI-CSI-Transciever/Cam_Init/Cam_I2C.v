@@ -7,7 +7,7 @@ module Cam_I2C(output valid,input clk400kHz,clk1_6MHz,reset,send_data,r_w,input[
 	localparam reg[7:0] data=5;
 	localparam reg[7:0] stop=6;
 	
-	
+	reg valid_r;
 	reg[7:0] state=idle;
 	reg send_data_old=0;
 	reg rising_edge=0;
@@ -15,10 +15,10 @@ module Cam_I2C(output valid,input clk400kHz,clk1_6MHz,reset,send_data,r_w,input[
 	reg sda0=1;
 	assign sda=sda0;
 	reg sending=0;
-	reg[36:0] i2cdata={slave_addr,r_w,1'b1,register_in[15:8],1'b1,register_in[7:0],1'b1,datain,1'b1,1'b0};
+	reg[36:0] i2cdata={slave_addr,1'b0,1'b1,register_in[15:8],1'b1,register_in[7:0],1'b1,datain,1'b1,1'b0};
 	reg [36:0] i2cin=0;
 	reg ready0;
-	//assign valid=valid_r;
+	assign valid=valid_r;
 	always @(posedge clk400kHz) begin
 		if (reset==1) begin
 			state<=0;		
@@ -31,17 +31,17 @@ module Cam_I2C(output valid,input clk400kHz,clk1_6MHz,reset,send_data,r_w,input[
 			rising_edge=(send_data==1&&send_data_old==0)?1:0;			
 			case (state)
 				idle: begin
-				valid_r=0;
-				ready0<=1;
-				sda0<=1;
-				sending=0;
-				if(rising_edge==1) begin
-					state<=start;
-					ready0<=0;
-					counter=0;
-					sda0<=0;
-					//sending=1;
-				end
+					valid_r=0;
+					ready0<=1;
+					sda0<=1;
+					sending=0;
+					if(rising_edge==1) begin
+						state<=start;
+						ready0<=0;
+						counter=0;
+						sda0<=0;
+						//sending=1;
+					end
 				end	
 				start: begin
 					sending=(counter>=36)?0:1;
@@ -50,7 +50,7 @@ module Cam_I2C(output valid,input clk400kHz,clk1_6MHz,reset,send_data,r_w,input[
 					state<=(counter>=36)?stop:start;		
 					
 				end
-				stop: begin
+				stop: begin					
 					state<=idle;
 					sda0<=0;
 					if(i2cin[1]==0&&i2cin[10]==0&&i2cin[19]==0&&i2cin[28]==0)begin
@@ -66,17 +66,15 @@ module Cam_I2C(output valid,input clk400kHz,clk1_6MHz,reset,send_data,r_w,input[
 	reg clkdelay0;
 	reg clkdelay1;	
 	reg scl0,scl1,scl2;	
-	assign scl=scl0;
+	assign scl=sending?~clk400kHz:1;
 	assign ready=ready0;
 	always @(posedge clk1_6MHz) begin
 		clkcount=clkcount+1;			
-		scl0<=sending?~clkcount[1]:1;
-		scl1<=scl0;
+		//scl0<=;
+		//scl1<=scl0;
 		//scl2<=scl1;		
 	end
 	//ODDRX2F ddr1(.D0(0),.D1(1),.D2(1),.D3(0),.ECLK(clk400kHz),.SCLK(clk200kHz),.Q(scl));
-  always @(negedge clk400kHz) begin
-  	i2cin[36-counter+1]=sda;
-end
+	
 	
 endmodule

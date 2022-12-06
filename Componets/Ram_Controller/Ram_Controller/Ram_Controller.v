@@ -1,10 +1,10 @@
 module sdram_16bit
 		#(
 		parameter [7:0] C_RD1 = 8'h02,
-		parameter [7:0] C_RD2 = 8'h80,
+		parameter [7:0] C_RD2 = 8'h02,
 		parameter [7:0] C_WR2 = 8'h02,//8'h80,
 
-		parameter C_PitchBits =  1,
+		parameter C_PitchBits =  0,
 
 		parameter C_ColBits   =  9, // column bits
 		parameter C_RowBits   = 13, // row bits
@@ -15,9 +15,9 @@ module sdram_16bit
 		parameter C_tRCD      =  3,
 		parameter C_tRC       =  12,
 		parameter C_CL        =  3, // CAS latency
-		parameter C_tREF      = 64, // ms
+		parameter C_tREF      = 32, // ms
 
-		parameter C_RFB	      = 11  // refresh bit = floor(log2(CLK*C_tREF/(2^RowBits)))
+		parameter C_RFB	      = 9  // refresh bit = floor(log2(CLK*C_tREF/(2^RowBits)))
 		)
 		(
 		input sys_CLK,						// clock
@@ -59,7 +59,8 @@ module sdram_16bit
 		out_data_valid <= {out_data_valid[1:0], sys_wr_data_valid};
 		DLY <= DLY - 1;
 		sys_DOUT <= sdr_DATA;
-			
+		{linAddr, bAddr, colAddr} <= sys_ADDR;	
+		sys_cmd_ack <= sys_CMD;	
 		case(STATE)
 			0: begin
 				sys_rd_data_valid <= 1'b0;
@@ -69,8 +70,7 @@ module sdram_16bit
 						rfsh <= counter[C_RFB];
 						STATE <= 2;	// precharge all
 					end else if(|sys_CMD) begin
-						sys_cmd_ack <= sys_CMD;
-						{linAddr, bAddr, colAddr} <= sys_ADDR;
+											
 						STATE <= 5;
 					end else STATE <= 0;
 				end
@@ -109,16 +109,17 @@ module sdram_16bit
 				
 			5: begin	// read/write
 				sdr_BA <= bAddr;
-				if(actBank[bAddr]) // bank active
+				if(actBank[bAddr])begin  // bank active
 					if(actLine[bAddr] == linAddr) begin // line already active
 						sdr_ADDR[10] <= 1'b0; // no auto precharge
 						sdr_ADDR[C_ColBits-1:0] <= {colAddr, {C_PitchBits{1'b0}}}; 
 						RET <= 7;
 						if(sys_cmd_ack[1]) begin	// read
-							sdr_n_CS_WE_RAS_CAS <= 4'b0110; // read command
-							DLY <= C_CL - 1;
+							sdr_n_CS_WE_RAS_CAS <= 4'b0110; // read comman							
+							DLY <= C_CL - 1;							
+							RET<=5;
 						end else begin	// write
-							DLY <= 1;
+							DLY <= 1;						
 							sys_wr_data_valid <= 1'b1;
 						end
 					end else begin // bank precharge
@@ -128,6 +129,7 @@ module sdram_16bit
 						RET <= 5;
 						DLY <= C_tRP - 2;								
 					end
+				end
 				else begin // bank activate
 					sdr_n_CS_WE_RAS_CAS <= 4'b0101;
 					sdr_ADDR[C_RowBits-1:0] <= linAddr;
@@ -150,7 +152,7 @@ module sdram_16bit
 				if(sys_cmd_ack[1]) sys_rd_data_valid <= 1'b1;
 				else sdr_n_CS_WE_RAS_CAS <= 4'b0010;	// write command
 				RET <= 6;
-				DLY <= sys_cmd_ack[1] ? sys_cmd_ack[0] ? C_RD2 - 6 : C_RD1 - 6 : C_WR2 - 2;
+				DLY <= sys_cmd_ack[1] ? sys_cmd_ack[0] ? 0 : 0: 0 ;
 			end
 				
 		endcase
