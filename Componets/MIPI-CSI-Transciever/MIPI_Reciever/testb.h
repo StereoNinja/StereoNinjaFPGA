@@ -41,7 +41,8 @@ public:
 	TESTB(void) : m_trace(NULL), m_tickcount(0l) {
 		m_core = new VA;
 		Verilated::traceEverOn(true);
-		m_core->clk400kHz = 0;
+		m_core->byte_clk = 0;
+		m_core->byte_clk_8 = 0;
 		eval(); // Get our initial values set properly.
 	}
 	virtual ~TESTB(void) {
@@ -77,18 +78,18 @@ public:
 		// of the clock.  This is necessary since some of the 
 		// connection modules may have made changes, for which some
 		// logic depends.  This forces that logic to be recalculated
-		// before the top of the clock
+		// before the top of the clock.
 		eval();
-				m_core->clk400kHz= (((m_tickcount-1)%4)<2) ? 1 : 0;
-						//m_core->clk1_6MHz = 1;
-						eval();
-						if (m_trace) m_trace->dump((vluint64_t)(10*m_tickcount));
-						//m_core->clk1_6MHz = 0;
+		m_core->byte_clk = (((m_tickcount-1)%8)<4) ? 1 : 0;
+				m_core->byte_clk_8 = 1;
 				eval();
-				if (m_trace) {
-					m_trace->dump((vluint64_t)(10*m_tickcount+5));
-					m_trace->flush();
-				}
+				if (m_trace) m_trace->dump((vluint64_t)(10*m_tickcount));
+				m_core->byte_clk_8 = 0;
+		eval();
+		if (m_trace) {
+			m_trace->dump((vluint64_t)(10*m_tickcount+5));
+			m_trace->flush();
+		}
 	}
 
 	unsigned long	tickcount(void) {

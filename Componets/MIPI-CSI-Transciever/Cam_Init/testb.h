@@ -80,10 +80,10 @@ public:
 		// before the top of the clock
 		eval();
 				m_core->clk400= (((m_tickcount-1)%4)<2) ? 1 : 0;
-						m_core->clk1_6 = 1;
+						//m_core->clk1_6 = 1;
 						eval();
 						if (m_trace) m_trace->dump((vluint64_t)(10*m_tickcount));
-						m_core->clk1_6 = 0;
+						//m_core->clk1_6 = 0;
 				eval();
 				if (m_trace) {
 					m_trace->dump((vluint64_t)(10*m_tickcount+5));

@@ -7,7 +7,7 @@ module ulx3s(input pixclk,inout sda,output scl,input reset,input fire,output cam
 	wire clk400,clk200;
 	wire clk1_6;	
 	assign cam_ena=1;
-	Cam_I2C i2c (.clk400kHz(clk400),.scl(scl),.sda(sda),.clk1_6MHz(clk1_6),.reset(reset),.send_data(fire),.datain(datain),.register_in(register_in),.slave_addr(slave_addr),.ackn(1'b0));//,.sda(sda));
+	Cam_I2C i2c (.clk400kHz(clk400),.scl(scl),.sda(sda),.reset(reset),.send_data(fire),.datain(datain),.register_in(register_in),.slave_addr(slave_addr),.ackn(1'b0));//,.sda(sda));
 	clock pll(.clkin_25MHz(pixclk),.clk_1_6Mhz(clk1_6));
 	clock2 pll2(.clkin_25MHz(pixclk),.clk_400kHz(clk400),.clk_200kHz(clk200));
 endmodule

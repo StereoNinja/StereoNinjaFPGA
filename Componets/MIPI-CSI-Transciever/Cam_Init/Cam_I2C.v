@@ -1,4 +1,4 @@
-module Cam_I2C(output valid,input clk400kHz,clk1_6MHz,reset,send_data,r_w,input[7:0] datain,input[15:0] register_in,input[6:0] slave_addr,input ackn,inout scl,inout  sda, output ready);
+module Cam_I2C(output valid,input clk400kHz,reset,send_data,r_w,input[7:0] datain,input[15:0] register_in,input[6:0] slave_addr,input ackn,inout scl,inout  sda, output ready);
 	localparam reg[7:0] idle=0;
 	localparam reg[7:0] start=1;
 	localparam reg[7:0] send=2;
@@ -68,13 +68,5 @@ module Cam_I2C(output valid,input clk400kHz,clk1_6MHz,reset,send_data,r_w,input[
 	reg scl0,scl1,scl2;	
 	assign scl=sending?~clk400kHz:1;
 	assign ready=ready0;
-	always @(posedge clk1_6MHz) begin
-		clkcount=clkcount+1;			
-		//scl0<=;
-		//scl1<=scl0;
-		//scl2<=scl1;		
-	end
-	//ODDRX2F ddr1(.D0(0),.D1(1),.D2(1),.D3(0),.ECLK(clk400kHz),.SCLK(clk200kHz),.Q(scl));
-	
 	
 endmodule
