@@ -5,4 +5,4 @@ The cameras are connected using a DVI cable and the StereoNinja camera board, se
 
 # Pinout ULX3S 
 
-![pinout](schemtic.png)
+![pinout](pinout.png)
