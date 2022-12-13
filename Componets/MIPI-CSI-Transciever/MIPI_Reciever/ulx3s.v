@@ -4,22 +4,22 @@ module ulx3s(input pixclk,inout sda,inout scl,inout scl2,inout sda2,input reset,
 	wire clk1_6;	
 	wire byte_clk8;
 	assign cam_ena=1;
-	assign sda2=sda;
-	assign cam0clk2=cam0clk;
-	assign scl2=scl;
-	assign cam0d02=cam0clk;
-	//assign cam0d12=cam0d1;
+	//assign sda2=sda;
+	//assign cam0clk2=cam0d1;
+	//assign scl2=c;
+	//assign cam0d02=cam0clk;
+	//assign cam0d12=ca0d1;
 	wire[7:0] ledassign;
 	assign led=ledassign;
 	always @(event) begin
-		ledassign[7:2]=0;
+		ledassign[7:3]=0;
 	end
 	
 	Cam_Init i2c (.clk400(clk400),.reset(reset),.init(fire),.sda(sda),.scl(scl));
 	//clock pll(.clkin_25MHz(pixclk),.clk_1_6Mhz(clk1_6));
 	clock2 pll2(.clkin_25MHz(pixclk),.clk_400kHz(clk400),.clk_200kHz(clk200));
 	//clock8 pll3(.byte_clk(cam0clk),.byte_clk8(byte_clk8));
-	MIPI_Reciever mipi(.byte_clk(cam0clk),.byte_clk_8(byte_clk8),.reset(reset),.lane0(cam0d0),.lane1(cam0d1),.led({ledassign[1],ledassign[0]}));
+	MIPI_Reciever mipi(.bit_clk(cam0clk),.reset(reset),.lane0(cam0d0),.lane1(cam0d1),.led({ledassign[2],ledassign[1],ledassign[0]}));
 endmodule
 
 module clock

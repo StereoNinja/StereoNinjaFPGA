@@ -1,8 +1,7 @@
-module MIPI_Reciever(input byte_clk,byte_clk_8,pixclk,reset,lane0,lane1,output[7:0] red,output[7:0] green,output[7:0] blue,output[24:0] address_out,output reg [1:0] led);
+module MIPI_Reciever(input byte_clk,bit_clk,pixclk,reset,lane0,lane1,output[7:0] red,output[7:0] green,output[7:0] blue,output[24:0] address_out,output reg [2:0] led);
 reg[7:0] bytereg0=0;
 reg[7:0] bytereg1=0;
 reg[7:0] counter=0;
-wire byte_clk8=byte_clk_8;
 integer mipi_cnt=0;
 reg[7:0] data_id=0;
 reg[15:0] word_cnt;
@@ -11,24 +10,27 @@ reg[7:0] state_byte=idle_bitclk;
 reg[7:0] state_mipi=idle_mipi;
 reg ena_byte8=0;
 reg[24:0] addres=0;
-reg[31:0] regheader;
+reg[31:0] regheader0;
+reg[31:0] regheader1;
 wire[7:0] ecc;
+reg[31:0] wordcount;
+wire[1:0] lane0ddr;
+wire[1:0] lane1ddr;
 
-reg[15:0] wordcount;
-
-
-    assign ecc[0]=regheader[0]^regheader[1]^regheader[2]^regheader[4]^regheader[5]^regheader[7]^regheader[10]^regheader[11]^regheader[13]^regheader[16]^
-		regheader[20]^regheader[21]^regheader[22]^regheader[23];
-	assign ecc[1]=regheader[0]^regheader[1]^regheader[3]^regheader[4]^regheader[6]^regheader[8]^regheader[10]^regheader[12]^regheader[14]^regheader[17]^
-		regheader[20]^regheader[21]^regheader[22]^regheader[23];
-	assign ecc[2]=regheader[0]^regheader[2]^regheader[3]^regheader[5]^regheader[6]^regheader[9]^regheader[11]^regheader[12]^regheader[15]^regheader[18]^
-		regheader[20]^regheader[21]^regheader[22];
-	assign ecc[3]=regheader[1]^regheader[2]^regheader[3]^regheader[7]^regheader[8]^regheader[9]^regheader[13]^regheader[14]^regheader[15]^regheader[19]^
-		regheader[20]^regheader[21]^regheader[23];
-	assign ecc[4]=regheader[4]^regheader[5]^regheader[6]^regheader[7]^regheader[8]^regheader[9]^regheader[16]^regheader[17]^regheader[18]^regheader[19]^
-		regheader[20]^regheader[22]^regheader[23];
-	assign ecc[5]=regheader[10]^regheader[11]^regheader[12]^regheader[13]^regheader[14]^regheader[15]^regheader[16]^regheader[17]^regheader[18]^regheader[19]^
-		regheader[21]^regheader[22]^regheader[23];	
+    IDDRX1F l0(.D(lane0),.SCLK(bit_clk),.Q0(lane0ddr[0]),.Q1(lane0ddr[1]),.RST(reset));
+    IDDRX1F l1(.D(lane1),.SCLK(bit_clk),.Q0(lane1ddr[0]),.Q1(lane1ddr[1]),.RST(reset));
+    assign ecc[0]=regheader0[0]^regheader0[1]^regheader0[2]^regheader0[4]^regheader0[5]^regheader0[7]^regheader0[10]^regheader0[11]^regheader0[13]^regheader0[16]^
+		regheader0[20]^regheader0[21]^regheader0[22]^regheader0[23];
+	assign ecc[1]=regheader0[0]^regheader0[1]^regheader0[3]^regheader0[4]^regheader0[6]^regheader0[8]^regheader0[10]^regheader0[12]^regheader0[14]^regheader0[17]^
+		regheader0[20]^regheader0[21]^regheader0[22]^regheader0[23];
+	assign ecc[2]=regheader0[0]^regheader0[2]^regheader0[3]^regheader0[5]^regheader0[6]^regheader0[9]^regheader0[11]^regheader0[12]^regheader0[15]^regheader0[18]^
+		regheader0[20]^regheader0[21]^regheader0[22];
+	assign ecc[3]=regheader0[1]^regheader0[2]^regheader0[3]^regheader0[7]^regheader0[8]^regheader0[9]^regheader0[13]^regheader0[14]^regheader0[15]^regheader0[19]^
+		regheader0[20]^regheader0[21]^regheader0[23];
+	assign ecc[4]=regheader0[4]^regheader0[5]^regheader0[6]^regheader0[7]^regheader0[8]^regheader0[9]^regheader0[16]^regheader0[17]^regheader0[18]^regheader0[19]^
+		regheader0[20]^regheader0[22]^regheader0[23];
+	assign ecc[5]=regheader0[10]^regheader0[11]^regheader0[12]^regheader0[13]^regheader0[14]^regheader0[15]^regheader0[16]^regheader0[17]^regheader0[18]^regheader0[19]^
+		regheader0[21]^regheader0[22]^regheader0[23];	
 	assign ecc[6]=0;
 	assign ecc[7]=0;
 
@@ -49,71 +51,53 @@ localparam reg[5:0] ED_const=6'h12;//Embedded data
 localparam reg[5:0] RAW8_const=6'h2A;//Embedded data
 localparam reg[5:0] RAW10_const=6'h2B;//Embedded data
 ///////////////////////FSM byte/bitclk
-always@(posedge byte_clk8)begin
+always@(posedge bit_clk)begin
 	if(reset==1) begin
 	end else begin
 		case (state_byte)
 			idle_bitclk: begin
-				if(byte_clk==1)begin
-					state_byte<=bitclk;
-					counter<=0;
-					bytereg0[0]=lane0;
-					bytereg1[0]=lane1;
-				end
-			end
-			bitclk: begin
-				counter<=counter+1;
-				bytereg0[counter+1]=lane0;
-				bytereg1[counter+1]=lane1;
-				state_byte<=counter>=6?idle_bitclk:bitclk;
-				regheader<=(counter>=6)?{bytereg0,regheader[31:8]}:regheader;//(2'bx,dataid,word_count,ecc_code)	
-			end
+				regheader0<={lane0ddr,regheader0[31:2]};
+				regheader1<={lane1ddr,regheader1[31:2]};
+				bytereg0<={lane0ddr,bytereg0[7:2]};
+				bytereg1<={lane1ddr,bytereg1[7:2]};
+			end			
 			default: begin
 			end
 		endcase
 	end
 end
 //////////////////////////
-always @(posedge byte_clk) begin
+always @(posedge bit_clk or posedge reset) begin
 	if(reset==1)begin
 		state_mipi<=idle_mipi;
+		led<=0;
 	end else begin
 		case (state_mipi)
 			idle_mipi: begin							
 				FS<=0;
 				FE<=0;
 				PIX<=0;
-				led<=0;
-				if(regheader[5:0]==FS_const[5:0]&&regheader[31:24]==ecc)begin
-					led[0]<=1;
-				end
-				if(regheader[5:0]==FE_const[5:0]&&regheader[31:24]==ecc)begin
-					led[1]<=1;
-				end
-				if(regheader[5:0]==RAW10_const[5:0]&&regheader[31:24]==ecc)begin
-					led[1]<=1;
-				end
-				
-				
-				/*if(regheader[5:0]==FS_const[5:0]&&regheader[31:24]==ecc)begin
+				led<=0;		
+				/*if(regheader0[7:6]=='h00&&regheader0[5:0]==FS_const[5:0]&&regheader0[31:24]==ecc)begin
 					FS<=1;//Frame start
 					led[0]<=1;
-				end else if(regheader[5:0]==FE_const[5:0]&&regheader[31:24]==ecc)begin
-					FE<=1;//Frame end 
-					led<=3;
-				end else if(regheader[5:0]==RAW10_const[5:0]&&regheader[31:24]==ecc)begin
+					addres<=0;
+				end/* else if(regheader0[7:6]=='h00&&regheader0[5:0]==FE_const[5:0]&&regheader0[31:24]==ecc)begin
+					//led[1]<=1;//Frame end					
+				end */ if(regheader0[5:0]==RAW8_const[5:0]&&regheader0[31:24]==ecc)begin
 					PIX<=1;
 					led[1]<=1;
-					state_mipi<=data_mipi;
+					//state_mipi<=data_mipi;
 					mipi_cnt=0;
-					wordcount<={regheader[15:8],regheader[23:16]};
-				end	*/			
+					wordcount<=(regheader0[23:8])*4;
+				end				
 			end			
 			data_mipi: begin
 				if(mipi_cnt<=wordcount-1) begin
 					mipi_cnt=mipi_cnt+1;
+					addres<=(mipi_cnt)/8;
 				end else begin
-					state_mipi<=PF_mipi;
+					state_mipi<=idle_mipi;
 					mipi_cnt=0;
 				end
 			end
@@ -125,8 +109,19 @@ always @(posedge byte_clk) begin
 		endcase
 	end	
 end
+endmodule
 
-
+/*module IDDRX1F(input D,input SCLK,input RST,output Q0,output Q1);
+	reg Q0_r,Q1_r;
+	always @(posedge SCLK) begin
+		Q0_r<=D;
+	end
+	always @(negedge SCLK) begin
+		Q1_r<=D;
+	end	
+	assign Q1=Q1_r;
+	assign Q0=Q0_r;
+	
 endmodule
 
 

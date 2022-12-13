@@ -41,8 +41,8 @@ public:
 	TESTB(void) : m_trace(NULL), m_tickcount(0l) {
 		m_core = new VA;
 		Verilated::traceEverOn(true);
-		m_core->byte_clk = 0;
-		m_core->byte_clk_8 = 0;
+		m_core->bit_clk = 0;
+		//m_core->byte_clk_8 = 0;
 		eval(); // Get our initial values set properly.
 	}
 	virtual ~TESTB(void) {
@@ -80,11 +80,11 @@ public:
 		// logic depends.  This forces that logic to be recalculated
 		// before the top of the clock.
 		eval();
-		m_core->byte_clk = (((m_tickcount-1)%8)<4) ? 1 : 0;
-				m_core->byte_clk_8 = 1;
+		m_core->bit_clk = (((m_tickcount-1)%2)<1) ? 1 : 0;
+				//m_core->bit_clk = 1;
 				eval();
 				if (m_trace) m_trace->dump((vluint64_t)(10*m_tickcount));
-				m_core->byte_clk_8 = 0;
+				//m_core->bit_clk = 0;
 		eval();
 		if (m_trace) {
 			m_trace->dump((vluint64_t)(10*m_tickcount+5));

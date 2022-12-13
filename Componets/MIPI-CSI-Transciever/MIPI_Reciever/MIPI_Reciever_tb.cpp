@@ -37,7 +37,7 @@ int	main(int argc, char **argv) {
 		= new TESTB<VMIPI_Reciever>;
 	tb->opentrace("blinky.vcd");
 	//tb->m_core->btn= 0;
-	uint64_t lane0reg=(shortpackage(0x2b,0x00,0x03));
+	uint64_t lane0reg=(shortpackage(0x2b,0xF0,0x03));
 	 //lane0reg=(shortpackage(0x37,0xF0,0x01));
 
 	printf("%X",lane0reg);
