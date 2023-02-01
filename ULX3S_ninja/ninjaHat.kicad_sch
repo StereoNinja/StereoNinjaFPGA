@@ -2222,7 +2222,7 @@
     (property "Value" "Conn_01x04_Male" (id 1) (at 196.85 140.3349 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Footprint" "Connector_PinHeader_1.27mm:PinHeader_1x04_P1.27mm_Vertical" (id 2) (at 194.945 137.795 0)
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" (id 2) (at 194.945 137.795 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 194.945 137.795 0)
@@ -2495,7 +2495,7 @@
     (property "Value" "Conn_01x04_Male" (id 1) (at 196.85 106.6799 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Footprint" "Connector_PinHeader_1.27mm:PinHeader_1x04_P1.27mm_Vertical" (id 2) (at 194.945 104.14 0)
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" (id 2) (at 194.945 104.14 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 194.945 104.14 0)
@@ -2632,7 +2632,7 @@
     (property "Value" "Conn_01x04_Male" (id 1) (at 196.85 121.9199 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Footprint" "Connector_PinHeader_1.27mm:PinHeader_1x04_P1.27mm_Vertical" (id 2) (at 194.945 119.38 0)
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" (id 2) (at 194.945 119.38 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 194.945 119.38 0)
@@ -2838,13 +2838,13 @@
       (reference "J1") (unit 1) (value "DVI-HX-107DIP") (footprint "digikey-footprints:DVI_Female_74320-9010")
     )
     (path "/48f8d505-a115-4149-8d3c-b4e46f8d3625"
-      (reference "J_CLK0") (unit 1) (value "Conn_01x04_Male") (footprint "Connector_PinHeader_1.27mm:PinHeader_1x04_P1.27mm_Vertical")
+      (reference "J_CLK0") (unit 1) (value "Conn_01x04_Male") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical")
     )
     (path "/aca7442c-5526-4642-be31-874350a33514"
-      (reference "J_D0") (unit 1) (value "Conn_01x04_Male") (footprint "Connector_PinHeader_1.27mm:PinHeader_1x04_P1.27mm_Vertical")
+      (reference "J_D0") (unit 1) (value "Conn_01x04_Male") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical")
     )
     (path "/d425c7cc-30c2-47b6-9531-9feded17be55"
-      (reference "J_D1") (unit 1) (value "Conn_01x04_Male") (footprint "Connector_PinHeader_1.27mm:PinHeader_1x04_P1.27mm_Vertical")
+      (reference "J_D1") (unit 1) (value "Conn_01x04_Male") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical")
     )
     (path "/00000000-0000-0000-0000-000059ad464a"
       (reference "P1") (unit 1) (value "ULX3S connector (JP1)") (footprint "Connector_PinSocket_2.54mm:PinSocket_2x20_P2.54mm_Vertical")
