@@ -36,20 +36,37 @@ int	main(int argc, char **argv) {
 	TESTB<VMIPI_Reciever>	*tb
 		= new TESTB<VMIPI_Reciever>;
 	tb->opentrace("blinky.vcd");
-	//tb->m_core->btn= 0;
-	uint64_t lane0reg=(shortpackage(0x2b,0xF0,0x03));
-	 //lane0reg=(shortpackage(0x37,0xF0,0x01));
-
-	printf("%X",lane0reg);
-	uint64_t lane1reg=(shortpackage(0b11001100,0b00110011,0b10101010)<<32)|shortpackage(0b00000000,0b00110011,0b10101010);
+	uint32_t data=(shortpackage(0x37,0x01,0x00));
+	uint64_t lane0reg=(shortpackage(0x37,0x01,0x00));
+	uint64_t lane1reg=shortpackage(0xF0,0x3f,0x00);
 	for (int i=0; i < 1000; i++) {
-		////tb->m_core->state=2;
-		//tb->m_core->pix_data=57;
-		/*printf("%d",(lane0reg)&0x01);
-		printf("%d",((lane0reg)&0x02)/2);
-		printf("%d",((lane0reg)&0x04)/4);
-		printf("%d",((lane0reg)&0x08)/8);*/
-		tb->m_core->lane0=((lane0reg)&(1<<i))/(pow(2,i));
+		//tb->m_core->lane0=((lane0reg)&(1<<i))/(pow(2,i));
+		//tb->m_core->lane1=((lane1reg)&(1<<i))/(pow(2,i));
+		if(i==0){
+			tb->m_core->lane0_p=1;
+			tb->m_core->lane0_n=1;
+			tb->m_core->lane1_p=1;
+			tb->m_core->lane1_n=1;
+		}
+		if(i==10){
+			tb->m_core->lane0_p=0;
+			tb->m_core->lane0_n=1;
+			tb->m_core->lane1_p=0;
+			tb->m_core->lane1_n=1;
+		}
+		if(i==20)
+		{
+			tb->m_core->lane0_p=0;
+			tb->m_core->lane0_n=0;
+			tb->m_core->lane1_p=0;
+			tb->m_core->lane1_n=0;
+		}
+		if(i>=40)
+		{
+			tb->m_core->lane0_d=((0xb8)&(1<<(i-40)))/(pow(2,(i-40)));
+			tb->m_core->lane1_d=((0xb8)&(1<<(i-40)))/(pow(2,(i-40)));
+
+		}
 		tb->tick();
 	}
 	printf("\n\nSimulation complete\n");

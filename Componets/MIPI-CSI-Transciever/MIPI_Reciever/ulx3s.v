@@ -1,25 +1,24 @@
-module ulx3s(input pixclk,inout sda,inout scl,inout scl2,inout sda2,input reset,input fire ,output cam_ena,input cam0clk,output cam0clk2,input cam0d0,cam0d1,output cam0d02,cam0d12,output[7:0] led);	
+module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,input reset,input fire ,input cam0_clk,inout cam0_d0,cam0_d1,cam0_d0_r_p,cam0_d0_r_n,cam0_d1_r_p,cam0_d1_r_n,cam0_clk_r_p,cam0_clk_r_n,output[7:0] led);	
 	
-	wire clk400,clk200;
-	wire clk1_6;	
-	wire byte_clk8;
-	assign cam_ena=1;
-	//assign sda2=sda;
-	//assign cam0clk2=cam0d1;
-	//assign scl2=c;
-	//assign cam0d02=cam0clk;
-	//assign cam0d12=ca0d1;
-	wire[7:0] ledassign;
-	assign led=ledassign;
-	always @(event) begin
-		ledassign[7:3]=0;
-	end
-	
-	Cam_Init i2c (.clk400(clk400),.reset(reset),.init(fire),.sda(sda),.scl(scl));
-	//clock pll(.clkin_25MHz(pixclk),.clk_1_6Mhz(clk1_6));
-	clock2 pll2(.clkin_25MHz(pixclk),.clk_400kHz(clk400),.clk_200kHz(clk200));
-	//clock8 pll3(.byte_clk(cam0clk),.byte_clk8(byte_clk8));
-	MIPI_Reciever mipi(.bit_clk(cam0clk),.reset(reset),.lane0(cam0d0),.lane1(cam0d1),.led({ledassign[2],ledassign[1],ledassign[0]}));
+	wire clk400;
+	wire clk100Mhz;
+	wire cam0_sda_w,cam0_scl_w;
+	wire term;
+	assign cam0_sda=cam0_sda_w;
+	assign cam0_scl=cam0_scl_w;	
+	//Terminierung von cam0
+	assign cam0_d0_r_p=(term)?0:'bz;
+	assign cam0_d0_r_n=(term)?0:'bz;
+	assign cam0_d1_r_p=(term)?0:'bz;
+	assign cam0_d1_r_n=(term)?0:'bz;
+	assign cam0_clk_r_p=1?0:'bz;
+	assign cam0_clk_r_n=1?0:'bz;	
+	//	
+	Cam_Init i2c (.clk400(clk400),.reset(reset),.init(fire),.sda(cam0_sda_w),.scl(cam0_scl_w));	
+	clock2 pll2(.clkin_25MHz(pixclk),.clk_400kHz(clk400));
+	clock8 pll3(.pixclk(pixclk),.clk_100MHz(clk100Mhz));
+	MIPI_Reciever mipi(.bit_clk(clk100Mhz),.mipi_clk(cam0_clk),.reset(reset),.lane0_d(cam0_d0),.lane1_d(cam0_d1),.lane0_p(cam0_d0_r_p),.lane0_n(cam0_d0_r_n),.lane1_p(cam0_d1_r_p),.lane1_n(cam0_d1_r_n),.debug0(debug0),.debug1(debug1),.debug2(debug2),.termination(term));
+	assign led=0;
 endmodule
 
 module clock
@@ -152,11 +151,11 @@ endmodule
 
 module clock8
 		(
-		input byte_clk,
+		input pixclk,
 		output byte_clk8,
 		output clk_1_6Mhz,
 		output clk_25MHz,
-		output clk_150MHz,
+		output clk_100MHz,
 		output locked
 		);
 	wire int_locked;
@@ -182,22 +181,22 @@ module clock8
 			.CLKOS2_ENABLE("ENABLED"),
 			.CLKOS_ENABLE("ENABLED"),
 			.CLKOP_ENABLE("ENABLED"),
-			.CLKOS3_DIV(4),
+			.CLKOS3_DIV(1),
 			.CLKOS2_DIV(4),
-			.CLKOS_DIV(1),
-			.CLKOP_DIV(4),
-			.CLKFB_DIV(2),
+			.CLKOS_DIV(128),
+			.CLKOP_DIV(1),
+			.CLKFB_DIV(4),
 			.CLKI_DIV(1),
 			.FEEDBK_PATH("CLKOP")
 		)
 		pll_i
 		(
-			.CLKI(byte_clk),
+			.CLKI(pixclk),
 			.CLKFB(clk_125MHz),
 			.CLKOP(clk_125MHz),
 			.CLKOS(byte_clk8),
 			.CLKOS2(clk_1_6Mhz), 
-			.CLKOS3(clk_150MHz),
+			.CLKOS3(clk_100MHz),
 			.RST(1'b0),
 			.STDBY(1'b0),
 			.PHASESEL0(1'b0),

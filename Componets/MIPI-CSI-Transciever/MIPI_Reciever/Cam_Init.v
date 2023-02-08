@@ -16,7 +16,7 @@ module Cam_Init(input clk400,input reset,input init,inout sda,scl,output cam_rea
 	assign cam_ready=cam_ready0;
 	integer dataint=7;
 	
-	reg[23:0] data_init [0:59];
+	reg[23:0] data_init [0:61];
 	initial $readmemh("initdata2.mem",data_init);	
 	always @(posedge clk400) begin
 		if(reset==1) begin
@@ -45,7 +45,7 @@ module Cam_Init(input clk400,input reset,input init,inout sda,scl,output cam_rea
 						datain<=data_init[counter][7:0];
 						register_in<=data_init[counter][23:8];
 					end					
-					state<=(counter>58)?idle:init_s;
+					state<=(counter>60)?idle:init_s;
 					//cam_ready0<=(counter>53)?1:0;
 				end
 				wakeup:begin
