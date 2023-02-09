@@ -4,6 +4,7 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,inp
 	wire clk100Mhz;
 	wire cam0_sda_w,cam0_scl_w;
 	wire term;
+	wire mipi_clk05;
 	assign cam0_sda=cam0_sda_w;
 	assign cam0_scl=cam0_scl_w;	
 	//Terminierung von cam0
@@ -17,7 +18,8 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,inp
 	Cam_Init i2c (.clk400(clk400),.reset(reset),.init(fire),.sda(cam0_sda_w),.scl(cam0_scl_w));	
 	clock2 pll2(.clkin_25MHz(pixclk),.clk_400kHz(clk400));
 	clock8 pll3(.pixclk(pixclk),.clk_100MHz(clk100Mhz));
-	MIPI_Reciever mipi(.bit_clk(clk100Mhz),.mipi_clk(cam0_clk),.reset(reset),.lane0_d(cam0_d0),.lane1_d(cam0_d1),.lane0_p(cam0_d0_r_p),.lane0_n(cam0_d0_r_n),.lane1_p(cam0_d1_r_p),.lane1_n(cam0_d1_r_n),.debug0(debug0),.debug1(debug1),.debug2(debug2),.termination(term));
+	clock  pll4(.clkin_25MHz(cam0_clk),.clk_400kHz(mipi_clk05));
+	MIPI_Reciever mipi(.bit_clk(clk100Mhz),.mipi_clk(cam0_clk),.mipi_clk05(mipi_clk05),.reset(reset),.lane0_d(cam0_d0),.lane1_d(cam0_d1),.lane0_p(cam0_d0_r_p),.lane0_n(cam0_d0_r_n),.lane1_p(cam0_d1_r_p),.lane1_n(cam0_d1_r_n),.debug0(debug0),.debug1(debug1),.debug2(debug2),.termination(term));
 	assign led=0;
 endmodule
 
@@ -55,9 +57,9 @@ module clock
 			.CLKOP_ENABLE("ENABLED"),
 			.CLKOS3_DIV(4),
 			.CLKOS2_DIV(125),
-			.CLKOS_DIV(500),
-			.CLKOP_DIV(4),
-			.CLKFB_DIV(2),
+			.CLKOS_DIV(2),
+			.CLKOP_DIV(1),
+			.CLKFB_DIV(1),
 			.CLKI_DIV(1),
 			.FEEDBK_PATH("CLKOP")
 		)

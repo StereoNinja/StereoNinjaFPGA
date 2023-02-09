@@ -61,10 +61,10 @@ int	main(int argc, char **argv) {
 			tb->m_core->lane1_p=0;
 			tb->m_core->lane1_n=0;
 		}
-		if(i>=40)
+		if(i>=50)
 		{
-			tb->m_core->lane0_d=((0xb8)&(1<<(i-40)))/(pow(2,(i-40)));
-			tb->m_core->lane1_d=((0xb8)&(1<<(i-40)))/(pow(2,(i-40)));
+			tb->m_core->lane0_d=((0x0137b8)&(1<<(i-50)))/(pow(2,(i-50)));
+			tb->m_core->lane1_d=((0x3FF0b8)&(1<<(i-50)))/(pow(2,(i-50)));
 
 		}
 		tb->tick();
