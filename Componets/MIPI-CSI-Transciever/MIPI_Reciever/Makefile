@@ -45,7 +45,7 @@ test: $(VCDFILE)
 
 $(VCDFILE): $(SIMPROG)
 	./$(SIMPROG) 
-	gtkwave blinky.vcd
+	
 
 ## 
 .PHONY: clean

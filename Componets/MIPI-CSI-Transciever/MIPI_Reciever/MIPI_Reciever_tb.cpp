@@ -63,6 +63,8 @@ int	main(int argc, char **argv) {
 		}
 		if(i>=50)
 		{
+			
+			
 			tb->m_core->lane0_d=((0x0137b8)&(1<<(i-50)))/(pow(2,(i-50)));
 			tb->m_core->lane1_d=((0x3FF0b8)&(1<<(i-50)))/(pow(2,(i-50)));
 
