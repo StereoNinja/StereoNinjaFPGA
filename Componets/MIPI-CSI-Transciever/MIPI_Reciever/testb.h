@@ -41,7 +41,7 @@ public:
 	TESTB(void) : m_trace(NULL), m_tickcount(0l) {
 		m_core = new VA;
 		Verilated::traceEverOn(true);
-		m_core->bit_clk = 0;
+		m_core->sys_clk = 0;
 		m_core->mipi_clk = 0;
 
 		//m_core->byte_clk_8 = 0;
@@ -82,7 +82,7 @@ public:
 		// logic depends.  This forces that logic to be recalculated
 		// before the top of the clock.
 		eval();
-		m_core->bit_clk = (((m_tickcount-1)%2)<1) ? 1 : 0;
+		m_core->sys_clk = (((m_tickcount-1)%2)<1) ? 1 : 0;
 		m_core->mipi_clk= (((m_tickcount-1)%2)<1) ? 1 : 0;
 				//m_core->bit_clk = 1;
 				eval();

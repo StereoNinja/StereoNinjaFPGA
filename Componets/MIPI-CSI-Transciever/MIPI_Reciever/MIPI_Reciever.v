@@ -12,7 +12,14 @@ module MIPI_Reciever(input sys_clk,mipi_clk,reset,lane0_d,lane1_d,inout lane0_p,
     SoTFSM RxFSM(.clk100MHz(sys_clk),.reset(reset),.lane0_p(lane0_p),.lane0_n(lane0_n),.lane1_p(lane1_p),.lane1_n(lane1_n),.stop_rx(stop_clk),.term(termination_r),.debug0(debug1));
     ByteAlligner all(.mipi_clk(mipi_clk),.reset(reset),.stop(stop_clk),.sync(sync_detect),.lane0(lane0byte),.lane1(lane1byte),.out(regheader));
 	wire debug2_w;
-	LowProtocoll LP(.clk(mipi_clk),.in(regheader),.stop(stop_clk),.valid(debug2_w));	
+	reg sync_detect_3,sync_detect_2,sync_detect_1,sync_detect_0;
+	always @(posedge mipi_clk) begin	
+		sync_detect_0<=sync_detect;
+		sync_detect_1<=sync_detect_0;
+		sync_detect_2<=sync_detect_1;
+		sync_detect_3<=sync_detect_2;		
+	end
+	LowProtocoll LP(.clk(mipi_clk),.reset(reset),.sync(sync_detect),.in(regheader),.stop(stop_clk),.valid(debug2_w));	
 	wire sync_detect_w;
 	Pulsedelay delay(.clk(mipi_clk),.in(debug2_w),.out(debug2));
 endmodule
@@ -149,7 +156,7 @@ module ByteAlligner(input mipi_clk,reset,stop,sync,input[7:0] lane0,input[7:0] l
 	end
 endmodule
 
-module LowProtocoll(input clk,input[31:0] in,input stop,output valid);
+module LowProtocoll(input clk,input reset,sync,input[31:0] in,input stop,output valid);
 	wire[31:0] regheader;
 	assign regheader=in;
 	wire[7:0] ecc;
@@ -168,15 +175,30 @@ module LowProtocoll(input clk,input[31:0] in,input stop,output valid);
 	assign ecc[6]=0;
 	assign ecc[7]=0;
 	reg valid_r=0;
+	reg start=0;
+	reg[7:0] counter;	
 	assign valid=valid_r;
-	always @(posedge clk ) begin
-		if(stop==1)begin
-			valid_r<=0;			
-		end else begin
-		valid_r<=((ecc==in[31:24])&&(in!=0)&&in[5:0]=='h2a)?1:0;
+	always @(posedge clk ) begin		
+		if(reset==1||stop==1)begin			
+			valid_r<=0;	
+			start=0;
+			counter<=0;			
+			end else begin
+			start=sync?1:start;
+			if(start)begin		
+				//valid_r<=((ecc==in[31:24])&&(in!=0)&&in[5:0]=='h2a)?1:0;		
+				if(counter<11)begin
+					counter<=counter+1;					
+				end else begin
+					counter<=4;					
+					valid_r<=((ecc==in[31:24])&&(in!=0)&&in[5:0]=='h2a)?1:0;					
+				end
+			end
 		end
 	end	
 endmodule
+
+
 /*
 module IDDRX1F(input D,input SCLK,input RST,output Q0,output Q1);
 	reg Q0_r,Q1_r;
