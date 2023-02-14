@@ -39,7 +39,7 @@ int	main(int argc, char **argv) {
 	uint32_t data=(shortpackage(0x37,0x01,0x00));
 	uint64_t lane0reg=(shortpackage(0x37,0x01,0x00));
 	uint64_t lane1reg=shortpackage(0xF0,0x3f,0x00);
-	for (int i=0; i < 1000; i++) {
+	for (int i=0; i < 10000; i++) {
 		//tb->m_core->lane0=((lane0reg)&(1<<i))/(pow(2,i));
 		//tb->m_core->lane1=((lane1reg)&(1<<i))/(pow(2,i));
 		if(i==0){
@@ -65,8 +65,11 @@ int	main(int argc, char **argv) {
 		{
 			
 			
-			tb->m_core->lane0_d=((0x0137b8)&(1<<(i-50)))/(pow(2,(i-50)));
-			tb->m_core->lane1_d=((0x3FF0b8)&(1<<(i-50)))/(pow(2,(i-50)));
+			//tb->m_core->lane0_d=((0x01370137b8)&(1<<(i-50)))/(pow(2,(i-50)));
+			//tb->m_core->lane1_d=((0x3FF03FF0b8)&(1<<(i-50)))/(pow(2,(i-50)));
+			tb->m_core->lane0_d=1&(0x211917151311090705030101170137b8>>(i-50));
+			tb->m_core->lane1_d=1&(0x22201816141210080604023FF03FF0b8>>(i-50));
+			
 
 		}
 		tb->tick();
