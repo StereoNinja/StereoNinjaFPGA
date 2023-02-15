@@ -61,14 +61,14 @@ int	main(int argc, char **argv) {
 			tb->m_core->lane1_p=0;
 			tb->m_core->lane1_n=0;
 		}
-		if(i>=50)
+		if(i>=52)
 		{
 			
 			
 			//tb->m_core->lane0_d=((0x01370137b8)&(1<<(i-50)))/(pow(2,(i-50)));
 			//tb->m_core->lane1_d=((0x3FF03FF0b8)&(1<<(i-50)))/(pow(2,(i-50)));
-			tb->m_core->lane0_d=1&(0x211917151311090705030101170137b8>>(i-50));
-			tb->m_core->lane1_d=1&(0x22201816141210080604023FF03FF0b8>>(i-50));
+			tb->m_core->lane0_d=1&(0x1109070503010137b8>>(i-50));
+			tb->m_core->lane1_d=1&(0x1210080604023FF0b8>>(i-50));
 			
 
 		}
