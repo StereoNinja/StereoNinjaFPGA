@@ -1,4 +1,4 @@
-module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_4,lane1_d,inout lane0_p,lane0_n,lane1_p,lane1_n,output[7:0] red,output[7:0] green,output[7:0] blue,output[7:0] adress_out,output reg debug0,debug1,debug2,output termination);
+module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_4,lane1_d,inout lane0_p,lane0_n,lane1_p,lane1_n,output[31:0] data_o,output[31:0] adress_out,output reg debug0,debug1,debug2,output termination);
     reg termination_r;
 	wire stop_clk, rec_data;
 	wire[7:0] lane0byte,lane1byte;
@@ -36,7 +36,7 @@ module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_4,lane1_d,ino
 	DATA_Encoder DE (.mipi_clk_4(sync_mipi_clk_4),.reset(reset),.stop(stop_clk),.sync(sync),.byte_in0(byte_o_0),.type_o(type_w),.wordcount(wordcount),.byte_in1(byte_o_1),.valid(valid));
 	
 	
-	Protocoll Prot (.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data(data),.rec_data(rec_data));
+	Protocoll Prot (.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data(data),.rec_data(rec_data),.adress_o(),);
 	
 	assign debug1=rec_data;
 	
@@ -175,7 +175,7 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in
 				valid_r<=(ecc==out_r[31:24]&&out_r!=0)?1:valid_r;
 				start=(ecc==out_r[31:24]&&out_r!=0)?1:start;
 				type_o_r<=(ecc==out_r[31:24]&&out_r!=0)?out_r[5:0]:type_o_r;
-				wordcount_r<=(ecc==out_r[31:24]&&out_r!=0)?out_r[31:24]:wordcount_r;
+				wordcount_r<=(ecc==out_r[31:24]&&out_r!=0)?out_r[23:8]:wordcount_r;
 				if(start)begin
 					counter<=counter+1;
 					if(counter>1)begin
@@ -309,28 +309,33 @@ endmodule
 
 
 
-module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0] wordcount,input[31:0] data,output rec_data);
-	reg rec_data_r,state;
-	reg[31:0] counter,count_val;
+module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0] wordcount,input[31:0] data,output[31:0] data_o,adress_o,output rec_data);
+	reg rec_data_r,state,valid_old;
+	reg[31:0] counter,count_val,data_o_r,counter2;
+	assign data_o=data_o_r;
 	assign rec_data=rec_data_r&&(!stop);
+
 	always @(posedge mipi_clk_8) begin
 		if(reset)begin
 			rec_data_r<=0;
 			state<=0;
+			data_o_r<=0;
+			counter2<=0;
+			valid_old<=0;
 			//counter<=0;
 			//count_val<=0;
 		end	else begin
-			
+			valid_old<=valid;			
 			case (state)
 				0:begin
-					state<=(valid&&type_i=='h2a)?1:0;
-					count_val<=wordcount*8;
-					//count_val<=20;					
+					state<=((valid)&&type_i=='h2a&&wordcount=='h0280)?1:0;
+					count_val<=wordcount/4;							
 				end 
 				1:begin
 					if(counter<count_val)begin
 						counter<=counter+1;
 						rec_data_r<=1;
+						data_o_r<=data;
 					end else begin
 						rec_data_r<=0;
 						state<=0;
