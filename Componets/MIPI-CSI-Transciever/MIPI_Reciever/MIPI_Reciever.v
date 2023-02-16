@@ -42,7 +42,7 @@ module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_8,lane1_d,ino
 	DATA_Encoder DE (.mipi_clk_4(sync_mipi_clk_4),.reset(reset),.stop(stop_clk),.sync(sync),.byte_in0(byte_o_0),.type_o(type_w),.wordcount(wordcount),.byte_in1(byte_o_1),.valid(valid));
 	
 	
-	Protocoll Prot (.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data(data),.rec_data(rec_data),.adress_o(adress_out),);
+	Protocoll Prot (.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data(data),.rec_data(rec_data),.adress_o(adress_out));
 	
 	assign debug1=rec_data;
 	assign ram_clk=sync_mipi_clk_8;
@@ -196,25 +196,6 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in
 	end
 endmodule
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,stop_tran,output reg stop_rx,term,debug0,debug1);
 	///////////////////States for long and short Packet Recieve
 	localparam reg[7:0] TIMEOUT=0;
@@ -299,7 +280,7 @@ module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,sto
 						timer_tou<=0;
 					end				
 				end	
-				HEADER:begin
+				HEADER:begin					
 					timer_tou<=timer_tou+1;
 					if(rec_data==0||timer_tou>8*Timeout)begin
 						state_mipi<=TIMEOUT;
@@ -312,8 +293,6 @@ module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,sto
 		end	   
 	end
 endmodule
-
-
 
 module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0] wordcount,input[31:0] data,output[31:0] data_o,adress_o,output rec_data);
 	reg rec_data_r,state,valid_old;
@@ -335,9 +314,10 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 			case (state)
 				0:begin
 					state<=((valid==1&&valid_old==0)&&type_i=='h2a&&wordcount=='h0280)?1:0;
-					count_val<=wordcount/4;
-					//count_val<=100;
-					counter_addr<=(valid==1&&valid_old==0)&&type_i=='h00)?0:counter_addr;						
+					//count_val<=wordcount/4;
+					count_val<=160;
+					counter_addr<=((valid==1&&valid_old==0)&&type_i=='h00)?0:counter_addr;	
+									
 				end 
 				1:begin
 					if(counter<count_val)begin
