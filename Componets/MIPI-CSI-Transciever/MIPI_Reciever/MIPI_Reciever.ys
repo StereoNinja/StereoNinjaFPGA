@@ -3,4 +3,6 @@ read_verilog ulx3s.v
 read_verilog MIPI_Reciever.v
 read_verilog Cam_Init.v
 read_verilog Cam_I2C.v
+read_verilog HDMI_Transciever.v
+read_verilog TMDS_Encoder.v
 synth_ecp5  -json MIPI_Reciever.json

@@ -1,15 +1,15 @@
-module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_8,lane1_d,inout lane0_p,lane0_n,lane1_p,lane1_n,output[31:0] data_o,output[31:0] adress_out,output ram_clk,output reg debug0,debug1,debug2,output termination);
-    reg termination_r;
+module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_8,lane1_d,inout lane0_p,lane0_n,lane1_p,lane1_n,output[31:0] data_o,output[31:0] adress_out,output ram_clk,output reg debug0,debug1,debug2,output termination,rec_data_o,output[31:0] cX,cY);
+    
 	wire stop_clk, rec_data;
-	wire[7:0] lane0byte,lane1byte;
-	assign termination=termination_r;   	
-    SoTFSM RxFSM(.rec_data(rec_data),.clk100MHz(sys_clk),.reset(reset),.lane0_p(lane0_p),.lane0_n(lane0_n),.lane1_p(lane1_p),.lane1_n(lane1_n),.stop_rx(stop_clk),.term(termination_r),.debug0(debug0));
+	wire[7:0] lane0byte,lane1byte;	 	
+    SoTFSM RxFSM(.rec_data(rec_data),.clk100MHz(sys_clk),.reset(reset),.lane0_p(lane0_p),.lane0_n(lane0_n),.lane1_p(lane1_p),.lane1_n(lane1_n),.stop_rx(stop_clk),.term(termination),.debug0(debug0));
 	wire[3:0]q_o_0,q_o_1;
 	wire[1:0] ov_fl_0,ov_fl_1;
 	wire even,sync;
 	//assign debug1=even;
 	wire sync_mipi_clk,sync_mipi_clk_2,sync_mipi_clk_4,sync_mipi_clk_8;
-	assign debug2=sync;
+	//assign debug2=termination_r;
+
 
 	ECLKSYNCB SYNC(.ECLKI(mipi_clk),.STOP(stop_clk),.ECLKO(sync_mipi_clk));	
 	CLKDIVF div2 (.CLKI(sync_mipi_clk),.RST(reset),.CDIVX(sync_mipi_clk_2));
@@ -39,11 +39,11 @@ module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_8,lane1_d,ino
 	wire valid;
 	wire[5:0] type_w;
 	wire[15:0] wordcount;
-	DATA_Encoder DE (.mipi_clk_4(sync_mipi_clk_4),.reset(reset),.stop(stop_clk),.sync(sync),.byte_in0(byte_o_0),.type_o(type_w),.wordcount(wordcount),.byte_in1(byte_o_1),.valid(valid));
+	DATA_Encoder DE (.mipi_clk_4(sync_mipi_clk_4),.reset(reset),.stop(stop_clk),.sync(sync),.byte_in0(byte_o_0),.data(data),.type_o(type_w),.wordcount(wordcount),.byte_in1(byte_o_1),.valid(valid));
 	
 	
-	Protocoll Prot (.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data(data),.rec_data(rec_data),.adress_o(adress_out));
-	
+	Protocoll Prot (.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data_o(data_o),.data(data),.rec_data(rec_data),.adress_o(adress_out),.cX(cX),.cY(cY));
+	assign rec_data_o=rec_data;
 	assign debug1=rec_data;
 	assign ram_clk=sync_mipi_clk_8;
 endmodule
@@ -120,7 +120,7 @@ module Byte_Alligner(input reset,stop,mipi_clk_2,sync,even,input[7:0] byte_e,inp
 		end else begin			
 			if(sync)begin
 				counter<=counter+1;
-				byte_o_r<=(counter[0]==0)?byte_o_eu:byte_o_r;
+				byte_o_r<=(counter[0]==1)?byte_o_eu:byte_o_r;///////////////////////change to ==0 for real worls!!!!!!!!!!!!!!!!!!!!!!!!
 				//byte_o_r<=byte_o_eu;
 				
 			end
@@ -196,7 +196,7 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in
 	end
 endmodule
 
-module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,stop_tran,output reg stop_rx,term,debug0,debug1);
+module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,stop_tran,output stop_rx,term,debug0,debug1);
 	///////////////////States for long and short Packet Recieve
 	localparam reg[7:0] TIMEOUT=0;
 	localparam reg[7:0] LP11=1;
@@ -212,6 +212,12 @@ module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,sto
 	localparam integer Thssettle=4;
 	///////////////////
 	reg[7:0] state_mipi=TIMEOUT;	
+	reg stop_rx_r,term_r,debug0_r,debug1_r;
+	assign stop_rx=stop_rx_r;
+	assign term=term_r;
+	assign debug0=debug0_r;
+	assign debug1=debug1_r;	
+
 	integer timer_tou,timer_term,timer_hs;	
 	///////////////////////////////////////////////FSM
 	always @(posedge clk100MHz) begin
@@ -220,8 +226,8 @@ module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,sto
 			timer_tou<=0;
 			timer_term<=0;
 			timer_hs<=0;			
-			term<=0;
-			stop_rx<=1;
+			term_r<=0;
+			stop_rx_r<=1;
 		end else begin
 			case (state_mipi)
 				TIMEOUT: begin
@@ -229,14 +235,14 @@ module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,sto
 					timer_tou<=0;
 					timer_term<=0;
 					timer_hs<=0;			
-					term<=0;
-					debug0<=0;
-					stop_rx<=1;	
+					term_r<=0;
+					debug0_r<=0;
+					stop_rx_r<=1;	
 				end
 				LP11:begin					
 					state_mipi<=(lane0_p==0 && lane0_n==1 &&lane1_p==0 &&lane1_n==1)?LP01:LP11;	
-					debug0<=0;
-					stop_rx<=1;	
+					debug0_r<=0;
+					stop_rx_r<=1;	
 				end
 				LP01:begin
 					if(timer_tou>=Timeout) begin
@@ -249,17 +255,17 @@ module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,sto
 					end						
 					timer_tou<=timer_tou+1;
 					timer_term<=timer_term+1;	
-					stop_rx<=1;			
+					stop_rx_r<=1;			
 				end
 				LP00:begin
-					stop_rx<=1;	
+					stop_rx_r<=1;	
 					if(timer_term>=Tdterm) begin					
-						term<=1;					
+						term_r<=1;					
 					end 
 					if(timer_hs>=Thssettle) begin
 						state_mipi<=SYNC;
 						timer_tou<=0;	
-						stop_rx<=0;
+						stop_rx_r<=0;
 					end
 					if(timer_tou>=Timeout)begin
 						state_mipi<=TIMEOUT;
@@ -269,10 +275,10 @@ module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,sto
 					timer_hs<=timer_hs+1;					
 				end
 				SYNC:begin		
-					debug0<=1;
+					debug0_r<=1;
 					if(timer_tou>=4*Timeout)begin
 						state_mipi<=TIMEOUT;
-						stop_rx<=1;					
+						stop_rx_r<=1;					
 					end				
 					timer_tou<=timer_tou+1;
 					if(rec_data==1)begin
@@ -282,9 +288,10 @@ module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,sto
 				end	
 				HEADER:begin					
 					timer_tou<=timer_tou+1;
-					if(rec_data==0||timer_tou>8*Timeout)begin
+					if(rec_data==0||timer_tou>180)begin
 						state_mipi<=TIMEOUT;
-						//stop_rx<=1;	
+						term_r<=0;
+						//stop_rx_r<=1;	
 					end	
 				end		
 				default: begin
@@ -294,12 +301,14 @@ module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,sto
 	end
 endmodule
 
-module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0] wordcount,input[31:0] data,output[31:0] data_o,adress_o,output rec_data);
+module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0] wordcount,input[31:0] data,output[31:0] data_o,output[31:0]adress_o,output rec_data,output reg debug,output[31:0] cX,cY);
 	reg rec_data_r,state,valid_old;
-	reg[31:0] counter,count_val,data_o_r,counter_addr;
+	reg[31:0] counter,count_val,data_o_r,counter_addr,cX_r,cY_r;
 	assign data_o=data_o_r;
 	assign rec_data=rec_data_r&&(!stop);
 	assign adress_o=counter_addr;
+	assign cX=cX_r;
+	assign cY=cY_r;
 	always @(posedge mipi_clk_8) begin
 		if(reset)begin
 			rec_data_r<=0;
@@ -307,24 +316,34 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 			data_o_r<=0;
 			counter_addr<=0;
 			valid_old<=0;
+			cX_r<=0;
+			cY_r<=0;
 			//counter<=0;
-			//count_val<=0;
+			//count_val<=0;			
 		end	else begin
 			valid_old<=valid;			
 			case (state)
 				0:begin
-					state<=((valid==1&&valid_old==0)&&type_i=='h2a&&wordcount=='h0280)?1:0;
-					//count_val<=wordcount/4;
-					count_val<=160;
-					counter_addr<=((valid==1&&valid_old==0)&&type_i=='h00)?0:counter_addr;	
-									
+					if((valid==1&&valid_old==0)&&type_i=='h2a&&wordcount=='h0280)begin
+						state<=1;
+						count_val<=160-2;
+						cY_r<=cY_r+640;
+						cX_r<=0;						
+					end					
+					//count_val<=120;
+					if((valid==1&&valid_old==0)&&type_i=='h00)begin
+						counter_addr<=0;								
+						cX_r<=0;
+						cY_r<=0;						
+					end													
 				end 
 				1:begin
 					if(counter<count_val)begin
+						cX_r<=cX_r+1;
 						counter<=counter+1;
-						rec_data_r<=1;
-						data_o_r<=data;
+						rec_data_r<=1;						
 						counter_addr<=counter_addr+1;
+						data_o_r<=data;						
 					end else begin
 						rec_data_r<=0;
 						state<=0;
@@ -344,7 +363,7 @@ endmodule
 
 
 
-/*
+
 module ECLKSYNCB (input ECLKI,STOP,output ECLKO);
 		assign ECLKO=STOP?0:ECLKI;
 endmodule

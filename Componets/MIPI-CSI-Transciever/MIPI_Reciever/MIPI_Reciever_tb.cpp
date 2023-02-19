@@ -9,6 +9,8 @@
 #include "verilated.h"
 #include "VMIPI_Reciever.h"
 #include "testb.h"
+#include <bitset>
+#include"BigInt.hpp"
 
 uint32_t shortpackage(int a,int b,int c);
 const unsigned char BitReverseTable256[] =
@@ -32,7 +34,10 @@ const unsigned char BitReverseTable256[] =
 };
 
 int	main(int argc, char **argv) {
-	Verilated::commandArgs(argc, argv);
+	Verilated::commandArgs(argc, argv);	
+			//tb->m_core->lane0_d=a[i-52];
+			//tb->m_core->lane0_d=((0x01370137b8)&(1<<(i-50)))/(pow(2,(i-50)));
+			//tb->m_core->lane1_d=((0x3FF03FF0b8)&(1<<(i-50)))/(pow(2,(i-50)));
 	TESTB<VMIPI_Reciever>	*tb
 		= new TESTB<VMIPI_Reciever>;
 	tb->opentrace("blinky.vcd");
@@ -61,16 +66,20 @@ int	main(int argc, char **argv) {
 			tb->m_core->lane1_p=0;
 			tb->m_core->lane1_n=0;
 		}
-		if(i>=52)
-		{
-			
-			
-			//tb->m_core->lane0_d=((0x01370137b8)&(1<<(i-50)))/(pow(2,(i-50)));
-			//tb->m_core->lane1_d=((0x3FF03FF0b8)&(1<<(i-50)))/(pow(2,(i-50)));
-			tb->m_core->lane0_d=1&(0x1109070503010137b8>>(i-50));
-			tb->m_core->lane1_d=1&(0x1210080604023FF0b8>>(i-50));
-			
+		if(i>=200)
+		{	
+			std::bitset<1000000000> *b;
+			b = (std::bitset<1000000000> *)malloc(sizeof(std::bitset<1000000000>));
+			b->;
 
+
+
+			//BigInt a=0x110907050301022ab8;
+			//BigInt b=0x1210080604020E80b8;
+			//tb->m_core->lane0_d=1&(0x110907050301022ab8>>(i-50));
+			tb->m_core->lane0_d=a[i-50];
+			tb->m_core->lane1_d=b[i-50];			
+			//tb->m_core->lane1_d=1&(0x1210080604020E80b8>>(i-50));
 		}
 		tb->tick();
 	}

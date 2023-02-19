@@ -76,62 +76,66 @@ void VMIPI_Reciever::traceChgSub0(void* userp, VerilatedVcd* tracep) {
                                         : (IData)(vlTOPp->MIPI_Reciever__DOT__BA1__DOT__byte1_r))),8);
         }
         if (VL_UNLIKELY(vlTOPp->__Vm_traceActivity[5U])) {
-            tracep->chgBit(oldp+39,(vlTOPp->MIPI_Reciever__DOT__sync_mipi_clk_8));
-            tracep->chgCData(oldp+40,(vlTOPp->MIPI_Reciever__DOT__div8__DOT__counter),8);
-            tracep->chgIData(oldp+41,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__data_r),32);
-            tracep->chgIData(oldp+42,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__out_r),32);
-            tracep->chgBit(oldp+43,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__start));
-            tracep->chgCData(oldp+44,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__counter),8);
-            tracep->chgCData(oldp+45,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__ecc),8);
-            tracep->chgBit(oldp+46,((1U & ((IData)(vlTOPp->MIPI_Reciever__DOT__DE__DOT__ecc) 
+            tracep->chgBit(oldp+39,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__rec_data_r));
+            tracep->chgBit(oldp+40,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__state));
+            tracep->chgBit(oldp+41,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__valid_old));
+            tracep->chgIData(oldp+42,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__counter),32);
+            tracep->chgIData(oldp+43,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__count_val),32);
+            tracep->chgIData(oldp+44,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__data_o_r),32);
+            tracep->chgIData(oldp+45,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__counter_addr),32);
+            tracep->chgIData(oldp+46,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__cX_r),32);
+            tracep->chgIData(oldp+47,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__cY_r),32);
+        }
+        if (VL_UNLIKELY(vlTOPp->__Vm_traceActivity[6U])) {
+            tracep->chgIData(oldp+48,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__data_r),32);
+            tracep->chgBit(oldp+49,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__valid_r));
+            tracep->chgCData(oldp+50,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__type_o_r),6);
+            tracep->chgSData(oldp+51,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__wordcount_r),16);
+            tracep->chgIData(oldp+52,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__out_r),32);
+            tracep->chgBit(oldp+53,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__start));
+            tracep->chgCData(oldp+54,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__counter),8);
+            tracep->chgCData(oldp+55,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__ecc),8);
+            tracep->chgBit(oldp+56,((1U & ((IData)(vlTOPp->MIPI_Reciever__DOT__DE__DOT__ecc) 
                                            ^ (vlTOPp->MIPI_Reciever__DOT__DE__DOT__out_r 
                                               >> 0x18U)))));
         }
-        if (VL_UNLIKELY(vlTOPp->__Vm_traceActivity[6U])) {
-            tracep->chgBit(oldp+47,(vlTOPp->MIPI_Reciever__DOT__termination_r));
-            tracep->chgBit(oldp+48,(vlTOPp->MIPI_Reciever__DOT__stop_clk));
-            tracep->chgCData(oldp+49,(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__state_mipi),8);
-            tracep->chgIData(oldp+50,(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__timer_tou),32);
-            tracep->chgIData(oldp+51,(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__timer_term),32);
-            tracep->chgIData(oldp+52,(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__timer_hs),32);
-        }
         if (VL_UNLIKELY(vlTOPp->__Vm_traceActivity[7U])) {
-            tracep->chgIData(oldp+53,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__data_o_r),32);
-            tracep->chgBit(oldp+54,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__rec_data_r));
-            tracep->chgBit(oldp+55,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__state));
-            tracep->chgBit(oldp+56,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__valid_old));
-            tracep->chgIData(oldp+57,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__counter),32);
-            tracep->chgIData(oldp+58,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__count_val),32);
-            tracep->chgIData(oldp+59,(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__counter_addr),32);
+            tracep->chgBit(oldp+57,(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__stop_rx_r));
+            tracep->chgCData(oldp+58,(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__state_mipi),8);
+            tracep->chgBit(oldp+59,(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__term_r));
+            tracep->chgBit(oldp+60,(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__debug0_r));
+            tracep->chgIData(oldp+61,(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__timer_tou),32);
+            tracep->chgIData(oldp+62,(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__timer_term),32);
+            tracep->chgIData(oldp+63,(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__timer_hs),32);
         }
-        if (VL_UNLIKELY(vlTOPp->__Vm_traceActivity[8U])) {
-            tracep->chgBit(oldp+60,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__valid_r));
-            tracep->chgCData(oldp+61,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__type_o_r),6);
-            tracep->chgSData(oldp+62,(vlTOPp->MIPI_Reciever__DOT__DE__DOT__wordcount_r),16);
-        }
-        tracep->chgBit(oldp+63,(vlTOPp->sys_clk));
-        tracep->chgBit(oldp+64,(vlTOPp->reset));
-        tracep->chgBit(oldp+65,(vlTOPp->lane0_d));
-        tracep->chgBit(oldp+66,(vlTOPp->mipi_clk));
-        tracep->chgBit(oldp+67,(vlTOPp->mipi_clk_8));
-        tracep->chgBit(oldp+68,(vlTOPp->lane1_d));
-        tracep->chgBit(oldp+69,(vlTOPp->lane0_p));
-        tracep->chgBit(oldp+70,(vlTOPp->lane0_n));
-        tracep->chgBit(oldp+71,(vlTOPp->lane1_p));
-        tracep->chgBit(oldp+72,(vlTOPp->lane1_n));
-        tracep->chgIData(oldp+73,(vlTOPp->data_o),32);
-        tracep->chgIData(oldp+74,(vlTOPp->adress_out),32);
-        tracep->chgBit(oldp+75,(vlTOPp->ram_clk));
-        tracep->chgBit(oldp+76,(vlTOPp->debug0));
-        tracep->chgBit(oldp+77,(vlTOPp->debug1));
-        tracep->chgBit(oldp+78,(vlTOPp->debug2));
-        tracep->chgBit(oldp+79,(vlTOPp->termination));
-        tracep->chgCData(oldp+80,(vlTOPp->MIPI_Reciever__DOT__BAL0__DOT__byte_o_r),8);
-        tracep->chgCData(oldp+81,(vlTOPp->MIPI_Reciever__DOT__BAL1__DOT__byte_o_r),8);
-        tracep->chgCData(oldp+82,(vlTOPp->MIPI_Reciever__DOT__lane0__DOT__ddr),4);
-        tracep->chgBit(oldp+83,(((IData)(vlTOPp->MIPI_Reciever__DOT__lane1__DOT__sync_r) 
-                                 & (~ (IData)(vlTOPp->MIPI_Reciever__DOT__stop_clk)))));
-        tracep->chgCData(oldp+84,(vlTOPp->MIPI_Reciever__DOT__lane1__DOT__ddr),4);
+        tracep->chgBit(oldp+64,(vlTOPp->sys_clk));
+        tracep->chgBit(oldp+65,(vlTOPp->reset));
+        tracep->chgBit(oldp+66,(vlTOPp->lane0_d));
+        tracep->chgBit(oldp+67,(vlTOPp->mipi_clk));
+        tracep->chgBit(oldp+68,(vlTOPp->mipi_clk_8));
+        tracep->chgBit(oldp+69,(vlTOPp->lane1_d));
+        tracep->chgBit(oldp+70,(vlTOPp->lane0_p));
+        tracep->chgBit(oldp+71,(vlTOPp->lane0_n));
+        tracep->chgBit(oldp+72,(vlTOPp->lane1_p));
+        tracep->chgBit(oldp+73,(vlTOPp->lane1_n));
+        tracep->chgIData(oldp+74,(vlTOPp->data_o),32);
+        tracep->chgIData(oldp+75,(vlTOPp->adress_out),32);
+        tracep->chgBit(oldp+76,(vlTOPp->ram_clk));
+        tracep->chgBit(oldp+77,(vlTOPp->debug0));
+        tracep->chgBit(oldp+78,(vlTOPp->debug1));
+        tracep->chgBit(oldp+79,(vlTOPp->debug2));
+        tracep->chgBit(oldp+80,(vlTOPp->termination));
+        tracep->chgBit(oldp+81,(vlTOPp->rec_data_o));
+        tracep->chgIData(oldp+82,(vlTOPp->cX),32);
+        tracep->chgIData(oldp+83,(vlTOPp->cY),32);
+        tracep->chgBit(oldp+84,(vlTOPp->MIPI_Reciever__DOT__sync_mipi_clk_8));
+        tracep->chgCData(oldp+85,(vlTOPp->MIPI_Reciever__DOT__BAL0__DOT__byte_o_r),8);
+        tracep->chgCData(oldp+86,(vlTOPp->MIPI_Reciever__DOT__BAL1__DOT__byte_o_r),8);
+        tracep->chgCData(oldp+87,(vlTOPp->MIPI_Reciever__DOT__div8__DOT__counter),8);
+        tracep->chgCData(oldp+88,(vlTOPp->MIPI_Reciever__DOT__lane0__DOT__ddr),4);
+        tracep->chgBit(oldp+89,(((IData)(vlTOPp->MIPI_Reciever__DOT__lane1__DOT__sync_r) 
+                                 & (~ (IData)(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__stop_rx_r)))));
+        tracep->chgCData(oldp+90,(vlTOPp->MIPI_Reciever__DOT__lane1__DOT__ddr),4);
     }
 }
 
@@ -149,6 +153,5 @@ void VMIPI_Reciever::traceCleanup(void* userp, VerilatedVcd* /*unused*/) {
         vlTOPp->__Vm_traceActivity[5U] = 0U;
         vlTOPp->__Vm_traceActivity[6U] = 0U;
         vlTOPp->__Vm_traceActivity[7U] = 0U;
-        vlTOPp->__Vm_traceActivity[8U] = 0U;
     }
 }

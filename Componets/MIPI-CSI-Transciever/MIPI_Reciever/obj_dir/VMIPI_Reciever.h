@@ -39,8 +39,11 @@ VL_MODULE(VMIPI_Reciever) {
     VL_OUT8(debug1,0,0);
     VL_OUT8(debug2,0,0);
     VL_OUT8(termination,0,0);
+    VL_OUT8(rec_data_o,0,0);
     VL_OUT(data_o,31,0);
     VL_OUT(adress_out,31,0);
+    VL_OUT(cX,31,0);
+    VL_OUT(cY,31,0);
     
     // LOCAL SIGNALS
     // Internals; generally not touched by application code
@@ -50,15 +53,16 @@ VL_MODULE(VMIPI_Reciever) {
         CData/*0:0*/ MIPI_Reciever__DOT__sync_mipi_clk_2;
         CData/*0:0*/ MIPI_Reciever__DOT__sync_mipi_clk_4;
         CData/*0:0*/ MIPI_Reciever__DOT__sync_mipi_clk_8;
-        CData/*0:0*/ MIPI_Reciever__DOT__termination_r;
-        CData/*0:0*/ MIPI_Reciever__DOT__stop_clk;
         CData/*0:0*/ MIPI_Reciever__DOT__rec_data;
         CData/*7:0*/ MIPI_Reciever__DOT__lane0byte;
         CData/*7:0*/ MIPI_Reciever__DOT__lane1byte;
         CData/*0:0*/ MIPI_Reciever__DOT__sync;
         CData/*0:0*/ MIPI_Reciever__DOT__RxFSM__DOT__stop_tran;
-        CData/*0:0*/ MIPI_Reciever__DOT__RxFSM__DOT__debug1;
         CData/*7:0*/ MIPI_Reciever__DOT__RxFSM__DOT__state_mipi;
+        CData/*0:0*/ MIPI_Reciever__DOT__RxFSM__DOT__stop_rx_r;
+        CData/*0:0*/ MIPI_Reciever__DOT__RxFSM__DOT__term_r;
+        CData/*0:0*/ MIPI_Reciever__DOT__RxFSM__DOT__debug0_r;
+        CData/*0:0*/ MIPI_Reciever__DOT__RxFSM__DOT__debug1_r;
         CData/*7:0*/ MIPI_Reciever__DOT__div2__DOT__counter;
         CData/*7:0*/ MIPI_Reciever__DOT__div4__DOT__counter;
         CData/*7:0*/ MIPI_Reciever__DOT__div8__DOT__counter;
@@ -97,11 +101,11 @@ VL_MODULE(VMIPI_Reciever) {
         CData/*7:0*/ MIPI_Reciever__DOT__DE__DOT__counter;
         CData/*7:0*/ MIPI_Reciever__DOT__DE__DOT__ecc;
         CData/*5:0*/ MIPI_Reciever__DOT__DE__DOT__type_o_r;
+        CData/*0:0*/ MIPI_Reciever__DOT__Prot__DOT__debug;
         CData/*0:0*/ MIPI_Reciever__DOT__Prot__DOT__rec_data_r;
         CData/*0:0*/ MIPI_Reciever__DOT__Prot__DOT__state;
         CData/*0:0*/ MIPI_Reciever__DOT__Prot__DOT__valid_old;
         SData/*15:0*/ MIPI_Reciever__DOT__DE__DOT__wordcount_r;
-        IData/*31:0*/ MIPI_Reciever__DOT__data;
         IData/*31:0*/ MIPI_Reciever__DOT__RxFSM__DOT__timer_tou;
         IData/*31:0*/ MIPI_Reciever__DOT__RxFSM__DOT__timer_term;
         IData/*31:0*/ MIPI_Reciever__DOT__RxFSM__DOT__timer_hs;
@@ -109,10 +113,12 @@ VL_MODULE(VMIPI_Reciever) {
         IData/*31:0*/ MIPI_Reciever__DOT__DE__DOT__data_r;
         IData/*31:0*/ MIPI_Reciever__DOT__Prot__DOT__counter;
         IData/*31:0*/ MIPI_Reciever__DOT__Prot__DOT__count_val;
-        IData/*31:0*/ MIPI_Reciever__DOT__Prot__DOT__data_o_r;
     };
     struct {
+        IData/*31:0*/ MIPI_Reciever__DOT__Prot__DOT__data_o_r;
         IData/*31:0*/ MIPI_Reciever__DOT__Prot__DOT__counter_addr;
+        IData/*31:0*/ MIPI_Reciever__DOT__Prot__DOT__cX_r;
+        IData/*31:0*/ MIPI_Reciever__DOT__Prot__DOT__cY_r;
     };
     
     // LOCAL VARIABLES
@@ -121,18 +127,20 @@ VL_MODULE(VMIPI_Reciever) {
     CData/*7:0*/ __Vdly__MIPI_Reciever__DOT__BAL0__DOT__byte_o_r;
     CData/*7:0*/ __Vdly__MIPI_Reciever__DOT__BAL1__DOT__byte_o_r;
     CData/*0:0*/ __Vdly__MIPI_Reciever__DOT__DE__DOT__valid_r;
+    CData/*7:0*/ __Vdly__MIPI_Reciever__DOT__DE__DOT__counter;
     CData/*5:0*/ __Vdly__MIPI_Reciever__DOT__DE__DOT__type_o_r;
     CData/*0:0*/ __Vclklast__TOP__sys_clk;
     CData/*0:0*/ __Vclklast__TOP__MIPI_Reciever__DOT__sync_mipi_clk;
     CData/*0:0*/ __Vclklast__TOP__MIPI_Reciever__DOT__sync_mipi_clk_2;
     CData/*0:0*/ __Vclklast__TOP__MIPI_Reciever__DOT__sync_mipi_clk_4;
     CData/*0:0*/ __Vclklast__TOP__MIPI_Reciever__DOT__sync_mipi_clk_8;
-    CData/*0:0*/ __Vchglast__TOP__MIPI_Reciever__DOT__stop_clk;
+    CData/*0:0*/ __Vchglast__TOP__MIPI_Reciever__DOT__RxFSM__DOT__stop_rx_r;
     SData/*15:0*/ __Vdly__MIPI_Reciever__DOT__DE__DOT__wordcount_r;
     IData/*31:0*/ __Vdly__MIPI_Reciever__DOT__RxFSM__DOT__timer_tou;
     IData/*31:0*/ __Vdly__MIPI_Reciever__DOT__RxFSM__DOT__timer_term;
     IData/*31:0*/ __Vdly__MIPI_Reciever__DOT__RxFSM__DOT__timer_hs;
-    CData/*0:0*/ __Vm_traceActivity[9];
+    IData/*31:0*/ __Vdly__MIPI_Reciever__DOT__DE__DOT__out_r;
+    CData/*0:0*/ __Vm_traceActivity[8];
     
     // INTERNAL VARIABLES
     // Internals; generally not touched by application code
@@ -171,7 +179,7 @@ VL_MODULE(VMIPI_Reciever) {
     static QData _change_request(VMIPI_Reciever__Syms* __restrict vlSymsp);
     static QData _change_request_1(VMIPI_Reciever__Syms* __restrict vlSymsp);
   public:
-    static void _combo__TOP__11(VMIPI_Reciever__Syms* __restrict vlSymsp);
+    static void _combo__TOP__13(VMIPI_Reciever__Syms* __restrict vlSymsp);
     static void _combo__TOP__15(VMIPI_Reciever__Syms* __restrict vlSymsp);
     static void _combo__TOP__2(VMIPI_Reciever__Syms* __restrict vlSymsp);
   private:
@@ -189,8 +197,8 @@ VL_MODULE(VMIPI_Reciever) {
     static void _multiclk__TOP__9(VMIPI_Reciever__Syms* __restrict vlSymsp);
     static void _sequent__TOP__1(VMIPI_Reciever__Syms* __restrict vlSymsp);
     static void _sequent__TOP__10(VMIPI_Reciever__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__11(VMIPI_Reciever__Syms* __restrict vlSymsp);
     static void _sequent__TOP__12(VMIPI_Reciever__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__13(VMIPI_Reciever__Syms* __restrict vlSymsp);
     static void _sequent__TOP__14(VMIPI_Reciever__Syms* __restrict vlSymsp);
     static void _sequent__TOP__5(VMIPI_Reciever__Syms* __restrict vlSymsp);
     static void _sequent__TOP__6(VMIPI_Reciever__Syms* __restrict vlSymsp);

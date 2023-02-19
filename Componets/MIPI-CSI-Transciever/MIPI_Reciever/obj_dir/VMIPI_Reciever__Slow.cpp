@@ -32,7 +32,7 @@ void VMIPI_Reciever::_settle__TOP__3(VMIPI_Reciever__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VMIPI_Reciever::_settle__TOP__3\n"); );
     VMIPI_Reciever* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->MIPI_Reciever__DOT__sync_mipi_clk = ((IData)(vlTOPp->MIPI_Reciever__DOT__stop_clk)
+    vlTOPp->MIPI_Reciever__DOT__sync_mipi_clk = ((IData)(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__stop_rx_r)
                                                   ? 0U
                                                   : 
                                                  (1U 
@@ -57,8 +57,14 @@ void VMIPI_Reciever::_settle__TOP__3(VMIPI_Reciever__Syms* __restrict vlSymsp) {
                                                       | (((IData)(vlTOPp->MIPI_Reciever__DOT__lane1__DOT__IDDR__DOT__B) 
                                                           << 1U) 
                                                          | (IData)(vlTOPp->MIPI_Reciever__DOT__lane1__DOT__IDDR__DOT__A))));
+    vlTOPp->MIPI_Reciever__DOT__sync_mipi_clk_8 = (1U 
+                                                   & (IData)(vlTOPp->MIPI_Reciever__DOT__div8__DOT__counter));
+    vlTOPp->data_o = vlTOPp->MIPI_Reciever__DOT__Prot__DOT__data_o_r;
+    vlTOPp->adress_out = vlTOPp->MIPI_Reciever__DOT__Prot__DOT__counter_addr;
+    vlTOPp->cX = vlTOPp->MIPI_Reciever__DOT__Prot__DOT__cX_r;
+    vlTOPp->cY = vlTOPp->MIPI_Reciever__DOT__Prot__DOT__cY_r;
     vlTOPp->MIPI_Reciever__DOT__sync = ((IData)(vlTOPp->MIPI_Reciever__DOT__lane0__DOT__sync_r) 
-                                        & (~ (IData)(vlTOPp->MIPI_Reciever__DOT__stop_clk)));
+                                        & (~ (IData)(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__stop_rx_r)));
     vlTOPp->MIPI_Reciever__DOT__DE__DOT__ecc = (0xbfU 
                                                 & (IData)(vlTOPp->MIPI_Reciever__DOT__DE__DOT__ecc));
     vlTOPp->MIPI_Reciever__DOT__DE__DOT__ecc = (0x7fU 
@@ -374,14 +380,12 @@ void VMIPI_Reciever::_settle__TOP__3(VMIPI_Reciever__Syms* __restrict vlSymsp) {
                                                       (0x3fe0U 
                                                        & (vlTOPp->MIPI_Reciever__DOT__DE__DOT__out_r 
                                                           >> 0x12U)))));
-    vlTOPp->MIPI_Reciever__DOT__sync_mipi_clk_8 = (1U 
-                                                   & (IData)(vlTOPp->MIPI_Reciever__DOT__div8__DOT__counter));
-    vlTOPp->termination = vlTOPp->MIPI_Reciever__DOT__termination_r;
-    vlTOPp->adress_out = vlTOPp->MIPI_Reciever__DOT__Prot__DOT__counter_addr;
     vlTOPp->MIPI_Reciever__DOT__rec_data = ((IData)(vlTOPp->MIPI_Reciever__DOT__Prot__DOT__rec_data_r) 
-                                            & (~ (IData)(vlTOPp->MIPI_Reciever__DOT__stop_clk)));
-    vlTOPp->debug2 = vlTOPp->MIPI_Reciever__DOT__sync;
+                                            & (~ (IData)(vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__stop_rx_r)));
+    vlTOPp->termination = vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__term_r;
+    vlTOPp->debug0 = vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__debug0_r;
     vlTOPp->ram_clk = vlTOPp->MIPI_Reciever__DOT__sync_mipi_clk_8;
+    vlTOPp->rec_data_o = vlTOPp->MIPI_Reciever__DOT__rec_data;
     vlTOPp->debug1 = vlTOPp->MIPI_Reciever__DOT__rec_data;
 }
 
@@ -392,10 +396,10 @@ void VMIPI_Reciever::_initial__TOP__4(VMIPI_Reciever__Syms* __restrict vlSymsp) 
     vlTOPp->MIPI_Reciever__DOT__lane1__DOT__syncbyte = 0U;
     vlTOPp->MIPI_Reciever__DOT__lane0__DOT__syncbyte = 0U;
     vlTOPp->MIPI_Reciever__DOT__RxFSM__DOT__state_mipi = 0U;
+    vlTOPp->lane0_p = 0U;
     vlTOPp->lane1_n = 0U;
     vlTOPp->lane0_n = 0U;
     vlTOPp->lane1_p = 0U;
-    vlTOPp->lane0_p = 0U;
 }
 
 void VMIPI_Reciever::_eval_initial(VMIPI_Reciever__Syms* __restrict vlSymsp) {
@@ -404,7 +408,6 @@ void VMIPI_Reciever::_eval_initial(VMIPI_Reciever__Syms* __restrict vlSymsp) {
     // Body
     vlTOPp->__Vclklast__TOP__sys_clk = vlTOPp->sys_clk;
     vlTOPp->_initial__TOP__4(vlSymsp);
-    vlTOPp->__Vm_traceActivity[8U] = 1U;
     vlTOPp->__Vm_traceActivity[7U] = 1U;
     vlTOPp->__Vm_traceActivity[6U] = 1U;
     vlTOPp->__Vm_traceActivity[5U] = 1U;
@@ -435,7 +438,6 @@ void VMIPI_Reciever::_eval_settle(VMIPI_Reciever__Syms* __restrict vlSymsp) {
     VMIPI_Reciever* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->_settle__TOP__3(vlSymsp);
-    vlTOPp->__Vm_traceActivity[8U] = 1U;
     vlTOPp->__Vm_traceActivity[7U] = 1U;
     vlTOPp->__Vm_traceActivity[6U] = 1U;
     vlTOPp->__Vm_traceActivity[5U] = 1U;
@@ -466,8 +468,9 @@ void VMIPI_Reciever::_ctor_var_reset() {
     debug1 = VL_RAND_RESET_I(1);
     debug2 = VL_RAND_RESET_I(1);
     termination = VL_RAND_RESET_I(1);
-    MIPI_Reciever__DOT__termination_r = VL_RAND_RESET_I(1);
-    MIPI_Reciever__DOT__stop_clk = VL_RAND_RESET_I(1);
+    rec_data_o = VL_RAND_RESET_I(1);
+    cX = VL_RAND_RESET_I(32);
+    cY = VL_RAND_RESET_I(32);
     MIPI_Reciever__DOT__rec_data = VL_RAND_RESET_I(1);
     MIPI_Reciever__DOT__lane0byte = VL_RAND_RESET_I(8);
     MIPI_Reciever__DOT__lane1byte = VL_RAND_RESET_I(8);
@@ -476,10 +479,12 @@ void VMIPI_Reciever::_ctor_var_reset() {
     MIPI_Reciever__DOT__sync_mipi_clk_2 = VL_RAND_RESET_I(1);
     MIPI_Reciever__DOT__sync_mipi_clk_4 = VL_RAND_RESET_I(1);
     MIPI_Reciever__DOT__sync_mipi_clk_8 = VL_RAND_RESET_I(1);
-    MIPI_Reciever__DOT__data = VL_RAND_RESET_I(32);
     MIPI_Reciever__DOT__RxFSM__DOT__stop_tran = VL_RAND_RESET_I(1);
-    MIPI_Reciever__DOT__RxFSM__DOT__debug1 = VL_RAND_RESET_I(1);
     MIPI_Reciever__DOT__RxFSM__DOT__state_mipi = VL_RAND_RESET_I(8);
+    MIPI_Reciever__DOT__RxFSM__DOT__stop_rx_r = VL_RAND_RESET_I(1);
+    MIPI_Reciever__DOT__RxFSM__DOT__term_r = VL_RAND_RESET_I(1);
+    MIPI_Reciever__DOT__RxFSM__DOT__debug0_r = VL_RAND_RESET_I(1);
+    MIPI_Reciever__DOT__RxFSM__DOT__debug1_r = VL_RAND_RESET_I(1);
     MIPI_Reciever__DOT__RxFSM__DOT__timer_tou = VL_RAND_RESET_I(32);
     MIPI_Reciever__DOT__RxFSM__DOT__timer_term = VL_RAND_RESET_I(32);
     MIPI_Reciever__DOT__RxFSM__DOT__timer_hs = VL_RAND_RESET_I(32);
@@ -524,6 +529,7 @@ void VMIPI_Reciever::_ctor_var_reset() {
     MIPI_Reciever__DOT__DE__DOT__data_r = VL_RAND_RESET_I(32);
     MIPI_Reciever__DOT__DE__DOT__type_o_r = VL_RAND_RESET_I(6);
     MIPI_Reciever__DOT__DE__DOT__wordcount_r = VL_RAND_RESET_I(16);
+    MIPI_Reciever__DOT__Prot__DOT__debug = VL_RAND_RESET_I(1);
     MIPI_Reciever__DOT__Prot__DOT__rec_data_r = VL_RAND_RESET_I(1);
     MIPI_Reciever__DOT__Prot__DOT__state = VL_RAND_RESET_I(1);
     MIPI_Reciever__DOT__Prot__DOT__valid_old = VL_RAND_RESET_I(1);
@@ -531,17 +537,21 @@ void VMIPI_Reciever::_ctor_var_reset() {
     MIPI_Reciever__DOT__Prot__DOT__count_val = VL_RAND_RESET_I(32);
     MIPI_Reciever__DOT__Prot__DOT__data_o_r = VL_RAND_RESET_I(32);
     MIPI_Reciever__DOT__Prot__DOT__counter_addr = VL_RAND_RESET_I(32);
+    MIPI_Reciever__DOT__Prot__DOT__cX_r = VL_RAND_RESET_I(32);
+    MIPI_Reciever__DOT__Prot__DOT__cY_r = VL_RAND_RESET_I(32);
     __Vdly__MIPI_Reciever__DOT__RxFSM__DOT__state_mipi = VL_RAND_RESET_I(8);
     __Vdly__MIPI_Reciever__DOT__RxFSM__DOT__timer_tou = VL_RAND_RESET_I(32);
     __Vdly__MIPI_Reciever__DOT__RxFSM__DOT__timer_term = VL_RAND_RESET_I(32);
     __Vdly__MIPI_Reciever__DOT__RxFSM__DOT__timer_hs = VL_RAND_RESET_I(32);
     __Vdly__MIPI_Reciever__DOT__BAL0__DOT__byte_o_r = VL_RAND_RESET_I(8);
     __Vdly__MIPI_Reciever__DOT__BAL1__DOT__byte_o_r = VL_RAND_RESET_I(8);
+    __Vdly__MIPI_Reciever__DOT__DE__DOT__out_r = VL_RAND_RESET_I(32);
     __Vdly__MIPI_Reciever__DOT__DE__DOT__valid_r = VL_RAND_RESET_I(1);
+    __Vdly__MIPI_Reciever__DOT__DE__DOT__counter = VL_RAND_RESET_I(8);
     __Vdly__MIPI_Reciever__DOT__DE__DOT__type_o_r = VL_RAND_RESET_I(6);
     __Vdly__MIPI_Reciever__DOT__DE__DOT__wordcount_r = VL_RAND_RESET_I(16);
-    __Vchglast__TOP__MIPI_Reciever__DOT__stop_clk = VL_RAND_RESET_I(1);
-    { int __Vi0=0; for (; __Vi0<9; ++__Vi0) {
+    __Vchglast__TOP__MIPI_Reciever__DOT__RxFSM__DOT__stop_rx_r = VL_RAND_RESET_I(1);
+    { int __Vi0=0; for (; __Vi0<8; ++__Vi0) {
             __Vm_traceActivity[__Vi0] = VL_RAND_RESET_I(1);
     }}
 }

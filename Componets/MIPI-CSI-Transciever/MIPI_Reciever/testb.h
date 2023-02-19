@@ -82,7 +82,7 @@ public:
 		// logic depends.  This forces that logic to be recalculated
 		// before the top of the clock.
 		eval();
-		m_core->sys_clk = (((m_tickcount-1)%2)<1) ? 1 : 0;
+		m_core->sys_clk = (((m_tickcount-1)%16)<8) ? 1 : 0;
 		//m_core->mipi_clk_2= (((m_tickcount-1)%4)<2) ? 1 : 0;
 		//m_core->mipi_clk_4= (((m_tickcount-1)%8)<4) ? 1 : 0;
 		m_core->mipi_clk= (((m_tickcount-1)%2)<1) ? 1 : 0;
