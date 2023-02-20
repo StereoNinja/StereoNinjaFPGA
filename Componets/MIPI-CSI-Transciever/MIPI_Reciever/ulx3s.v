@@ -40,45 +40,17 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,inp
 	end*/
 	wire[31:0] ramdata;	
 	assign addr_write=cX+cY;
-	//RawRam RR(.clk_write(ram_clk),.read_clk(pixclk),.reset(reset),.datain(data),.adress_write(data_adress[16:0]),.adress_read(10),.red(red),.green(green),.blue(blue));
 	dpram_dualclock DPR(.data_a(data),.addr_a(data_adress),.addr_b(read_addr[18:2]),
 	.we_a(rec_data),.we_b(0),.clk(ram_clk),.clk_b(pixclk),.data_out(ramdata));
 
-	always @(posedge clk100Mhz) begin
-		//red<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
-		/*if((read_addr/640)%2==0)begin//gerade Zeile
-			if((read_addr%640)%2==0)begin
-				red<=0;
-				green<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
-				blue<=0;	
-			end else begin
-				red<=0;
-				green<=0;
-				blue<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);	
-			end
-		end  else begin//ungerade Zeile
-			if((read_addr%640)%2==0)begin
-				red<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
-				green<=0;
-				blue<=0;	
-			end else begin
-				red<=0;
-				green<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
-				blue<=0;	
-			end
-		end*/
+	always @(posedge clk100Mhz) begin		
 		red<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
 		green<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
 		blue<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
-	end
+	end	
 	
-	//assign red=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
-	//assign blue=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
-	
-	
-	//assign blue=read_addr<153600?255:0;
 	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(red),.green(green),.blue(blue),.addr(read_addr),.TMDSd(TMDSd));
-	//assign read_addr=(640*(cY-1))+cX;
+
 endmodule
 
 module clock
@@ -321,54 +293,6 @@ module dpram_dualclock
 
 endmodule
 
-module RawRam(input clk_write,read_clk,reset,input[31:0] datain,input[16:0]adress_write,input[18:0]adress_read,output[7:0] red,green,blue);
-
-	reg[7:0] red_r,green_r,blue_r;
-	reg[31:0] ram[16:0];
-	wire[7:0] data_read_w;
-	
-	assign red=red_r;
-	assign green=green_r;
-	assign blue=blue_r;
-	//Port A
-	always @(posedge clk_write) begin
-		if(reset)begin
-			//ram<=0;
-		end else begin
-			ram[adress_write]<=datain;
-		end		
-	end
-	//PORT B
-	always @(posedge read_clk) begin
-		if(reset)begin
-			// else begin
-			//red_r<=(adress_read[1])?(adress_read[0]?ram[adress_read[18:2]][31:24]:ram[adress_read[18:2]][23:16]):(adress_read[0]?ram[adress_read[18:2]][15:8]:ram[adress_read[18:2]][7:0]);
-			//green_r<=(adress_read[1red])?(adress_read[0]?ram[adress_read[18:2]][31:24]:ram[adress_read[18:2]][23:16]):(adress_read[0]?ram[adress_read[18:2]][15:8]:ram[adress_read[18:2]][7:0]);
-			//blue_r<=(adress_read[1])?(adress_read[0]?ram[adress_read[18:2]][31:24]:ram[adress_read[18:2]][23:16]):(adress_read[0]?ram[adress_read[18:2]][15:8]:ram[adress_read[18:2]][7:0]);
-
-			//red<=255;
-			//green<=0;
-			//blue<=0;
-
-			red_r<=ram[adress_read[16:0]][7:0];
-			green<=0;
-			blue<=0;
-
-		end		
-	end
-
-
-endmodule
 
 
 
-module OBUFDS(
-		input I, // input
-		output O, // positive output
-		output OB // negative output
-		);
-
-	assign O = I;
-	assign OB = ~I;
-
-endmodule

@@ -120,7 +120,7 @@ module Byte_Alligner(input reset,stop,mipi_clk_2,sync,even,input[7:0] byte_e,inp
 		end else begin			
 			if(sync)begin
 				counter<=counter+1;
-				byte_o_r<=(counter[0]==1)?byte_o_eu:byte_o_r;///////////////////////change to ==0 for real worls!!!!!!!!!!!!!!!!!!!!!!!!
+				byte_o_r<=(counter[0]==0)?byte_o_eu:byte_o_r;///////////////////////change to ==0 for real worls!!!!!!!!!!!!!!!!!!!!!!!!
 				//byte_o_r<=byte_o_eu;
 				
 			end
@@ -326,7 +326,7 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 				0:begin
 					if((valid==1&&valid_old==0)&&type_i=='h2a&&wordcount=='h0280)begin
 						state<=1;
-						count_val<=160-2;
+						count_val<=160;
 						cY_r<=cY_r+640;
 						cX_r<=0;						
 					end					
@@ -363,9 +363,21 @@ endmodule
 
 
 
-
+/*
 module ECLKSYNCB (input ECLKI,STOP,output ECLKO);
-		assign ECLKO=STOP?0:ECLKI;
+		
+		reg eclki_r0,eclki_r1,eclki_r2;
+		always @(posedge ECLKI or negedge ECLKI) begin
+			eclki_r1<=eclki_r0;
+			eclki_r2<=eclki_r1;
+			if(STOP==0)begin			
+			eclki_r0<=ECLKI;
+			end else begin
+				eclki_r0<=0;
+			end
+		end
+		assign ECLKO=eclki_r2;
+
 endmodule
 
 module CLKDIVF(input CLKI,RST,output CDIVX);

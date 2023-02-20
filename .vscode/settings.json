@@ -35,6 +35,16 @@
         "streambuf": "cpp",
         "system_error": "cpp",
         "tuple": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "cstdarg": "cpp",
+        "cstddef": "cpp",
+        "atomic": "cpp",
+        "deque": "cpp",
+        "algorithm": "cpp",
+        "iterator": "cpp",
+        "memory": "cpp",
+        "memory_resource": "cpp",
+        "random": "cpp",
+        "cinttypes": "cpp"
     }
 }

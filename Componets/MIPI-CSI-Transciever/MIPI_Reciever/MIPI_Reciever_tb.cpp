@@ -11,7 +11,7 @@
 #include "testb.h"
 #include <bitset>
 #include"BigInt.hpp"
-
+std::string hex_to_bits(const std::string& hex_string);
 uint32_t shortpackage(int a,int b,int c);
 const unsigned char BitReverseTable256[] =
 {
@@ -44,7 +44,39 @@ int	main(int argc, char **argv) {
 	uint32_t data=(shortpackage(0x37,0x01,0x00));
 	uint64_t lane0reg=(shortpackage(0x37,0x01,0x00));
 	uint64_t lane1reg=shortpackage(0xF0,0x3f,0x00);
-	for (int i=0; i < 10000; i++) {
+
+
+
+	//std::string a_string="100010000100100000111000001010000001100000001000000100010101010111000";
+	//std::string b_string="100100001000000001000000001100000010000000010000011101000000010111000";
+
+	std::string a_string=hex_to_bits("312927252321191715131109070503013129272523211917151311090705030131292725232119171513110907050301022ab8");
+	std::string b_string=hex_to_bits("3230282624222018161412100806040232302826242220181614121008060402323028262422201816141210080604020E80b8");
+			bool* a =new bool[1000000];
+			for (size_t i = 0; i < a_string.length()-1; i++)
+			{				
+					a[i]=a_string[a_string.length()-i-1]-'0';
+			}
+			bool* b =new bool[1000000];
+			for (size_t i = 0; i < a_string.length()-1; i++)
+			{					
+					b[i]=b_string[b_string.length()-i-1]-'0';					
+			}
+
+	std::string a_string1=hex_to_bits("00000100b8");
+	std::string b_string1=hex_to_bits("00002B01b8");
+			bool* a1 =new bool[1000000];
+			for (size_t i = 0; i < a_string1.length()-1; i++)
+			{				
+					a1[i]=a_string1[a_string1.length()-i-1]-'0';
+			}
+			bool* b1 =new bool[1000000];
+			for (size_t i = 0; i < a_string1.length()-1; i++)
+			{					
+					b1[i]=b_string1[b_string1.length()-i-1]-'0';					
+			}
+
+	for (int i=0; i < 100000; i++) {
 		//tb->m_core->lane0=((lane0reg)&(1<<i))/(pow(2,i));
 		//tb->m_core->lane1=((lane1reg)&(1<<i))/(pow(2,i));
 		if(i==0){
@@ -67,19 +99,118 @@ int	main(int argc, char **argv) {
 			tb->m_core->lane1_n=0;
 		}
 		if(i>=200)
-		{	
-			std::bitset<1000000000> *b;
-			b = (std::bitset<1000000000> *)malloc(sizeof(std::bitset<1000000000>));
-			b->;
-
-
-
+		{
+			
+			
+			//a=0x110907050301022ab8;
 			//BigInt a=0x110907050301022ab8;
 			//BigInt b=0x1210080604020E80b8;
 			//tb->m_core->lane0_d=1&(0x110907050301022ab8>>(i-50));
-			tb->m_core->lane0_d=a[i-50];
-			tb->m_core->lane1_d=b[i-50];			
-			//tb->m_core->lane1_d=1&(0x1210080604020E80b8>>(i-50));
+			tb->m_core->lane0_d=a[i-200];
+			tb->m_core->lane1_d=b[i-200];
+			//tb->m_core->lane1_d=a[i-200];			
+			//tb->m_core->lane1_d=1&(0x1210080604020E80b8>>(i-200));
+
+		}
+		if(i==5000){
+			tb->m_core->lane0_p=1;
+			tb->m_core->lane0_n=1;
+			tb->m_core->lane1_p=1;
+			tb->m_core->lane1_n=1;
+		}
+		if(i==5010){
+			tb->m_core->lane0_p=0;
+			tb->m_core->lane0_n=1;
+			tb->m_core->lane1_p=0;
+			tb->m_core->lane1_n=1;
+		}
+		if(i==5080)
+		{
+			tb->m_core->lane0_p=0;
+			tb->m_core->lane0_n=0;
+			tb->m_core->lane1_p=0;
+			tb->m_core->lane1_n=0;
+		}
+		if(i>=5250)
+		{
+			
+			
+			//a=0x110907050301022ab8;
+			//BigInt a=0x110907050301022ab8;
+			//BigInt b=0x1210080604020E80b8;
+			//tb->m_core->lane0_d=1&(0x110907050301022ab8>>(i-50));
+			tb->m_core->lane0_d=a[i-5250];
+			tb->m_core->lane1_d=b[i-5250];
+			//tb->m_core->lane1_d=a[i-200];			
+			//tb->m_core->lane1_d=1&(0x1210080604020E80b8>>(i-200));
+
+		}
+		if(i==10000){
+			tb->m_core->lane0_p=1;
+			tb->m_core->lane0_n=1;
+			tb->m_core->lane1_p=1;
+			tb->m_core->lane1_n=1;
+		}
+		if(i==10010){
+			tb->m_core->lane0_p=0;
+			tb->m_core->lane0_n=1;
+			tb->m_core->lane1_p=0;
+			tb->m_core->lane1_n=1;
+		}
+		if(i==10080)
+		{
+			tb->m_core->lane0_p=0;
+			tb->m_core->lane0_n=0;
+			tb->m_core->lane1_p=0;
+			tb->m_core->lane1_n=0;
+		}
+		if(i>=10250)
+		{
+			
+			
+			//a=0x110907050301022ab8;
+			//BigInt a=0x110907050301022ab8;
+			//BigInt b=0x1210080604020E80b8;
+			//tb->m_core->lane0_d=1&(0x110907050301022ab8>>(i-50));
+			tb->m_core->lane0_d=a1[i-10250];
+			tb->m_core->lane1_d=b1[i-10250];
+			//tb->m_core->lane1_d=a[i-200];			
+			//tb->m_core->lane1_d=1&(0x1210080604020E80b8>>(i-200));
+
+		}
+
+		if(i==15000){
+			tb->m_core->lane0_p=1;
+			tb->m_core->lane0_n=1;
+			tb->m_core->lane1_p=1;
+			tb->m_core->lane1_n=1;
+		}
+		if(i==15010){
+			tb->m_core->lane0_p=0;
+			tb->m_core->lane0_n=1;
+			tb->m_core->lane1_p=0;
+			tb->m_core->lane1_n=1;
+		}
+		if(i==15080)
+		{
+			tb->m_core->lane0_p=0;
+			tb->m_core->lane0_n=0;
+			tb->m_core->lane1_p=0;
+			tb->m_core->lane1_n=0;
+		}
+		if(i>=15250)
+		{
+			
+			
+			//a=0x110907050301022ab8;
+			//BigInt a=0x110907050301022ab8;
+			//BigInt b=0x1210080604020E80b8;
+			//tb->m_core->lane0_d=1&(0x110907050301022ab8>>(i-50));
+			tb->m_core->lane0_d=a[i-15250];
+			tb->m_core->lane1_d=b[i-15250];
+			//tb->m_core->lane1_d=a[i-200];			
+			//tb->m_core->lane1_d=1&(0x1210080604020E80b8>>(i-200));
+
 		}
 		tb->tick();
 	}
@@ -126,4 +257,36 @@ uint32_t shortpackage(int a,int b,int c){
 	ecc|=c<<16;
 
 	return ecc;
+}
+
+std::string hex_to_bits(const std::string& hex_string)
+{
+    const int num_hex_chars = hex_string.length(); // Anzahl der Hexadezimal-Ziffern
+    const int num_bits = num_hex_chars * 4; // Anzahl der Bits im String
+    std::string bit_string(num_bits, '0'); // String mit der berechneten Anzahl von Bits
+
+    // Schleife durch die Hex-Ziffern des Strings
+    for (int i = 0; i < num_hex_chars; i++) {
+        // Konvertierung des aktuellen Hex-Wertes in einen int-Wert
+        int hex_value;
+        char hex_char = hex_string[i];
+        if (hex_char >= '0' && hex_char <= '9') {
+            hex_value = hex_char - '0';
+        } else if (hex_char >= 'A' && hex_char <= 'F') {
+            hex_value = hex_char - 'A' + 10;
+        } else if (hex_char >= 'a' && hex_char <= 'f') {
+            hex_value = hex_char - 'a' + 10;
+        } else {
+            throw std::invalid_argument("Ungültige Hexadezimal-Ziffer: " + std::string(1, hex_char));
+        }
+
+        // Konvertierung des aktuellen Hex-Wertes in ein Bit-Muster
+        for (int j = 0; j < 4; j++) {
+            int bit_pos = i * 4 + j; // Berechnung der Position des Bits im String
+            bit_string[bit_pos] = ((hex_value & (1 << (3 - j))) != 0) ? '1' : '0'; // Setzen des Bits im String
+        }
+    }
+
+    // Rückgabe des Bit-Strings
+    return bit_string;
 }
