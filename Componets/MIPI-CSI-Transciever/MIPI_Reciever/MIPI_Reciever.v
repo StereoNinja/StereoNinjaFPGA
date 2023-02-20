@@ -339,6 +339,42 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 	assign adress_o=counter_addr;
 	assign cX=cX_r;
 	assign cY=cY_r;
+	
+	////////////////////////////////////////////////////////CRC Sum
+	/*0 smaller:________
+	d[21]d[10]c[10]d[28]d[17]d[6]c[6]d[24]d[13]c[13]d[2]c[2]d[20]d[9]c[9]d[16]d[5]c[5]d[12]c[12]d[1]c[1]d[8]c[8]d[4]c[4]d[0]c[0]
+	1 smaller:________
+	d[22]d[11]c[11]d[0]c[0]d[29]d[18]d[7]c[7]d[25]d[14]c[14]d[3]c[3]d[21]d[10]c[10]d[17]d[6]c[6]d[13]c[13]d[2]c[2]d[9]c[9]d[5]c[5]d[1]c[1]
+	2 smaller:________
+	d[23]d[12]c[12]d[1]c[1]d[30]d[19]d[8]c[8]d[26]d[15]c[15]d[4]c[4]d[22]d[11]c[11]d[0]c[0]d[18]d[7]c[7]d[14]c[14]d[3]c[3]d[10]c[10]d[6]c[6]d[2]c[2]
+	3 smaller:________
+	d[24]d[13]c[13]d[2]c[2]d[31]d[20]d[9]c[9]d[27]d[16]d[5]c[5]d[23]d[12]c[12]d[1]c[1]d[19]d[8]c[8]d[15]c[15]d[4]c[4]d[11]c[11]d[0]c[0]d[7]c[7]d[3]c[3]
+	4 smaller:________
+	d[20]d[16]d[12]c[12]d[8]c[8]d[4]c[4]d[0]c[0]d[25]d[14]c[14]d[3]c[3]d[21]d[10]c[10]d[17]d[6]c[6]d[13]c[13]d[2]c[2]d[9]c[9]d[5]c[5]d[1]c[1]
+	5 smaller:________
+	d[21]d[17]d[13]c[13]d[9]c[9]d[5]c[5]d[1]c[1]d[26]d[15]c[15]d[4]c[4]d[22]d[11]c[11]d[0]c[0]d[18]d[7]c[7]d[14]c[14]d[3]c[3]d[10]c[10]d[6]c[6]d[2]c[2]
+	6 smaller:________
+	d[22]d[18]d[14]c[14]d[10]c[10]d[6]c[6]d[2]c[2]d[27]d[16]d[5]c[5]d[23]d[12]c[12]d[1]c[1]d[19]d[8]c[8]d[15]c[15]d[4]c[4]d[11]c[11]d[0]c[0]d[7]c[7]d[3]c[3]
+	7 smaller:________
+	d[23]d[19]d[15]c[15]d[11]c[11]d[7]c[7]d[3]c[3]d[28]d[17]d[6]c[6]d[24]d[13]c[13]d[2]c[2]d[20]d[9]c[9]d[16]d[5]c[5]d[12]c[12]d[1]c[1]d[8]c[8]d[4]c[4]d[0]c[0]
+	8 smaller:________
+	d[24]d[20]d[16]d[12]c[12]d[8]c[8]d[4]c[4]d[0]c[0]d[29]d[18]d[7]c[7]d[25]d[14]c[14]d[3]c[3]d[21]d[10]c[10]d[17]d[6]c[6]d[13]c[13]d[2]c[2]d[9]c[9]d[5]c[5]d[1]c[1]
+	9 smaller:________
+	d[25]d[21]d[17]d[13]c[13]d[9]c[9]d[5]c[5]d[1]c[1]d[30]d[19]d[8]c[8]d[26]d[15]c[15]d[4]c[4]d[22]d[11]c[11]d[0]c[0]d[18]d[7]c[7]d[14]c[14]d[3]c[3]d[10]c[10]d[6]c[6]d[2]c[2]
+	10 smaller:________
+	d[26]d[22]d[18]d[14]c[14]d[10]c[10]d[6]c[6]d[2]c[2]d[31]d[20]d[9]c[9]d[27]d[16]d[5]c[5]d[23]d[12]c[12]d[1]c[1]d[19]d[8]c[8]d[15]c[15]d[4]c[4]d[11]c[11]d[0]c[0]d[7]c[7]d[3]c[3]
+	11 smaller:________
+	d[27]d[16]d[5]c[5]d[23]d[12]c[12]d[1]c[1]d[19]d[8]c[8]d[15]c[15]d[4]c[4]d[11]c[11]d[0]c[0]d[7]c[7]d[3]c[3]
+	12 smaller:________
+	d[28]d[17]d[6]c[6]d[24]d[13]c[13]d[2]c[2]d[20]d[9]c[9]d[16]d[5]c[5]d[12]c[12]d[1]c[1]d[8]c[8]d[4]c[4]d[0]c[0]
+	13 smaller:________
+	d[29]d[18]d[7]c[7]d[25]d[14]c[14]d[3]c[3]d[21]d[10]c[10]d[17]d[6]c[6]d[13]c[13]d[2]c[2]d[9]c[9]d[5]c[5]d[1]c[1]
+	14 smaller:________
+	d[30]d[19]d[8]c[8]d[26]d[15]c[15]d[4]c[4]d[22]d[11]c[11]d[0]c[0]d[18]d[7]c[7]d[14]c[14]d[3]c[3]d[10]c[10]d[6]c[6]d[2]c[2]
+	15 smaller:________
+	d[31]d[20]d[9]c[9]d[27]d[16]d[5]c[5]d[23]d[12]c[12]d[1]c[1]d[19]d[8]c[8]d[15]c[15]d[4]c[4]d[11]c[11]d[0]c[0]d[7]c[7]d[3]c[3]
+	*/	
+	//////////////////////////////////////////////
 	always @(posedge mipi_clk_8) begin
 		if(reset)begin
 			rec_data_r<=0;
@@ -360,7 +396,6 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 						cY_r<=cY_r+640;
 						cX_r<=0;						
 					end					
-					//count_val<=120;
 					if((valid==1&&valid_old==0)&&type_i=='h00)begin
 						counter_addr<=0;								
 						cX_r<=0;
@@ -373,7 +408,7 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 						counter<=counter+1;
 						rec_data_r<=1;						
 						counter_addr<=counter_addr+1;
-						data_o_r<=data;						
+						data_o_r<=data;
 					end else begin
 						rec_data_r<=0;
 						state<=0;
@@ -385,7 +420,6 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 			endcase
 		end
 	end
-
 endmodule
 
 
@@ -436,7 +470,8 @@ module IDDRX1F(input D,input SCLK,input RST,output Q0,output Q1);
 	
 endmodule
 
-module IDDRX2F (input D,ECLK,SCLK,RST,output Q0,Q1,Q2,Q3);
+module IDDRX2F (input D,ECLK,SCLK,RST,output
+ Q0,Q1,Q2,Q3);
 	reg A,B,C,D1;
 	assign Q0=A;
 	assign Q1=B;
