@@ -166,6 +166,36 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in
 	(syndrom==8'h26)||(syndrom==8'h29)||(syndrom==8'h2A)||(syndrom==8'h2C)||(syndrom==8'h31)||(syndrom==8'h32)||
 	(syndrom==8'h34)||(syndrom==8'h38)||(syndrom==8'h1F)||(syndrom==8'h2F)||(syndrom==8'h37)||(syndrom==8'h3B);
 
+	wire[23:0] correction,regheader_correct;
+
+	/*assign correction[0]=syndrom==8'h07?1:0;
+	assign correction[1]=syndrom==8'h0B?1:0;
+	assign correction[2]=syndrom==8'h0D?1:0;
+	assign correction[3]=syndrom==8'h0E?1:0;
+	assign correction[4]=syndrom==8'h13?1:0;
+	assign correction[5]=syndrom==8'h15?1:0;
+	assign correction[4]=syndrom==8'h16?1:0;
+	assign correction[7]=syndrom==8'h19?1:0;
+	assign correction[8]=syndrom==8'h1A?1:0;
+	assign correction[9]=syndrom==8'h1C?1:0;
+	assign correction[10]=syndrom==8'h23?1:0;
+	assign correction[11]=syndrom==8'h25?1:0;
+	assign correction[12]=syndrom==8'h26?1:0;
+	assign correction[13]=syndrom==8'h29?1:0;
+	assign correction[14]=syndrom==8'h2A?1:0;
+	assign correction[15]=syndrom==8'h2C?1:0;
+	assign correction[16]=syndrom==8'h31?1:0;
+	assign correction[17]=syndrom==8'h32?1:0;
+	assign correction[18]=syndrom==8'h34?1:0;
+	assign correction[19]=syndrom==8'h38?1:0;
+	assign correction[20]=syndrom==8'h1F?1:0;
+	assign correction[21]=syndrom==8'h2F?1:0;
+	assign correction[22]=syndrom==8'h37?1:0;
+	assign correction[23]=syndrom==8'h3B?1:0;*/
+	
+	//assign regheader_correct=regheader^ correction;
+
+
 	always @(posedge mipi_clk_4) begin
 		if(reset||stop)begin
 			out_r<=0;	

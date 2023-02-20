@@ -49,7 +49,7 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,inp
 		blue<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
 	end	
 	
-	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(red),.green(green),.blue(blue),.addr(read_addr),.TMDSd(TMDSd));
+	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red({red[5:0],2'b00}),.green({green[5:0],2'b00}),.blue({blue[5:0],2'b00}),.addr(read_addr),.TMDSd(TMDSd));
 
 endmodule
 
