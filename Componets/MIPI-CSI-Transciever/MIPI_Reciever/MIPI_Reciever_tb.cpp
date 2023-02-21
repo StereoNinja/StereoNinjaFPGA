@@ -50,8 +50,11 @@ int	main(int argc, char **argv) {
 	//std::string a_string="100010000100100000111000001010000001100000001000000100010101010111000";
 	//std::string b_string="100100001000000001000000001100000010000000010000011101000000010111000";
 
-	std::string a_string=hex_to_bits("00FF0581C2C8B8BBF3B900FF022ab8");
-	std::string b_string=hex_to_bits("0100DFF87C755AD472DC02000E80b8");
+	//std::string a_string=hex_to_bits("00F000FF0581C2C8B8BBF3B900FF022ab8");
+	//std::string b_string=hex_to_bits("00000100DFF87C755AD472DC02000E80b8");
+	std::string a_string=hex_to_bits("006900FF78D28C82784F1E1E00FF022ab8");
+	std::string b_string=hex_to_bits("00E50100E93C70E0C582C7F000000E80b8");
+	
 			bool* a =new bool[1000000];
 			for (size_t i = 0; i < a_string.length()-1; i++)
 			{				
@@ -63,8 +66,8 @@ int	main(int argc, char **argv) {
 					b[i]=b_string[b_string.length()-i-1]-'0';					
 			}
 
-	std::string a_string1=hex_to_bits("00000100b8");
-	std::string b_string1=hex_to_bits("00002B01b8");
+	std::string a_string1=hex_to_bits("00F000FF0581C2C8B8BBF3B900FF022ab8");
+	std::string b_string1=hex_to_bits("00000100DFF87C755AD472DC02000E80b8");
 			bool* a1 =new bool[1000000];
 			for (size_t i = 0; i < a_string1.length()-1; i++)
 			{				

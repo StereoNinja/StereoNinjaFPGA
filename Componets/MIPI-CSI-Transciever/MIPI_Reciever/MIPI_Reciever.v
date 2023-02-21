@@ -42,7 +42,7 @@ module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_8,lane1_d,ino
 	DATA_Encoder DE (.mipi_clk_4(sync_mipi_clk_4),.reset(reset),.stop(stop_clk),.sync(sync),.byte_in0(byte_o_0),.data(data),.type_o(type_w),.wordcount(wordcount),.byte_in1(byte_o_1),.valid(valid));
 	
 	
-	Protocoll Prot (.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data_o(data_o),.data(data),.rec_data(rec_data),.adress_o(adress_out),.cX(cX),.cY(cY));
+	Protocoll Prot (.debug(debug2),.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data_o(data_o),.data(data),.rec_data(rec_data),.adress_o(adress_out),.cX(cX),.cY(cY));
 	assign rec_data_o=rec_data;
 	assign debug1=rec_data;
 	assign ram_clk=sync_mipi_clk_8;
@@ -120,7 +120,7 @@ module Byte_Alligner(input reset,stop,mipi_clk_2,sync,even,input[7:0] byte_e,inp
 		end else begin			
 			if(sync)begin
 				counter<=counter+1;
-				byte_o_r<=(counter[0]==1)?byte_o_eu:byte_o_r;///////////////////////change to ==0 for real worls!!!!!!!!!!!!!!!!!!!!!!!!
+				byte_o_r<=(counter[0]==0)?byte_o_eu:byte_o_r;///////////////////////change to ==0 for real worls!!!!!!!!!!!!!!!!!!!!!!!!
 				//byte_o_r<=byte_o_eu;
 				
 			end
@@ -339,47 +339,27 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 	assign adress_o=counter_addr;
 	assign cX=cX_r;
 	assign cY=cY_r;
-	reg[15:0] c=0;//crc code
+	reg[15:0] c='hffff;//crc code
 	wire[15:0] c_calk;
 	wire[31:0] d;//recieved data
-	assign d=data_o_r;
+	assign d=data;
 	////////////////////////////////////////////////////////CRC Sum
-	
-
-
-	
-	assign c_calk[0]=d[21]^d[10]^c[10]^d[28]^d[6]^c[6]^d[24]^d[13]^c[13]^d[20]^d[5]^c[5]^d[12]^c[12]^d[4]^c[4]^d[0]^c[0];
-
-	assign c_calk[1]=d[22]^d[11]^c[11]^d[0]^c[0]^d[29]^d[7]^c[7]^d[25]^d[14]^c[14]^d[21]^d[6]^c[6]^d[13]^c[13]^d[5]^c[5]^d[1]^c[1];
-
-	assign c_calk[2]=d[23]^d[12]^c[12]^d[1]^c[1]^d[30]^d[8]^c[8]^d[26]^d[15]^c[15]^d[22]^d[7]^c[7]^d[14]^c[14]^d[6]^c[6]^d[2]^c[2];
-
-	assign c_calk[3]=d[24]^d[13]^c[13]^d[2]^c[2]^d[31]^d[9]^c[9]^d[27]^d[16]^d[23]^d[8]^c[8]^d[15]^c[15]^d[0]^c[0]^d[7]^c[7]^d[3]^c[3];
-
-	assign c_calk[4]=d[20]^d[16]^d[12]^c[12]^d[8]^c[8]^d[0]^c[0]^d[25]^d[14]^c[14]^d[3]^c[3]^d[21]^d[17]^d[6]^c[6]^d[13]^c[13]^d[9]^c[9]^d[5]^c[5]^d[1]^c[1];
-
-	assign c_calk[5]=d[21]^d[17]^d[13]^c[13]^d[9]^c[9]^d[1]^c[1]^d[26]^d[15]^c[15]^d[4]^c[4]^d[22]^d[0]^c[0]^d[18]^d[7]^c[7]^d[14]^c[14]^d[10]^c[10]^d[6]^c[6]^d[2]^c[2];
-
-	assign c_calk[6]=d[22]^d[18]^d[14]^c[14]^d[10]^c[10]^d[2]^c[2]^d[27]^d[16]^d[5]^c[5]^d[23]^d[1]^c[1]^d[19]^d[8]^c[8]^d[15]^c[15]^d[11]^c[11]^d[7]^c[7]^d[3]^c[3];
-
-	assign c_calk[7]=d[23]^d[19]^d[15]^c[15]^d[11]^c[11]^d[3]^c[3]^d[28]^d[17]^d[6]^c[6]^d[24]^d[2]^c[2]^d[20]^d[9]^c[9]^d[16]^d[12]^c[12]^d[8]^c[8]^d[4]^c[4]^d[0]^c[0];
-
-	assign c_calk[8]=d[24]^d[20]^d[16]^d[12]^c[12]^d[4]^c[4]^d[29]^d[18]^d[7]^c[7]^d[25]^d[3]^c[3]^d[21]^d[10]^c[10]^d[17]^d[13]^c[13]^d[9]^c[9]^d[5]^c[5]^d[1]^c[1];
-
-	assign c_calk[9]=d[25]^d[21]^d[17]^d[13]^c[13]^d[5]^c[5]^d[30]^d[19]^d[8]^c[8]^d[26]^d[4]^c[4]^d[22]^d[11]^c[11]^d[18]^d[14]^c[14]^d[10]^c[10]^d[6]^c[6]^d[2]^c[2];
-
-	assign c_calk[10]=d[26]^d[22]^d[18]^d[14]^c[14]^d[6]^c[6]^d[31]^d[20]^d[9]^c[9]^d[27]^d[5]^c[5]^d[23]^d[12]^c[12]^d[19]^d[15]^c[15]^d[11]^c[11]^d[0]^c[0]^d[7]^c[7]^d[3]^c[3];
-
-	assign c_calk[11]=d[27]^d[16]^d[5]^c[5]^d[23]^d[1]^c[1]^d[19]^d[8]^c[8]^d[15]^c[15]^d[0]^c[0]^d[7]^c[7];
-
-	assign c_calk[12]=d[28]^d[17]^d[6]^c[6]^d[24]^d[2]^c[2]^d[20]^d[9]^c[9]^d[16]^d[1]^c[1]^d[8]^c[8]^d[0]^c[0];
-
-	assign c_calk[13]=d[29]^d[18]^d[7]^c[7]^d[25]^d[3]^c[3]^d[21]^d[10]^c[10]^d[17]^d[2]^c[2]^d[9]^c[9]^d[1]^c[1];
-
-	assign c_calk[14]=d[30]^d[19]^d[8]^c[8]^d[26]^d[4]^c[4]^d[22]^d[11]^c[11]^d[18]^d[3]^c[3]^d[10]^c[10]^d[2]^c[2];
-
-	assign c_calk[15]=d[31]^d[20]^d[9]^c[9]^d[27]^d[5]^c[5]^d[23]^d[12]^c[12]^d[19]^d[4]^c[4]^d[11]^c[11]^d[3]^c[3];
-		
+	assign c_calk[0]=d[21]^d[10]^c [10]^d[28]^d[6]^c [6]^d[24]^d[13]^c [13]^d[20]^d[5]^c [5]^d[12]^c [12]^d[4]^c [4]^d[0]^c [0];
+	assign c_calk[1]=d[22]^d[11]^c [11]^d[0]^c [0]^d[29]^d[7]^c [7]^d[25]^d[14]^c [14]^d[21]^d[6]^c [6]^d[13]^c [13]^d[5]^c [5]^d[1]^c [1];
+	assign c_calk[2]=d[23]^d[12]^c [12]^d[1]^c [1]^d[30]^d[8]^c [8]^d[26]^d[15]^c [15]^d[22]^d[7]^c [7]^d[14]^c [14]^d[6]^c [6]^d[2]^c [2];
+	assign c_calk[3]=d[24]^d[13]^c [13]^d[2]^c [2]^d[31]^d[9]^c [9]^d[27]^d[16]^d[23]^d[8]^c [8]^d[15]^c [15]^d[0]^c [0]^d[7]^c [7]^d[3]^c [3];
+	assign c_calk[4]=d[20]^d[16]^d[12]^c [12]^d[8]^c [8]^d[0]^c [0]^d[25]^d[14]^c [14]^d[3]^c [3]^d[21]^d[17]^d[6]^c [6]^d[13]^c [13]^d[9]^c [9]^d[5]^c [5]^d[1]^c [1];
+	assign c_calk[5]=d[21]^d[17]^d[13]^c [13]^d[9]^c [9]^d[1]^c [1]^d[26]^d[15]^c [15]^d[4]^c [4]^d[22]^d[0]^c [0]^d[18]^d[7]^c [7]^d[14]^c [14]^d[10]^c [10]^d[6]^c [6]^d[2]^c [2];
+	assign c_calk[6]=d[22]^d[18]^d[14]^c [14]^d[10]^c [10]^d[2]^c [2]^d[27]^d[16]^d[5]^c [5]^d[23]^d[1]^c [1]^d[19]^d[8]^c [8]^d[15]^c [15]^d[11]^c [11]^d[7]^c [7]^d[3]^c [3];
+	assign c_calk[7]=d[23]^d[19]^d[15]^c [15]^d[11]^c [11]^d[3]^c [3]^d[28]^d[17]^d[6]^c [6]^d[24]^d[2]^c [2]^d[20]^d[9]^c [9]^d[16]^d[12]^c [12]^d[8]^c [8]^d[4]^c [4]^d[0]^c [0];
+	assign c_calk[8]=d[24]^d[20]^d[16]^d[12]^c [12]^d[4]^c [4]^d[29]^d[18]^d[7]^c [7]^d[25]^d[3]^c [3]^d[21]^d[10]^c [10]^d[17]^d[13]^c [13]^d[9]^c [9]^d[5]^c [5]^d[1]^c [1];
+	assign c_calk[9]=d[25]^d[21]^d[17]^d[13]^c [13]^d[5]^c [5]^d[30]^d[19]^d[8]^c [8]^d[26]^d[4]^c [4]^d[22]^d[11]^c [11]^d[18]^d[14]^c [14]^d[10]^c [10]^d[6]^c [6]^d[2]^c [2];
+	assign c_calk[10]=d[26]^d[22]^d[18]^d[14]^c [14]^d[6]^c [6]^d[31]^d[20]^d[9]^c [9]^d[27]^d[5]^c [5]^d[23]^d[12]^c [12]^d[19]^d[15]^c [15]^d[11]^c [11]^d[0]^c [0]^d[7]^c [7]^d[3]^c [3];
+	assign c_calk[11]=d[27]^d[16]^d[5]^c [5]^d[23]^d[1]^c [1]^d[19]^d[8]^c [8]^d[15]^c [15]^d[0]^c [0]^d[7]^c [7];
+	assign c_calk[12]=d[28]^d[17]^d[6]^c [6]^d[24]^d[2]^c [2]^d[20]^d[9]^c [9]^d[16]^d[1]^c [1]^d[8]^c [8]^d[0]^c [0];
+	assign c_calk[13]=d[29]^d[18]^d[7]^c [7]^d[25]^d[3]^c [3]^d[21]^d[10]^c [10]^d[17]^d[2]^c [2]^d[9]^c [9]^d[1]^c [1];
+	assign c_calk[14]=d[30]^d[19]^d[8]^c [8]^d[26]^d[4]^c [4]^d[22]^d[11]^c [11]^d[18]^d[3]^c [3]^d[10]^c [10]^d[2]^c [2];
+	assign c_calk[15]=d[31]^d[20]^d[9]^c [9]^d[27]^d[5]^c [5]^d[23]^d[12]^c [12]^d[19]^d[4]^c [4]^d[11]^c [11]^d[3]^c [3];			
 	//////////////////////////////////////////////
 	always @(posedge mipi_clk_8) begin
 		if(reset)begin
@@ -390,17 +370,20 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 			valid_old<=0;
 			cX_r<=0;
 			cY_r<=0;
+			debug<=0;
 			//counter<=0;
 			//count_val<=0;			
 		end	else begin
 			valid_old<=valid;			
 			case (state)
 				0:begin
+					c<='hffff;	
 					if((valid==1&&valid_old==0)&&type_i=='h2a&&wordcount=='h0280)begin
 						state<=1;
 						count_val<=160;
 						cY_r<=cY_r+640;
-						cX_r<=0;						
+						cX_r<=0;
+						debug<=0;											
 					end					
 					if((valid==1&&valid_old==0)&&type_i=='h00)begin
 						counter_addr<=0;								
@@ -409,6 +392,9 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 					end													
 				end 
 				1:begin
+					if(c==data[15:0])begin
+							debug<=1;
+						end
 					if(counter<count_val)begin
 						cX_r<=cX_r+1;
 						counter<=counter+1;
@@ -416,6 +402,7 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 						counter_addr<=counter_addr+1;
 						data_o_r<=data;
 						c<=c_calk;
+						
 					end else begin
 						rec_data_r<=0;
 						state<=0;
@@ -434,7 +421,7 @@ endmodule
 
 
 
-
+/*
 module ECLKSYNCB (input ECLKI,STOP,output ECLKO);
 		
 		reg eclki_r0,eclki_r1,eclki_r2;
