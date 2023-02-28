@@ -44,7 +44,7 @@ module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_8,lane1_d,ino
 	
 	Protocoll Prot (.debug(debug2),.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data_o(data_o),.data(data),.rec_data(rec_data),.adress_o(adress_out),.cX(cX),.cY(cY));
 	assign rec_data_o=rec_data;
-	assign debug1=rec_data;
+	assign debug1=sync;
 	assign ram_clk=sync_mipi_clk_8;
 endmodule
 
@@ -59,14 +59,16 @@ module IDDR2 (input lane,sync_mipi_clk,sync_mipi_clk_2,input reset,stop,output[3
 	assign even=even_r;
 	assign ov_fl=ov_fl_r1;
 	assign q_o=q_o_r;	
-	//wire one_bit_error_e,one_bit_error_ue;
 	wire[7:0] detect_e,detect_ue;	
-	
 	assign detect_e=syncbyte^8'b10111000;
 	assign detect_ue=((8'b00111111)&syncbyte)^8'b00101110;
-	//assign one_bit_error_e=(detect_e==1)||(detect_e==2)||(detect_e==4)||(detect_e==8)||(detect_e==16)||(detect_e==32)||(detect_e==64)||(detect_e==128);
-	//assign one_bit_error_ue=(detect_ue==1)||(detect_ue==2)||(detect_ue==4)||(detect_ue==8)||(detect_ue==16)||(detect_ue==32)||(detect_ue==64)||(detect_ue==128);
-	IDDRX2F IDDR (.D(lane),.ECLK(sync_mipi_clk),.SCLK(sync_mipi_clk_2),.RST(reset),.Q0(ddr[0]),.Q1(ddr[1]),.Q2(ddr[2]),.Q3(ddr[3]));	
+	wire delay_lane;
+
+	
+	//DELAYG#(.DEL_MODE("ECLK_CENTERED")) delay(.A(lane),.Z(delay_lane));
+	
+
+	IDDRX2F IDDR (.D(lane),.ECLK(sync_mipi_clk),.SCLK(sync_mipi_clk_2),.RST(reset||stop),.Q0(ddr[0]),.Q1(ddr[1]),.Q2(ddr[2]),.Q3(ddr[3]));	
 	always @(posedge sync_mipi_clk_2) begin
 		if(reset||stop)begin
 			sync_r<=0;
@@ -130,7 +132,6 @@ endmodule
 
 
 module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in1,output[31:0]data,output valid,output[5:0] type_o,output[15:0] wordcount);
-
 	reg[31:0] out_r;
 	reg valid_r,start;
 	assign valid=valid_r;	
@@ -160,12 +161,10 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in
 	assign ecc[7]=0;
 	wire syndrom,one_bit_error;
 	assign syndrom=ecc^regheader[31:24];
-
 	assign one_bit_error=(syndrom==8'h07)||(syndrom==8'h0B)||(syndrom==8'h0D)||(syndrom==8'h0E)||(syndrom==8'h13)||(syndrom==8'h15)|
 	(syndrom==8'h16)||(syndrom==8'h19)||(syndrom==8'h1A)||(syndrom==8'h1C)||(syndrom==8'h23)||(syndrom==8'h25)||
 	(syndrom==8'h26)||(syndrom==8'h29)||(syndrom==8'h2A)||(syndrom==8'h2C)||(syndrom==8'h31)||(syndrom==8'h32)||
 	(syndrom==8'h34)||(syndrom==8'h38)||(syndrom==8'h1F)||(syndrom==8'h2F)||(syndrom==8'h37)||(syndrom==8'h3B);
-
 	wire[23:0] correction,regheader_correct;
 
 	/*assign correction[0]=syndrom==8'h07?1:0;
