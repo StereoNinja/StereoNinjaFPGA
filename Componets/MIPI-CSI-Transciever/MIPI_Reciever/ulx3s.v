@@ -43,13 +43,13 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,inp
 	dpram_dualclock DPR(.data_a(data),.addr_a(data_adress),.addr_b(read_addr[18:2]),
 	.we_a(rec_data),.we_b(0),.clk(ram_clk),.clk_b(pixclk),.data_out(ramdata));
 
-	always @(posedge clk100Mhz) begin		
+	always @(posedge pixclk) begin		
 		red<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
 		green<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
 		blue<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
 	end	
 	
-	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(red[7:0]),.green(green[7:0]),.blue(blue[7:0]),.addr(read_addr),.TMDSd(TMDSd));
+	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(4*red[7:0]),.green(4*red[7:0]),.blue(4*red[7:0]),.addr(read_addr),.TMDSd(TMDSd));
 
 endmodule
 
@@ -292,7 +292,3 @@ module dpram_dualclock
 	//assign blue=ram_r[23:16];
 
 endmodule
-
-
-
-

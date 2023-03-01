@@ -31,9 +31,11 @@ module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_8,lane1_d,ino
 	Byte_Arrange BA0 (.reset(reset),.stop(stop_clk),.mipi_clk_2(sync_mipi_clk_2),.q_o(q_o_0),.ov_fl(ov_fl_0),.byte_e(byte_e_0),.byte_ue(byte_ue_0));
 	Byte_Arrange BA1 (.reset(reset),.stop(stop_clk),.mipi_clk_2(sync_mipi_clk_2),.q_o(q_o_1),.ov_fl(ov_fl_1),.byte_e(byte_e_1),.byte_ue(byte_ue_1));
 	
+	
 	wire[7:0] byte_o_0,byte_o_1;
 	Byte_Alligner BAL0(.reset(reset),.stop(stop_clk),.mipi_clk_2(sync_mipi_clk_2),.sync(sync),.even(even),.byte_e(byte_e_0),.byte_ue(byte_ue_0),.byte_o(byte_o_0));
-	Byte_Alligner BAL1(.reset(reset),.stop(stop_clk),.mipi_clk_2(sync_mipi_clk_2),.sync(sync),.even(even),.byte_e(byte_e_1),.byte_ue(byte_ue_1),.byte_o(byte_o_1));
+	Byte_Alligner BAL1(.reset(reset),.stop(stop_clk),.mipi_clk_2(sync_mipi_clk_2),.sync(sync),.even(even),.byte_e(byte_e_1),.byte_ue(byte_ue_1),.byte_o(byte_o_1));	
+	
 
 	wire [31:0] data;
 	wire valid;
@@ -44,7 +46,7 @@ module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_8,lane1_d,ino
 	
 	Protocoll Prot (.debug(debug2),.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data_o(data_o),.data(data),.rec_data(rec_data),.adress_o(adress_out),.cX(cX),.cY(cY));
 	assign rec_data_o=rec_data;
-	assign debug1=sync;
+	assign debug1=rec_data;
 	assign ram_clk=sync_mipi_clk_8;
 endmodule
 
@@ -123,8 +125,7 @@ module Byte_Alligner(input reset,stop,mipi_clk_2,sync,even,input[7:0] byte_e,inp
 			if(sync)begin
 				counter<=counter+1;
 				byte_o_r<=(counter[0]==0)?byte_o_eu:byte_o_r;///////////////////////change to ==0 for real worls!!!!!!!!!!!!!!!!!!!!!!!!
-				//byte_o_r<=byte_o_eu;
-				
+				//byte_o_r<=byte_o_eu;				
 			end
 		end
 	end
@@ -224,6 +225,7 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in
 		end
 	end
 endmodule
+
 
 module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,stop_tran,output stop_rx,term,debug0,debug1);
 	///////////////////States for long and short Packet Recieve
@@ -434,9 +436,7 @@ module ECLKSYNCB (input ECLKI,STOP,output ECLKO);
 			end
 		end
 		assign ECLKO=eclki_r2;
-
 endmodule
-
 module CLKDIVF(input CLKI,RST,output CDIVX);
 	reg[7:0] counter;
 	assign CDIVX=counter[0];
@@ -447,9 +447,7 @@ module CLKDIVF(input CLKI,RST,output CDIVX);
 			counter<=counter+1;
 		end
 	end
-
 endmodule
-
 module IDDRX1F(input D,input SCLK,input RST,output Q0,output Q1);
 	reg Q0_r,Q1_r;
 	always @(posedge SCLK) begin
@@ -462,7 +460,6 @@ module IDDRX1F(input D,input SCLK,input RST,output Q0,output Q1);
 	assign Q0=Q0_r;
 	
 endmodule
-
 module IDDRX2F (input D,ECLK,SCLK,RST,output
  Q0,Q1,Q2,Q3);
 	reg A,B,C,D1;
@@ -470,7 +467,6 @@ module IDDRX2F (input D,ECLK,SCLK,RST,output
 	assign Q1=B;
 	assign Q2=C;
 	assign Q3=D1;
-
 	always @(posedge ECLK ) begin
 		
 		if(SCLK==0)begin
@@ -489,5 +485,4 @@ module IDDRX2F (input D,ECLK,SCLK,RST,output
 		end
 	end
 	
-
 endmodule
