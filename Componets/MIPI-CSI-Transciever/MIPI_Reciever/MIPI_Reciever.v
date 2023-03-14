@@ -1,4 +1,4 @@
-module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_8,lane1_d,inout lane0_p,lane0_n,lane1_p,lane1_n,output[31:0] data_o,output[31:0] adress_out,output ram_clk,output reg debug0,debug1,debug2,output termination,rec_data_o,output[31:0] cX,cY);
+module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_8,lane1_d,inout lane0_p,lane0_n,lane1_p,lane1_n,output[31:0] data_o,output[31:0] adress_out,output ram_clk,output reg debug0,debug1,debug3,debug2,output termination,rec_data_o,output[31:0] cX,cY);
     
 	wire stop_clk, rec_data;
 	wire[7:0] lane0byte,lane1byte;	 	
@@ -44,7 +44,7 @@ module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_8,lane1_d,ino
 	DATA_Encoder DE (.mipi_clk_4(sync_mipi_clk_4),.reset(reset),.stop(stop_clk),.sync(sync),.byte_in0(byte_o_0),.data(data),.type_o(type_w),.wordcount(wordcount),.byte_in1(byte_o_1),.valid(valid));
 	
 	
-	Protocoll Prot (.debug(debug2),.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data_o(data_o),.data(data),.rec_data(rec_data),.adress_o(adress_out),.cX(cX),.cY(cY));
+	Protocoll Prot (.debug(debug2),.debug1(debug3),.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data_o(data_o),.data(data),.rec_data(rec_data),.adress_o(adress_out),.cX(cX),.cY(cY));
 	assign rec_data_o=rec_data;
 	assign debug1=rec_data;
 	assign ram_clk=sync_mipi_clk_8;
@@ -160,40 +160,38 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in
 		regheader[21]^regheader[22]^regheader[23];	
 	assign ecc[6]=0;
 	assign ecc[7]=0;
-	wire syndrom,one_bit_error;
+	wire[7:0] syndrom;
 	assign syndrom=ecc^regheader[31:24];
-	assign one_bit_error=(syndrom==8'h07)||(syndrom==8'h0B)||(syndrom==8'h0D)||(syndrom==8'h0E)||(syndrom==8'h13)||(syndrom==8'h15)|
-	(syndrom==8'h16)||(syndrom==8'h19)||(syndrom==8'h1A)||(syndrom==8'h1C)||(syndrom==8'h23)||(syndrom==8'h25)||
-	(syndrom==8'h26)||(syndrom==8'h29)||(syndrom==8'h2A)||(syndrom==8'h2C)||(syndrom==8'h31)||(syndrom==8'h32)||
-	(syndrom==8'h34)||(syndrom==8'h38)||(syndrom==8'h1F)||(syndrom==8'h2F)||(syndrom==8'h37)||(syndrom==8'h3B);
-	wire[23:0] correction,regheader_correct;
-
-	/*assign correction[0]=syndrom==8'h07?1:0;
-	assign correction[1]=syndrom==8'h0B?1:0;
-	assign correction[2]=syndrom==8'h0D?1:0;
-	assign correction[3]=syndrom==8'h0E?1:0;
-	assign correction[4]=syndrom==8'h13?1:0;
-	assign correction[5]=syndrom==8'h15?1:0;
-	assign correction[4]=syndrom==8'h16?1:0;
-	assign correction[7]=syndrom==8'h19?1:0;
-	assign correction[8]=syndrom==8'h1A?1:0;
-	assign correction[9]=syndrom==8'h1C?1:0;
-	assign correction[10]=syndrom==8'h23?1:0;
-	assign correction[11]=syndrom==8'h25?1:0;
-	assign correction[12]=syndrom==8'h26?1:0;
-	assign correction[13]=syndrom==8'h29?1:0;
-	assign correction[14]=syndrom==8'h2A?1:0;
-	assign correction[15]=syndrom==8'h2C?1:0;
-	assign correction[16]=syndrom==8'h31?1:0;
-	assign correction[17]=syndrom==8'h32?1:0;
-	assign correction[18]=syndrom==8'h34?1:0;
-	assign correction[19]=syndrom==8'h38?1:0;
-	assign correction[20]=syndrom==8'h1F?1:0;
-	assign correction[21]=syndrom==8'h2F?1:0;
-	assign correction[22]=syndrom==8'h37?1:0;
-	assign correction[23]=syndrom==8'h3B?1:0;*/
 	
-	//assign regheader_correct=regheader^ correction;
+	wire[23:0] correction;
+	wire[31:0] regheader_correct;
+
+	assign correction[0]=syndrom==8'h07;
+	assign correction[1]=syndrom==8'h0B;
+	assign correction[2]=syndrom==8'h0D;
+	assign correction[3]=syndrom==8'h0E;
+	assign correction[4]=syndrom==8'h13;
+	assign correction[5]=syndrom==8'h15;
+	assign correction[4]=syndrom==8'h16;
+	assign correction[7]=syndrom==8'h19;
+	assign correction[8]=syndrom==8'h1A;
+	assign correction[9]=syndrom==8'h1C;
+	assign correction[10]=syndrom==8'h23;
+	assign correction[11]=syndrom==8'h25;
+	assign correction[12]=syndrom==8'h26;
+	assign correction[13]=syndrom==8'h29;
+	assign correction[14]=syndrom==8'h2A;
+	assign correction[15]=syndrom==8'h2C;
+	assign correction[16]=syndrom==8'h31;
+	assign correction[17]=syndrom==8'h32;
+	assign correction[18]=syndrom==8'h34;
+	assign correction[19]=syndrom==8'h38;
+	assign correction[20]=syndrom==8'h1F;
+	assign correction[21]=syndrom==8'h2F;
+	assign correction[22]=syndrom==8'h37;
+	assign correction[23]=syndrom==8'h3B;
+	
+	assign regheader_correct=regheader^ {8'h00,correction};
 
 
 	always @(posedge mipi_clk_4) begin
@@ -208,10 +206,10 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in
 		end else begin			
 			if(sync)begin
 				out_r<={byte_in1,byte_in0,out_r[31:16]};
-				valid_r<=(ecc==out_r[31:24]&&out_r!=0)?1:valid_r;
-				start=(ecc==out_r[31:24]&&out_r!=0)?1:start;
-				type_o_r<=(ecc==out_r[31:24]&&out_r!=0)?out_r[5:0]:type_o_r;
-				wordcount_r<=(ecc==out_r[31:24]&&out_r!=0)?out_r[23:8]:wordcount_r;
+				valid_r<=(ecc==regheader_correct[31:24]&&regheader_correct!=0)?1:valid_r;
+				start=(ecc==regheader_correct[31:24]&&regheader_correct!=0)?1:start;
+				type_o_r<=(ecc==regheader_correct[31:24]&&regheader_correct!=0)?regheader_correct[5:0]:type_o_r;
+				wordcount_r<=(ecc==regheader_correct[31:24]&&regheader_correct!=0)?regheader_correct[23:8]:wordcount_r;				
 				if(start)begin
 					counter<=counter+1;
 					if(counter>1)begin
@@ -220,7 +218,10 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in
 					end else begin
 						counter<=counter+1;
 					end
-				end						
+
+
+				end	
+
 			end
 		end
 	end
@@ -240,7 +241,7 @@ module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,sto
 	localparam integer Tlpx=2;
 	localparam integer Timeout=20;
 	localparam integer Tdterm=2;
-	localparam integer Thssettle=4;
+	localparam integer Thssettle=5;
 	///////////////////
 	reg[7:0] state_mipi=TIMEOUT;	
 	reg stop_rx_r,term_r,debug0_r,debug1_r;
@@ -332,7 +333,7 @@ module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,sto
 	end
 endmodule
 
-module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0] wordcount,input[31:0] data,output[31:0] data_o,output[31:0]adress_o,output rec_data,output reg debug,output[31:0] cX,cY);
+module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0] wordcount,input[31:0] data,output[31:0] data_o,output[31:0]adress_o,output rec_data,output reg debug,output reg debug1,output[31:0] cX,cY);
 	reg rec_data_r,state,valid_old;
 	reg[31:0] counter,count_val,data_o_r,counter_addr,cX_r,cY_r;
 	assign data_o=data_o_r;
@@ -346,7 +347,7 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 	assign d=data;
 	////////////////////////////////////////////////////////CRC Sum
 	assign c_calk[0]=d[21]^d[10]^c [10]^d[28]^d[6]^c [6]^d[24]^d[13]^c [13]^d[20]^d[5]^c [5]^d[12]^c [12]^d[4]^c [4]^d[0]^c [0];
-	assign c_calk[1]=d[22]^d[11]^c [11]^d[0]^c [0]^d[29]^d[7]^c [7]^d[25]^d[14]^c [14]^d[21]^d[6]^c [6]^d[13]^c [13]^d[5]^c [5]^d[1]^c [1];
+	assign c_calk[1]=d[22]^d[11]^c [11]^d[0]^c [0]^d[29]^d[7]^c [7]^d[25]^d[14]^c[14]^d[21]^d[6]^c [6]^d[13]^c [13]^d[5]^c [5]^d[1]^c [1];
 	assign c_calk[2]=d[23]^d[12]^c [12]^d[1]^c [1]^d[30]^d[8]^c [8]^d[26]^d[15]^c [15]^d[22]^d[7]^c [7]^d[14]^c [14]^d[6]^c [6]^d[2]^c [2];
 	assign c_calk[3]=d[24]^d[13]^c [13]^d[2]^c [2]^d[31]^d[9]^c [9]^d[27]^d[16]^d[23]^d[8]^c [8]^d[15]^c [15]^d[0]^c [0]^d[7]^c [7]^d[3]^c [3];
 	assign c_calk[4]=d[20]^d[16]^d[12]^c [12]^d[8]^c [8]^d[0]^c [0]^d[25]^d[14]^c [14]^d[3]^c [3]^d[21]^d[17]^d[6]^c [6]^d[13]^c [13]^d[9]^c [9]^d[5]^c [5]^d[1]^c [1];
@@ -379,35 +380,38 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 			case (state)
 				0:begin
 					c<='hffff;	
+					if(((valid==1&&valid_old==0)&&(type_i=='h00||type_i=='h01))||(valid==1&&valid_old==0)&&counter_addr>76799)begin
+						counter_addr<=0;								
+						cX_r<=0;
+						cY_r<=0;	
+						debug<=1;					
+					end		
 					if((valid==1&&valid_old==0)&&type_i=='h2a&&wordcount=='h0280)begin
 						state<=1;
 						count_val<=160;
 						cY_r<=cY_r+640;
 						cX_r<=0;
-						debug<=0;											
+						debug<=0;
+						debug1<=0;											
 					end					
-					if((valid==1&&valid_old==0)&&type_i=='h00)begin
-						counter_addr<=0;								
-						cX_r<=0;
-						cY_r<=0;						
-					end													
+														
 				end 
 				1:begin
-					if(c==data[15:0])begin
-							debug<=1;
-						end
+						
 					if(counter<count_val)begin
 						cX_r<=cX_r+1;
 						counter<=counter+1;
 						rec_data_r<=1;						
 						counter_addr<=counter_addr+1;
 						data_o_r<=data;
-						c<=c_calk;
-						
+						c<=c_calk;						
 					end else begin
 						rec_data_r<=0;
 						state<=0;
 						counter<=0;
+						if(c==data[15:0])begin
+							debug1<=1;
+						end							
 					end
 				end
 				default:begin					
@@ -421,8 +425,8 @@ endmodule
 
 
 
-
 /*
+
 module ECLKSYNCB (input ECLKI,STOP,output ECLKO);
 		
 		reg eclki_r0,eclki_r1,eclki_r2;

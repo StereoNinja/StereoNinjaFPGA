@@ -1,87 +1,60 @@
-0x0100
-010301
-303511
-303646
-303c11
-382107
-382041
-370c03
-361259
-361800
-500006
-500308
-5a0008
-3000ff
-3001ff
-3002ff
-301df0
-3a1800
-3a19f8
-3c0180
-3b070c
-380c07
-380d3c
-381435
-381535
-370864
-370952
-380802
-380980
-380a01
-380be0
-380000
-380110
-380200
-380300
-38040a
-38052f
-380607
-38079f
-36302e
-3632e2
-363323
-363444
-362064
-3621e0
-360037
-3704a0
-37035a
-371578
-371701
-373102
-370b60
-37051a
-3f0502
-3f0610
-3f010a
-3a0801
-3a092e
-3a0a00
-3a0bfb
-3a0d02
-3a0e01
-3a0f58
-3a1050
-3a1b58
-3a1e50
-3a1160
-3a1f28
-400102
-400402
-400009
-300000
-300100
-300200
-3017e0
-301cfc
-363606
-301608
-3827ec
-301844
-303521
-3106f5
-30341a
-301cf8
-480034
-350303
-010001
+30eb05 // Manufacturer access command sequence (See Section 3-4)
+30eb0c
+300aff
+300bff
+30eb05
+30eb09
+011401 // CSI Lane Count (2)
+012800 // MIPI Global timing (auto)
+012a18 // External Clock Frequency MSB (24MHz)
+012b00 // External Clock Frequency LSB
+//016006 // Frame length MSB (15 FPS for full-frame30 FPS for other resolutions)
+//0161e3 // Frame length LSB
+01620d // Pixel clocks per line MSB (3448)
+016378 // Pixel clocks per line LSB
+016403 // X-address start MSB
+0165e8 // X-address start LSB
+016608 // X-address end MSB
+0167e7 // X-address end LSB
+016802 // Y-address start MSB
+0169f0 // Y-address start LSB
+016a06 // Y-address end MSB
+016baf // Y-address end LSB
+016c02 // X-output size MSB
+016d80 // X-output size LSB
+016e01 // Y-output size MSB
+016fe0 // Y-output size LSB
+017001 // X odd increment
+017101 // Y odd increment
+017403 // Vertical binning mode
+017503 // Horizontal binning mode
+018c08 // CSI data format MSB
+018d08 // CSI data format LSB
+030104 // Video timing pixel clock divider (/5 for 10-bit/4 for 8-bit)
+030301 // Video timing system clock divider (always /1)
+030403 // External (pre-PLL) clock divider for video timing (3 for 24MHz to 27MHz)
+030503 // External (pre-PLL) clock divider for output (3 for 24MHz to 27MHz)
+030600 // PLL video timing system multiplier MSB
+030720 // PLL video timing system multiplier LSB
+030908 // Output pixel clock divider (/10 for 10-bit/8 for 8-bit)
+030b01 // Output sytem clock divider (always /2)
+030c00 // PLL output system clock multiplier MSB
+030d72 // PLL output system clock multiplier LSB (DDR clockas compared to 0x0307)
+062402 // Test pattern window width MSB
+062580 // Test pattern window width LSB
+062601 // Test pattern window height MSB
+0627e0 // Test pattern window height LSB
+060107 //Test Patter
+455e00 // CMOS Image Sensor Tuning for all below
+471e4b
+47670f
+475014
+454000
+47b414
+471330
+478b10
+478f10
+479310
+47970e
+479b0e
+010001 // Start streaming

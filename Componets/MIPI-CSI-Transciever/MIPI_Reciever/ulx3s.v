@@ -1,4 +1,4 @@
-module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,input reset,input fire ,input cam0_clk,inout cam0_d0,cam0_d1,cam0_d0_r_p,cam0_d0_r_n,cam0_d1_r_p,cam0_d1_r_n,cam0_clk_r_p,cam0_clk_r_n,output[7:0] led,output[3:0] TMDSd);	
+module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,debug3,input reset,btn,input fire ,input cam0_clk,inout cam0_d0,cam0_d1,cam0_d0_r_p,cam0_d0_r_n,cam0_d1_r_p,cam0_d1_r_n,cam0_clk_r_p,cam0_clk_r_n,output[7:0] led,output[3:0] TMDSd);	
 	
 	wire clk400;
 	wire clk100Mhz;
@@ -23,34 +23,29 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,inp
 	wire[31:0 ] data,cX,xY;
 	wire ram_clk,rec_data;
 	wire[18:0] read_addr,addr_write;
-	MIPI_Reciever mipi(.cX(cX),.cY(cY),.rec_data_o(rec_data),.sys_clk(clk100Mhz),.mipi_clk(cam0_clk),.reset(reset),.lane0_d(cam0_d0),.lane1_d(cam0_d1),.lane0_p(cam0_d0_r_p),.lane0_n(cam0_d0_r_n),.lane1_p(cam0_d1_r_p),.lane1_n(cam0_d1_r_n),.data_o(data),.adress_out(data_adress),.ram_clk(ram_clk),.debug0(debug0),.debug1(debug1),.debug2(debug2),.termination(term));	
+	MIPI_Reciever mipi(.cX(cX),.cY(cY),.rec_data_o(rec_data),.sys_clk(clk100Mhz),.mipi_clk(cam0_clk),.reset(reset),.lane0_d(cam0_d0),.lane1_d(cam0_d1),.lane0_p(cam0_d0_r_p),.lane0_n(cam0_d0_r_n),.lane1_p(cam0_d1_r_p),.lane1_n(cam0_d1_r_n),.data_o(data),.adress_out(data_adress),.ram_clk(ram_clk),.debug0(debug0),.debug1(debug1),.debug2(debug2),.debug3(debug3),.termination(term));	
 	assign led=0;
-	reg [7:0] red,green,blue;
-	//assign data='hffffffff;	
-	/*always @(posedge ram_clk) begin		
-		data_adress<=data_adress+1;
-		if(data_adress>35000)begin
-			data<='hffffffff;
-		end else begin
-			data<=0;
-		end
-		if(data_adress>76799)begin
-			data_adress<=0;
-		end
-	end*/
-	wire[31:0] ramdata;	
+	reg [7:0] color;
+	reg [7:0] red_v,green_v,blue_v;	
+	wire[31:0] ramdata;
+	wire[7:0] hex;
+	reg[18:0] pixcount=0;
+	
 	assign addr_write=cX+cY;
 	dpram_dualclock DPR(.data_a(data),.addr_a(data_adress),.addr_b(read_addr[18:2]),
-	.we_a(rec_data),.we_b(0),.clk(ram_clk),.clk_b(pixclk),.data_out(ramdata));
+	.we_a(btn),.we_b(0),.clk(ram_clk),.clk_b(pixclk),.data_out(ramdata));
 
-	always @(posedge pixclk) begin		
-		red<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
-		green<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
-		blue<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
-	end	
+	wire[15:0] color_w;
+	reg[5119:0]buffer=0;
+
 	
-	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(4*red[7:0]),.green(4*red[7:0]),.blue(4*red[7:0]),.addr(read_addr),.TMDSd(TMDSd));
-
+	always @(posedge pixclk) begin		
+		red_v<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
+		green_v<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
+		blue_v<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
+		end	
+	
+	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(red_v),.green(red_v),.blue(red_v),.addr(read_addr),.TMDSd(TMDSd));
 endmodule
 
 module clock
@@ -245,50 +240,51 @@ module clock8
 		);
 endmodule
 module dpram_dualclock
-(
-	input [31:0] data_a, data_b,
-	input [16:0] addr_a,input [16:0] addr_b,input[1:0]bank,
-	input we_a, we_b, clk, clk_b,
-	output reg [31:0] data_out
-);
-	reg [31:0] ram[76799:0];	
-	// Port A 
-	always @ (posedge clk)
-	begin		
-		if(we_a)begin
-			ram[addr_a] <= data_a;
-		end		
-	end 
-	// Port B 
-	always @ (posedge clk_b)
-	begin		
+	(
+		input [31:0] data_a, data_b,
+		input [16:0] addr_a,input [16:0] addr_b,input[1:0]bank,
+		input we_a, we_b, clk, clk_b,
+		output reg [31:0] data_out
+	);
+		reg [31:0] ram[76799:0];	
+		// Port A 
+		always @ (posedge clk)
+		begin		
+			if(we_a)begin
+				ram[addr_a] <= data_a;
+			end		
+		end 
+		// Port B 
+		always @ (posedge clk_b)
+		begin		
 
-		/*if(!we_b)begin
-			if(bank==0)begin
-				red<=ram[addr_b][7:0];
-				green<=ram[addr_b][7:0];
-				blue<=ram[addr_b][7:0];
-			end else if(bank==1)begin
-				ed<=ram[addr_b][15:8];
-				green<=ram[addr_b][15:8];
-				blue<=ram[addr_b][15:8];
-			end else if(bank==2)begin
-				ed<=ram[addr_b][23:16];
-				green<=ram[addr_b][23:16];
-				blue<=ram[addr_b][23:16];
-			end else if(bank==3)begin
-				ed<=ram[addr_b][31:24];
-				green<=ram[addr_b][31:24];
-				blue<=ram[addr_b][31:24];
-			end			
-		end*/
-		data_out<=ram[addr_b];		
-	end
-	//assign red=(bank[1])?(bank[0]?ram_r[31:24]:ram_r[23:16]):(bank[0]?ram_r[15:8]:ram_r[7:0]);
-	//assign green=(bank[1])?(bank[0]?ram_r[31:24]:ram_r[23:16]):(bank[0]?ram_r[15:8]:ram_r[7:0]);
-	//assign blue=(bank[1])?(bank[0]?ram_r[31:24]:ram_r[23:16]):(bank[0]?ram_r[15:8]:ram_r[7:0]);
-	///assign red=ram_r[7:0];
-	//assign green=ram_r[15:8];
-	//assign blue=ram_r[23:16];
+			/*if(!we_b)begin
+				if(bank==0)begin
+					red<=ram[addr_b][7:0];
+					green<=ram[addr_b][7:0];
+					blue<=ram[addr_b][7:0];
+				end else if(bank==1)begin
+					ed<=ram[addr_b][15:8];
+					green<=ram[addr_b][15:8];
+					blue<=ram[addr_b][15:8];
+				end else if(bank==2)begin
+					ed<=ram[addr_b][23:16];
+					green<=ram[addr_b][23:16];
+					blue<=ram[addr_b][23:16];
+				end else if(bank==3)begin
+					ed<=ram[addr_b][31:24];
+					green<=ram[addr_b][31:24];
+					blue<=ram[addr_b][31:24];
+				end			
+			end*/
+			data_out<=ram[addr_b];		
+		end
+		//assign red=(bank[1])?(bank[0]?ram_r[31:24]:ram_r[23:16]):(bank[0]?ram_r[15:8]:ram_r[7:0]);
+		//assign green=(bank[1])?(bank[0]?ram_r[31:24]:ram_r[23:16]):(bank[0]?ram_r[15:8]:ram_r[7:0]);
+		//assign blue=(bank[1])?(bank[0]?ram_r[31:24]:ram_r[23:16]):(bank[0]?ram_r[15:8]:ram_r[7:0]);
+		///assign red=ram_r[7:0];
+		//assign green=ram_r[15:8];
+		//assign blue=ram_r[23:16];
 
 endmodule
+
