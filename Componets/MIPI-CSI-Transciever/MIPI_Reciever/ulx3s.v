@@ -1,4 +1,5 @@
-module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,debug3,input reset,btn,input fire ,input cam0_clk,inout cam0_d0,cam0_d1,cam0_d0_r_p,cam0_d0_r_n,cam0_d1_r_p,cam0_d1_r_n,cam0_clk_r_p,cam0_clk_r_n,output[7:0] led,output[3:0] TMDSd);	
+module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,debug3,input reset,btn,input fire ,input cam0_clk,inout cam0_d0,cam0_d1,cam0_d0_r_p,cam0_d0_r_n,cam0_d1_r_p,cam0_d1_r_n,cam0_clk_r_p,cam0_clk_r_n,
+		output[7:0] led,output[3:0] TMDSd,output ftdi_rxd,output ftdi_txden);	
 	
 	wire clk400;
 	wire clk100Mhz;
@@ -20,7 +21,7 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,deb
 	clock2 pll2(.clkin_25MHz(pixclk),.clk_400kHz(clk400));
 	clock8 pll3(.pixclk(pixclk),.clk_100MHz(clk100Mhz),.clk_250MHz(clk250));
 	wire[16:0] data_adress;
-	wire[31:0 ] data,cX,xY;
+	wire[31:0 ] data,cX,cY;
 	wire ram_clk,rec_data;
 	wire[18:0] read_addr,addr_write;
 	MIPI_Reciever mipi(.cX(cX),.cY(cY),.rec_data_o(rec_data),.sys_clk(clk100Mhz),.mipi_clk(cam0_clk),.reset(reset),.lane0_d(cam0_d0),.lane1_d(cam0_d1),.lane0_p(cam0_d0_r_p),.lane0_n(cam0_d0_r_n),.lane1_p(cam0_d1_r_p),.lane1_n(cam0_d1_r_n),.data_o(data),.adress_out(data_adress),.ram_clk(ram_clk),.debug0(debug0),.debug1(debug1),.debug2(debug2),.debug3(debug3),.termination(term));	
@@ -38,14 +39,29 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,deb
 	wire[15:0] color_w;
 	reg[5119:0]buffer=0;
 
+	reg[23:0] seraddr=0;
+	reg[23:0] counter_ser=0;
+	
+	reg[7:0] serdata=78;
+	wire ready,start;
+	reg ready_old=0;
+	
+	SERIAL debugger(.clk(pixclk),.reset(reset),.start(start),.ready(ready),.TX(ftdi_rxd),.datain(serdata),.addrin({'b00000,read_addr}));
 	
 	always @(posedge pixclk) begin		
 		red_v<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
 		green_v<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
 		blue_v<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
-		end	
+		start<=0;
+		ready_old<=reset?0:ready;
+		if(ready_old==0&&ready==1)begin
+			start<=1;					
+			read_addr<=(read_addr>307198)?0:read_addr+1;
+			serdata<=red_v;
+		end
+	end	
 	
-	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(red_v),.green(red_v),.blue(red_v),.addr(read_addr),.TMDSd(TMDSd));
+	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(red_v),.green(red_v),.blue(red_v),/*.addr(read_addr),*/.TMDSd(TMDSd));
 endmodule
 
 module clock

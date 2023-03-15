@@ -39,7 +39,7 @@
 030908 // Output pixel clock divider (/10 for 10-bit/8 for 8-bit)
 030b01 // Output sytem clock divider (always /2)
 030c00 // PLL output system clock multiplier MSB
-030d72 // PLL output system clock multiplier LSB (DDR clockas compared to 0x0307)
+030d50 // PLL output system clock multiplier LSB (DDR clockas compared to 0x0307)
 062402 // Test pattern window width MSB
 062580 // Test pattern window width LSB
 062601 // Test pattern window height MSB
