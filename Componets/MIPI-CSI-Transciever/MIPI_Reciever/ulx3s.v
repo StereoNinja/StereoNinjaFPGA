@@ -31,8 +31,7 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,deb
 	wire[31:0] ramdata;
 	wire[7:0] hex;
 	reg[18:0] pixcount=0;
-	
-	assign addr_write=cX+cY;
+		
 	dpram_dualclock DPR(.data_a(data),.addr_a(data_adress),.addr_b(read_addr[18:2]),
 	.we_a(btn),.we_b(0),.clk(ram_clk),.clk_b(pixclk),.data_out(ramdata));
 

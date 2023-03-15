@@ -41,7 +41,7 @@ module MIPI_Reciever(input sys_clk,reset,lane0_d,mipi_clk,mipi_clk_8,lane1_d,ino
 	wire valid;
 	wire[5:0] type_w;
 	wire[15:0] wordcount;
-	DATA_Encoder DE (.mipi_clk_4(sync_mipi_clk_4),.reset(reset),.stop(stop_clk),.sync(sync),.byte_in0(byte_o_0),.data(data),.type_o(type_w),.wordcount(wordcount),.byte_in1(byte_o_1),.valid(valid));
+	DATA_Encoder DE (.even(even),.mipi_clk_4(sync_mipi_clk_4),.reset(reset),.stop(stop_clk),.sync(sync),.byte_in0(byte_o_0),.data(data),.type_o(type_w),.wordcount(wordcount),.byte_in1(byte_o_1),.valid(valid));
 	
 	
 	Protocoll Prot (.debug(debug2),.debug1(debug3),.mipi_clk_8(sync_mipi_clk_8),.stop(stop_clk),.reset(reset),.valid(valid),.type_i(type_w),.wordcount(wordcount),.data_o(data_o),.data(data),.rec_data(rec_data),.adress_o(adress_out),.cX(cX),.cY(cY));
@@ -123,7 +123,7 @@ module Byte_Alligner(input reset,stop,mipi_clk_2,sync,even,input[7:0] byte_e,inp
 			counter<=0;			
 		end else begin			
 			if(sync)begin
-				counter<=counter+1;
+				counter<=(counter>=1)?0:counter+1;
 				byte_o_r<=(counter[0]==0)?byte_o_eu:byte_o_r;///////////////////////change to ==0 for real worls!!!!!!!!!!!!!!!!!!!!!!!!
 				//byte_o_r<=byte_o_eu;				
 			end
@@ -132,8 +132,8 @@ module Byte_Alligner(input reset,stop,mipi_clk_2,sync,even,input[7:0] byte_e,inp
 endmodule
 
 
-module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in1,output[31:0]data,output valid,output[5:0] type_o,output[15:0] wordcount);
-	reg[31:0] out_r;
+module DATA_Encoder(input mipi_clk_4,reset,stop,even,sync,input[7:0] byte_in0,byte_in1,output[31:0]data,output valid,output[5:0] type_o,output[15:0] wordcount);
+	reg[31:0] out_r,out_r_old;
 	reg valid_r,start;
 	assign valid=valid_r;	
 	reg[7:0] counter;
@@ -196,7 +196,8 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in
 
 	always @(posedge mipi_clk_4) begin
 		if(reset||stop)begin
-			out_r<=0;	
+			out_r<=0;
+			out_r_old<=0;
 			valid_r<=0;		
 			start=0;
 			counter<=0;
@@ -205,6 +206,7 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in
 			wordcount_r<=0;
 		end else begin			
 			if(sync)begin
+				out_r_old<=out_r;
 				out_r<={byte_in1,byte_in0,out_r[31:16]};
 				valid_r<=(ecc==regheader_correct[31:24]&&regheader_correct!=0)?1:valid_r;
 				start=(ecc==regheader_correct[31:24]&&regheader_correct!=0)?1:start;
@@ -214,6 +216,8 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,sync,input[7:0] byte_in0,byte_in
 					counter<=counter+1;
 					if(counter>1)begin
 						counter<=1;
+						//data_r<=even?{1'b1,out_r[30:0]}:{4'b0000,out_r[27:0]};
+						//data_r<={4'b0000,data_r[27:24],4'b0000,data_r[19:16],4'b0000,data_r[11:8],4'b0000,data_r[3:0]};
 						data_r<=out_r;
 					end else begin
 						counter<=counter+1;
@@ -320,7 +324,7 @@ module SoTFSM(input clk100MHz,reset,rec_data,lane0_p,lane0_n,lane1_p,lane1_n,sto
 				end	
 				HEADER:begin					
 					timer_tou<=timer_tou+1;
-					if(rec_data==0||timer_tou>180)begin
+					if(rec_data==0||timer_tou>300)begin
 						state_mipi<=TIMEOUT;
 						term_r<=0;
 						//stop_rx_r<=1;	
@@ -380,7 +384,7 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 			case (state)
 				0:begin
 					c<='hffff;	
-					if(((valid==1&&valid_old==0)&&(type_i=='h00||type_i=='h01))||(valid==1&&valid_old==0)&&counter_addr>76799)begin
+					if(((valid==1&&valid_old==0)&&(type_i=='h00||type_i=='h01))||counter_addr>76799)begin
 						counter_addr<=0;								
 						cX_r<=0;
 						cY_r<=0;	
