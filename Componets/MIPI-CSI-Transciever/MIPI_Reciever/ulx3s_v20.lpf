@@ -7,7 +7,7 @@ LOCATE COMP "pixclk" SITE "G2";
 IOBUF  PORT "pixclk" PULLMODE=NONE IO_TYPE=LVCMOS33;
 FREQUENCY PORT "pixclk" 25 MHZ;
 FREQUENCY PORT "scl" 0.4 MHZ;
-FREQUENCY PORT "cam0_clk" 450 MHZ;
+FREQUENCY PORT "cam0_clk" 400 MHZ;
 
 
 # JTAG and SPI FLASH voltage 3.3V and options to boot from SPI flash

@@ -45,22 +45,22 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,deb
 	wire ready,start;
 	reg ready_old=0;
 	
-	SERIAL debugger(.clk(pixclk),.reset(reset),.start(start),.ready(ready),.TX(ftdi_rxd),.datain(serdata),.addrin({'b00000,read_addr}));
+	//SERIAL debugger(.clk(pixclk),.reset(reset),.start(start),.ready(ready),.TX(ftdi_rxd),.datain(serdata),.addrin({'b00000,read_addr}));
 	
 	always @(posedge pixclk) begin		
 		red_v<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
 		green_v<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
 		blue_v<=(read_addr[1])?(read_addr[0]?ramdata[31:24]:ramdata[23:16]):(read_addr[0]?ramdata[15:8]:ramdata[7:0]);
-		start<=0;
-		ready_old<=reset?0:ready;
+		//start<=0;
+		/*ready_old<=reset?0:ready;
 		if(ready_old==0&&ready==1)begin
 			start<=1;					
 			read_addr<=(read_addr>307198)?0:read_addr+1;
 			serdata<=red_v;
-		end
+		end*/
 	end	
 	
-	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(red_v),.green(red_v),.blue(red_v),/*.addr(read_addr),*/.TMDSd(TMDSd));
+	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(red_v),.green(red_v),.blue(red_v),.addr(read_addr),.TMDSd(TMDSd));
 endmodule
 
 module clock
