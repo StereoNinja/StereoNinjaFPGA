@@ -46,7 +46,7 @@ endmodule
 
 
 
-module IDDR1(input lane,stop,reset,mipi_clk,output sync,output[1:0] q_o);
+module IDDR1(input lane,stop,reset,mipi_clk,output sync,output[1:0] q_o);	
 	IDDRX1F l0(.D(lane),.SCLK(mipi_clk),.Q0(ddr[0]),.Q1(ddr[1]),.RST('b0));
 	reg[7:0] byte_r;
 	reg sync_r=0;
@@ -217,7 +217,7 @@ module SoTFSM
 	localparam reg[7:0] HEADER=5;
 	///////////////////Const for Timing 
 	localparam integer Tlpx=2;//50ns -> nearest =40ns
-	localparam[31:0]  Timeout=(2000*50/mipi_frec);/
+	localparam[31:0]  Timeout=(2000*50/mipi_frec);
 	localparam[31:0]  Tdterm=2+(2*50/mipi_frec);
 	localparam[31:0]  Thssettle=3+(3*50/mipi_frec);
 	///////////////////
