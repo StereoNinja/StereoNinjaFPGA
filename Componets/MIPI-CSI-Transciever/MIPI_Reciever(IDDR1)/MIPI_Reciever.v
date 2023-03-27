@@ -217,9 +217,9 @@ module SoTFSM
 	localparam reg[7:0] HEADER=5;
 	///////////////////Const for Timing 
 	localparam integer Tlpx=2;//50ns -> nearest =40ns
-	localparam[31:0]  Timeout=(2000*50/mipi_frec);//time for one Line*1,5
-	localparam  Tdterm=2+(2*50/mipi_frec);
-	localparam  Thssettle=3+(3*50/mipi_frec);
+	localparam[31:0]  Timeout=(2000*50/mipi_frec);/
+	localparam[31:0]  Tdterm=2+(2*50/mipi_frec);
+	localparam[31:0]  Thssettle=3+(3*50/mipi_frec);
 	///////////////////
 	reg[7:0] state_mipi=TIMEOUT;	
 	reg stop_rx_r,term_r,debug0_r,debug1_r;
