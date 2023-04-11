@@ -62,12 +62,12 @@ module IDDR2 (input lane,sync_mipi_clk,sync_mipi_clk_2,input reset,stop,output[3
 	wire[3:0] ddr;
 	reg sync_r,even_r;
 	reg[3:0] q_o_r;
-	reg[1:0] ov_fl_r0;
+	reg[1:0] ov_fl_r;
 	reg[1:0] ov_fl_r1;
 	reg[7:0] syncbyte=0;
 	assign sync=sync_r&(!stop);
 	assign even=even_r;
-	assign ov_fl=ov_fl_r1;
+	assign ov_fl=ov_fl_r;
 	assign q_o=q_o_r;	
 	wire[7:0] detect_e,detect_ue;	
 	assign detect_e=syncbyte^8'b10111000;
@@ -79,25 +79,28 @@ module IDDR2 (input lane,sync_mipi_clk,sync_mipi_clk_2,input reset,stop,output[3
 		if(reset||stop)begin
 			sync_r<=0;
 			even_r<=0;
-			ov_fl_r0<=0;
-			ov_fl_r1<=0;			
+			ov_fl_r<=0;						
 			q_o_r<=0;
 			syncbyte=0;
 		end else begin				
 			syncbyte={ddr,syncbyte[7:4]};			
 			sync_r<=(detect_e==0||detect_ue==0)?1:sync_r;
-			if(detect_e==0)begin
+			if(detect_e==0&&sync_r==0)begin
 				even_r<=1;
 			end
-			if (detect_ue==0) begin
+			if (detect_ue==0&&sync_r==0) begin
 				even_r<=0;
 			end
 			q_o_r<=ddr;
-			ov_fl_r0<=ddr[3:2];
-			ov_fl_r1<=ov_fl_r0;
+			ov_fl_r<=q_o_r[3:2];			
 		end
 	end
 endmodule
+
+
+
+
+
 
 
 module Byte_Arrange(input reset,stop,mipi_clk_2,input[3:0] q_o,input[1:0] ov_fl,output[7:0] byte_e,output[7:0]byte_ue);
@@ -226,19 +229,12 @@ module DATA_Encoder(input mipi_clk_4,reset,stop,even,sync,input[7:0] byte_in0,by
 				if(start)begin
 					counter<=counter+1;
 					if(counter[0]==0&&counter[1]==1)begin
-						counter<=1;
-						//data_r<=even?{1'b1,out_r[30:0]}:{4'b0000,out_r[27:0]};
-						//data_r<={4'b1000,out_r[31:28],4'b1000,out_r[23:20],4'b1000,out_r[15:12],4'b1000,out_r[7:4]};
-						//data_r<={out_r[27:0],4'b0000};
-						//data_r<={4'd0,out_r[31:4]};
+						counter<=1;						
 						data_r<=out_r;
 					end else begin
 						counter<=counter+1;
 					end
-
-
 				end	
-
 			end
 		end
 	end
@@ -416,11 +412,9 @@ module Protocoll(input mipi_clk_8,stop,reset,valid,input[5:0] type_i,input[15:0]
 						cX_r<=0;
 						debug<=0;
 						debug1<=0;											
-					end					
-														
+					end														
 				end 
-				1:begin
-						
+				1:begin						
 					if(counter<count_val)begin
 						cX_r<=cX_r+1;
 						counter<=counter+1;
@@ -452,3 +446,67 @@ endmodule
 
 
 
+/*
+module ECLKSYNCB (input ECLKI,STOP,output ECLKO);
+		
+		reg eclki_r0,eclki_r1,eclki_r2;
+		always @(posedge ECLKI or negedge ECLKI) begin
+			eclki_r1<=eclki_r0;
+			eclki_r2<=eclki_r1;
+			if(STOP==0)begin			
+			eclki_r0<=ECLKI;
+			end else begin
+				eclki_r0<=0;
+			end
+		end
+		assign ECLKO=eclki_r2;
+endmodule
+module CLKDIVF(input CLKI,RST,output CDIVX);
+	reg[7:0] counter;
+	assign CDIVX=counter[0];
+	always @(posedge CLKI) begin
+		if(RST==1)begin
+			counter<=0;
+		end else begin
+			counter<=counter+1;
+		end
+	end
+endmodule
+module IDDRX1F(input D,input SCLK,input RST,output Q0,output Q1);
+	reg Q0_r,Q1_r;
+	always @(posedge SCLK) begin
+		Q0_r<=D;
+	end
+	always @(negedge SCLK) begin
+		Q1_r<=D;
+	end	
+	assign Q1=Q1_r;
+	assign Q0=Q0_r;
+	
+endmodule
+module IDDRX2F (input D,ECLK,SCLK,RST,output
+ Q0,Q1,Q2,Q3);
+	reg A,B,C,D1;
+	assign Q0=A;
+	assign Q1=B;
+	assign Q2=C;
+	assign Q3=D1;
+	always @(posedge ECLK ) begin
+		
+		if(SCLK==0)begin
+			A<=D;
+		end
+		if(SCLK==1)begin
+			C<=D;
+		end
+	end
+	always @(negedge ECLK) begin
+		if(SCLK==1)begin
+			B<=D;
+		end
+		if(SCLK==0)begin
+			D1<=D;
+		end
+	end
+	
+endmodule

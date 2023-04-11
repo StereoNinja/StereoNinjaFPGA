@@ -1,4 +1,0 @@
-read_verilog  HDMI_Transciever_Test.v
-read_verilog  HDMI_Transciever.v
-read_verilog  TMDS_Encoder.v
-synth_ecp5 -noccu2 -nomux -nodram -top HDMI_Transciever_Test  -json HDMI_Transciever_Test.json

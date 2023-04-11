@@ -1,0 +1,2 @@
+read_verilog HDMI_test.v clock.v
+synth_ecp5 -json HDMI_test.json

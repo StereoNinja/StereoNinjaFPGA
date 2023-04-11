@@ -1,0 +1,9 @@
+read_verilog  HDMI_Transciever_Test.v
+read_verilog  HDMI_Transciever.v
+read_verilog  TMDS_Encoder.v
+read_verilog  SERIAL.v
+read_verilog Ram_Controller.v
+read_verilog  RX.v
+read_verilog  TX.v
+
+synth_ecp5  -top HDMI_Transciever_Test  -json HDMI_Transciever_Test.json

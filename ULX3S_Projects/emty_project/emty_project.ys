@@ -1,2 +1,0 @@
-read_verilog emty_project.v
-synth_ecp5 -noccu2 -nomux -nodram -json emty_project.json

@@ -1,7 +1,0 @@
-read_verilog ulx3s.v
-read_verilog Ram_Controller.v
-read_verilog Serial.v
-read_verilog RX.v
-read_verilog TX.v
-
-synth_ecp5 -noccu2 -nomux -nodram -json Ram_Controller.json

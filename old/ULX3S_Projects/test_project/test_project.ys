@@ -1,0 +1,2 @@
+read_verilog Vtest_project.v
+synth_ecp5 -noccu2 -nomux -nodram -json Vtest_project.json
