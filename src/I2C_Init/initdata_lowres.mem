@@ -8,8 +8,8 @@
 012800 // MIPI Global timing (auto)
 012a18 // External Clock Frequency MSB (24MHz)
 012b00 // External Clock Frequency LSB
-//016006 // Frame length MSB (15 FPS for full-frame30 FPS for other resolutions)
-//0161e3 // Frame length LSB
+//016006  Frame length MSB (15 FPS for full-frame30 FPS for other resolutions)
+//0161e3  Frame length LSB
 01620d // Pixel clocks per line MSB (3448)
 016378 // Pixel clocks per line LSB
 016403 // X-address start MSB
