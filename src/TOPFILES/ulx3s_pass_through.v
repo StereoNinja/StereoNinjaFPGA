@@ -18,8 +18,10 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,deb
 	assign cam0_clk_r_n=1?0:'bz;	
 	//	
 	Cam_Init i2c (.clk400(clk400),.reset(reset),.init(fire),.sda(cam0_sda_w),.scl(cam0_scl_w));	
+	`ifdef VERILATOR
 	clock2 pll2(.clkin_25MHz(pixclk),.clk_400kHz(clk400));
 	clock8 pll3(.pixclk(pixclk),.clk_100MHz(clk100Mhz),.clk_250MHz(clk250));
+
 	wire[16:0] data_adress;
 	wire[31:0 ] data,cX,cY;
 	wire ram_clk,rec_data;
