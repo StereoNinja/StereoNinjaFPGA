@@ -1,4 +1,4 @@
-#Verilog Design for IMX219 Passthrough
+# Verilog Design for IMX219 Passthrough
 
 ![Stereo Ninja Logo FPGA](Toplevel.png)
 
