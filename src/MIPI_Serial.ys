@@ -1,0 +1,10 @@
+read_verilog TOPFILES/ulx3s_MIPI_Serial.v
+read_verilog MIPI/IDDR2/MIPI_Reciever.v
+read_verilog I2C_Init/Cam_Init.v
+read_verilog I2C_Init/I2C/Cam_I2C.v
+read_verilog HDMI/HDMI_Transciever.v
+read_verilog HDMI/TMDS_Encoder.v
+read_verilog Serial/SERIAL.v
+read_verilog Serial/TX.v
+
+synth_ecp5 -abc9 -json MIPI_Serial.json
