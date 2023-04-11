@@ -10,11 +10,12 @@ Todos
 - [x] HDMI Stream 800x600 60 FPS
 - [x] HDMI Stream 1280x720 60 FPS
 - [ ] HDMI Stream 1920x1080 60FP -not possible
-- [x] Camera module: Dual-camera mount and enclosure (3d printed)
-- [ ] Camera module: print + test
-- [x] Choose cable type for camera module to Pi connection
-- [ ] Camera board: circuit design (including microconroller)
-- [ ] Camera board: PCB layout
-- [ ] Camera board: assembly + testing
-- [ ] Camera module: design LED PCB
-- [ ] Camera module: LED PCB assembly and test
+- [x] Initialisation Videostream IMX219 at 916Mbit/s per Lane 
+- [x] MIPI SoT Decoding
+- [x] MIPI Syncbyte Decoding
+- [x] MIPI Header Decoding
+- [x] MIPI Protocoll Decoding
+- [x] Writing MIPI Videostream in Dualport Ram
+- [x] Passthrough IMX219 to HDMI at 640x480 Pixel in greyscale
+- [ ] Debayering for Colors
+- [ ] Testing IMX219 at other Resolutions 
