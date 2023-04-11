@@ -3,6 +3,6 @@ Experimental FPGA project for streaming two MIPI CSI camera streams to an HDMI m
 
 Videostream from IMX219 to HDMI 640x480 at 60FPS working in greyscale
 
-make prog_pass_through in /src folder for HDMI Stream
+make prog_pass_through in /src folder for passthrough from IMX219 to HDMI Stream
 
     need to Init Camera by pressing F2 than F1 on ULX3S
