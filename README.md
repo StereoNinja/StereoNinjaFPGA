@@ -6,9 +6,10 @@ Experimental FPGA project for streaming two MIPI CSI camera streams to an HDMI m
 
 Todos
 
-- [x] Proof-of-Concept: StereoPi + Raspi3 Compute Module: real-time video stream to 3d monitor
-- [x] Tests with CM4 (Raspi4 Compute Module)
-- [ ] Select suitable lenses, document this
+- [x] HDMI Stream 640x480 60FPS
+- [x] HDMI Stream 800x600 60 FPS
+- [x] HDMI Stream 1280x720 60 FPS
+- [ ] HDMI Stream 1920x1080 60FP -not possible
 - [x] Camera module: Dual-camera mount and enclosure (3d printed)
 - [ ] Camera module: print + test
 - [x] Choose cable type for camera module to Pi connection
