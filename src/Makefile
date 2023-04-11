@@ -3,8 +3,6 @@
 ##
 .PHONY: all
 
-
-
 pass_through.bit: pass_through.config
 	ecppack pass_through.config pass_through.bit
 
