@@ -4,4 +4,4 @@
 
 For Building Bitfile:
 
-make prog_pass_through 
+  make prog_pass_through 
