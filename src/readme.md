@@ -2,4 +2,6 @@
 
 ![Stereo Ninja Logo FPGA](Toplevel.png)
 
--make prog_pass_through 
+For Building Bitfile:
+
+make prog_pass_through 
