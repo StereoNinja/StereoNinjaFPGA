@@ -1,7 +1,8 @@
 # StereoNinjaFPGA
-Experimental FPGA project for streaming two MIPI CSI camera streams to an HDMI monitor using a ULX3S FPGA board
+Experimental FPGA project for streaming two MIPI CSI camera IMX219 streams to an HDMI monitor using a ULX3S FPGA board
 
 ![Stereo Ninja Logo FPGA](images/Stereoninja_FPGA.jpg)
+
 
 
 Todos
