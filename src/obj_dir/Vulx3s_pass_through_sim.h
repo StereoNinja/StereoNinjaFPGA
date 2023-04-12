@@ -26,7 +26,8 @@ VL_MODULE(Vulx3s_pass_through_sim) {
     // propagate new values into/out from the Verilated model.
     VL_IN8(pixclk,0,0);
     VL_IN8(cam0_clk,0,0);
-    VL_IN8(clk_i2c,0,0);
+    VL_IN8(sys_clk,0,0);
+    VL_IN8(clk250,0,0);
     VL_INOUT8(cam0_sda,0,0);
     VL_INOUT8(cam0_scl,0,0);
     VL_INOUT8(debug0,0,0);
@@ -53,14 +54,14 @@ VL_MODULE(Vulx3s_pass_through_sim) {
     // Internals; generally not touched by application code
     // Anonymous structures to workaround compiler member-count bugs
     struct {
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__clk100Mhz;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__clk250;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__sync_mipi_clk_2;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__sync_mipi_clk_4;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__sync_mipi_clk_8;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__SYNC__DOT__eclki_r2;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__clk400;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__mipi_clk05;
+        CData/*0:0*/ ulx3s_pass_through_sim__DOT__clk100Mhz;
+        CData/*0:0*/ ulx3s_pass_through_sim__DOT__cam0_sda_w;
+        CData/*0:0*/ ulx3s_pass_through_sim__DOT__cam0_scl_w;
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__color;
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__red_v;
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__green_v;
@@ -73,28 +74,6 @@ VL_MODULE(Vulx3s_pass_through_sim) {
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__ready;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__start;
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__counter;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__send_data;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam_ready_r;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__ready_old;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam_ready0;
-        CData/*7:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__datain;
-        CData/*7:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__slave_addr;
-        CData/*7:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__state;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__initia;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__init_old;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__r_w;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__valid_r;
-        CData/*7:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__state;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__send_data_old;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__rising_edge;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__sda0;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__sending;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__ready0;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__clkdelay0;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__clkdelay1;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__scl0;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__scl1;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__scl2;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__mipi_clk_8;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__rec_data;
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__lane0byte;
@@ -117,8 +96,6 @@ VL_MODULE(Vulx3s_pass_through_sim) {
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__lane0__DOT__even_r;
         CData/*3:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__lane0__DOT__q_o_r;
         CData/*1:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__lane0__DOT__ov_fl_r;
-    };
-    struct {
         CData/*1:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__lane0__DOT__ov_fl_r1;
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__lane0__DOT__syncbyte;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__lane0__DOT__delay_lane;
@@ -141,6 +118,8 @@ VL_MODULE(Vulx3s_pass_through_sim) {
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__BA0__DOT__byte0_r;
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__BA0__DOT__byte1_r;
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__BA1__DOT__byte0_r;
+    };
+    struct {
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__BA1__DOT__byte1_r;
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__BAL0__DOT__byte_o_r;
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__BAL0__DOT__counter;
@@ -183,8 +162,6 @@ VL_MODULE(Vulx3s_pass_through_sim) {
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder1__DOT__q_m1;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder1__DOT__q_m2;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder1__DOT__q_m3;
-    };
-    struct {
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder1__DOT__q_m4;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder1__DOT__q_m5;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder1__DOT__q_m6;
@@ -206,8 +183,9 @@ VL_MODULE(Vulx3s_pass_through_sim) {
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder2__DOT__q_out2p1;
         CData/*0:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder2__DOT__q_out2p2;
         CData/*7:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder2__DOT__q_out2p3;
-        SData/*15:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__register_in;
         SData/*15:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__BAL0__DOT__byte_o_r_s;
+    };
+    struct {
         SData/*15:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__BAL1__DOT__byte_o_r_s;
         SData/*15:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__DE__DOT__wordcount_r;
         SData/*15:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__Prot__DOT__c;
@@ -226,8 +204,6 @@ VL_MODULE(Vulx3s_pass_through_sim) {
         IData/*18:0*/ ulx3s_pass_through_sim__DOT__addr_write;
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__ramdata;
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__color_w;
-        IData/*31:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__counter;
-        IData/*31:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__counter;
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__timer_tou;
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__timer_term;
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__timer_hs;
@@ -249,8 +225,6 @@ VL_MODULE(Vulx3s_pass_through_sim) {
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder0__DOT__cnt0;
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder0__DOT__cnt1;
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder0__DOT__cnt2;
-    };
-    struct {
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder0__DOT__cnt3;
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder0__DOT__cnt;
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder1__DOT__cnt_old;
@@ -265,7 +239,6 @@ VL_MODULE(Vulx3s_pass_through_sim) {
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder2__DOT__cnt2;
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder2__DOT__cnt3;
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder2__DOT__cnt;
-        IData/*23:0*/ ulx3s_pass_through_sim__DOT__i2c__DOT__data_init[62];
         IData/*31:0*/ ulx3s_pass_through_sim__DOT__DPR__DOT__ram[76800];
     };
     
@@ -273,8 +246,8 @@ VL_MODULE(Vulx3s_pass_through_sim) {
     // Internals; generally not touched by application code
     // Anonymous structures to workaround compiler member-count bugs
     struct {
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__debug2__out__out10;
-        CData/*0:0*/ ulx3s_pass_through_sim__DOT__debug3__out__out11;
+        CData/*0:0*/ ulx3s_pass_through_sim__DOT__debug2__out__out8;
+        CData/*0:0*/ ulx3s_pass_through_sim__DOT__debug3__out__out9;
         CData/*1:0*/ ulx3s_pass_through_sim__DOT__HDMI__DOT____Vcellinp__encoder0__H_VSync_Ctr;
         CData/*7:0*/ __Vfunc_ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder0__DOT__N1__0__Vfuncout;
         CData/*7:0*/ __Vfunc_ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder0__DOT__N1__0__data;
@@ -577,10 +550,9 @@ VL_MODULE(Vulx3s_pass_through_sim) {
         CData/*7:0*/ __Vdly__ulx3s_pass_through_sim__DOT__mipi__DOT__BAL1__DOT__byte_o_r;
         CData/*5:0*/ __Vdly__ulx3s_pass_through_sim__DOT__mipi__DOT__DE__DOT__type_o_r;
         CData/*0:0*/ __VinpClk__TOP__ulx3s_pass_through_sim__DOT__mipi__DOT__SYNC__DOT__eclki_r2;
-        CData/*0:0*/ __Vclklast__TOP__ulx3s_pass_through_sim__DOT__clk250;
-        CData/*0:0*/ __Vclklast__TOP__ulx3s_pass_through_sim__DOT__clk100Mhz;
         CData/*0:0*/ __Vclklast__TOP__pixclk;
-        CData/*0:0*/ __Vclklast__TOP__clk_i2c;
+        CData/*0:0*/ __Vclklast__TOP__clk250;
+        CData/*0:0*/ __Vclklast__TOP__sys_clk;
         CData/*0:0*/ __Vclklast__TOP__cam0_clk;
         CData/*0:0*/ __Vclklast__TOP____VinpClk__TOP__ulx3s_pass_through_sim__DOT__mipi__DOT__SYNC__DOT__eclki_r2;
         CData/*0:0*/ __Vclklast__TOP__ulx3s_pass_through_sim__DOT__mipi__DOT__sync_mipi_clk_2;
@@ -594,7 +566,7 @@ VL_MODULE(Vulx3s_pass_through_sim) {
         IData/*31:0*/ __Vdly__ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__timer_hs;
         IData/*31:0*/ __Vdly__ulx3s_pass_through_sim__DOT__mipi__DOT__DE__DOT__out_r;
         IData/*31:0*/ __Vdly__ulx3s_pass_through_sim__DOT__mipi__DOT__DE__DOT__counter;
-        CData/*0:0*/ __Vm_traceActivity[14];
+        CData/*0:0*/ __Vm_traceActivity[13];
     };
     
     // INTERNAL VARIABLES
@@ -634,8 +606,8 @@ VL_MODULE(Vulx3s_pass_through_sim) {
     static QData _change_request(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static QData _change_request_1(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
   public:
-    static void _combo__TOP__10(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
-    static void _combo__TOP__6(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
+    static void _combo__TOP__3(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
+    static void _combo__TOP__9(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
   private:
     void _ctor_var_reset() VL_ATTR_COLD;
   public:
@@ -648,25 +620,24 @@ VL_MODULE(Vulx3s_pass_through_sim) {
     static void _eval_initial(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _eval_settle(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _initial__TOP__1(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp) VL_ATTR_COLD;
-    static void _multiclk__TOP__15(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
+    static void _multiclk__TOP__14(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
+    static void _multiclk__TOP__19(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _multiclk__TOP__20(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _multiclk__TOP__21(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _multiclk__TOP__22(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
-    static void _multiclk__TOP__23(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__10(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__11(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__12(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__13(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__14(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__15(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__16(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__17(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__18(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__19(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__3(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__4(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__5(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__6(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__7(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__8(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__9(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp);
     static void _settle__TOP__2(Vulx3s_pass_through_sim__Syms* __restrict vlSymsp) VL_ATTR_COLD;
   private:
     static void traceChgSub0(void* userp, VerilatedVcd* tracep);

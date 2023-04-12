@@ -136,7 +136,12 @@ module Byte_Alligner(input reset,stop,mipi_clk_2,sync,even,input[7:0] byte_e,inp
 			if(sync)begin
 				counter<=(counter>=1)?0:counter+1;				
 				//byte_o_r_s<={byte_o_eu[3:0],byte_o_r_s[15:4]};
-				byte_o_r<=(counter[0]==0)?byte_o_eu:byte_o_r;///////////////////////change to ==0 for real worls!!!!!!!!!!!!!!!!!!!!!!!!
+				`ifdef VERILATOR
+					byte_o_r<=(counter[0]==1)?byte_o_eu:byte_o_r;///////////////////////change to ==0 for real worls!!!!!!!!!!!!!!!!!!!!!!!!
+				`else	
+					byte_o_r<=(counter[0]==0)?byte_o_eu:byte_o_r;///////////////////////change to ==0 for real worls!!!!!!!!!!!!!!!!!!!!!!!!
+				`endif 
+				//byte_o_r<=(counter[0]==0)?byte_o_eu:byte_o_r;///////////////////////change to ==0 for real worls!!!!!!!!!!!!!!!!!!!!!!!!
 				//byte_o_r<=(byte_o_r_s[7:0]==byte_o_r_old)?byte_o_eu:byte_o_r;///////////////////////sync funktion
 				//byte_o_r_old<=(byte_o_r_s[7:0]==byte_o_r_old)?byte_o_r_s[15:8]:byte_o_r_old;///////////////////////sync funktion
 				//byte_o_r<=byte_o_eu;				

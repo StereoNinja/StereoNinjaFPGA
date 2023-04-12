@@ -48,6 +48,8 @@ clean:
 	rm -rf MIPI_Serial.bit
 	rm -rf MIPI_Serial.config
 	rm -rf MIPI_Serial.json
+	rm -rf TOPSIM.vcd
+	rm -r obj_dir
 
 
 

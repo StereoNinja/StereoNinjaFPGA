@@ -732,14 +732,14 @@ void VHDMI_Transciever_Sim::traceFullSub0(void* userp, VerilatedVcd* tracep) {
                                                  | (((IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__encoder2__DOT__q_out2p2) 
                                                      << 8U) 
                                                     | (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__encoder2__DOT__q_out2p3)))))),10);
-        tracep->fullIData(oldp+108,(0x500U),32);
-        tracep->fullIData(oldp+109,(0x6eU),32);
-        tracep->fullIData(oldp+110,(0xdcU),32);
-        tracep->fullIData(oldp+111,(0x672U),32);
-        tracep->fullIData(oldp+112,(0x2d0U),32);
-        tracep->fullIData(oldp+113,(5U),32);
-        tracep->fullIData(oldp+114,(0x14U),32);
-        tracep->fullIData(oldp+115,(0x2eeU),32);
+        tracep->fullIData(oldp+108,(0x280U),32);
+        tracep->fullIData(oldp+109,(0x10U),32);
+        tracep->fullIData(oldp+110,(0x30U),32);
+        tracep->fullIData(oldp+111,(0x320U),32);
+        tracep->fullIData(oldp+112,(0x1e0U),32);
+        tracep->fullIData(oldp+113,(0xaU),32);
+        tracep->fullIData(oldp+114,(0x21U),32);
+        tracep->fullIData(oldp+115,(0x20dU),32);
         tracep->fullCData(oldp+116,(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__encoder0__DOT__aux_data),4);
         tracep->fullBit(oldp+117,(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__encoder0__DOT__data_o));
         tracep->fullCData(oldp+118,(0U),2);

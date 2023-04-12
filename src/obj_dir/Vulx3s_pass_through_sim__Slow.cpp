@@ -32,44 +32,29 @@ void Vulx3s_pass_through_sim::_initial__TOP__1(Vulx3s_pass_through_sim__Syms* __
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vulx3s_pass_through_sim::_initial__TOP__1\n"); );
     Vulx3s_pass_through_sim* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Variables
-    WData/*127:0*/ __Vtemp1[4];
-    WData/*159:0*/ __Vtemp2[5];
+    WData/*191:0*/ __Vtemp1[6];
     // Body
     vlTOPp->led = 0U;
-    vlTOPp->ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__sda0 = 1U;
     vlTOPp->ulx3s_pass_through_sim__DOT__HDMI__DOT__hSync = 0U;
     vlTOPp->ulx3s_pass_through_sim__DOT__HDMI__DOT__vSync = 0U;
-    vlTOPp->ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__sending = 0U;
     vlTOPp->ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder0__DOT__cnt_old = 0U;
     vlTOPp->ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder1__DOT__cnt_old = 0U;
     vlTOPp->ulx3s_pass_through_sim__DOT__HDMI__DOT__encoder2__DOT__cnt_old = 0U;
     vlTOPp->ulx3s_pass_through_sim__DOT__counter = 0U;
-    vlTOPp->ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__state = 0U;
-    vlTOPp->ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__send_data_old = 0U;
-    vlTOPp->ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__rising_edge = 0U;
-    vlTOPp->ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__counter = 0U;
     vlTOPp->ulx3s_pass_through_sim__DOT__HDMI__DOT__DrawArea = 0U;
     __Vtemp1[0U] = 0x2e6d656dU;
     __Vtemp1[1U] = 0x6d616765U;
     __Vtemp1[2U] = 0x65737469U;
-    __Vtemp1[3U] = 0x74U;
-    VL_READMEM_N(true, 32, 76800, 0, VL_CVT_PACK_STR_NW(4, __Vtemp1)
+    __Vtemp1[3U] = 0x45532f74U;
+    __Vtemp1[4U] = 0x5046494cU;
+    __Vtemp1[5U] = 0x544fU;
+    VL_READMEM_N(true, 32, 76800, 0, VL_CVT_PACK_STR_NW(6, __Vtemp1)
                  , vlTOPp->ulx3s_pass_through_sim__DOT__DPR__DOT__ram
                  , 0, ~0ULL);
     vlTOPp->ulx3s_pass_through_sim__DOT__HDMI__DOT__CounterX = 0U;
     vlTOPp->ulx3s_pass_through_sim__DOT__HDMI__DOT__CounterY = 0U;
-    vlTOPp->cam0_d1 = 0U;
     vlTOPp->cam0_d0 = 0U;
-    __Vtemp2[0U] = 0x2e6d656dU;
-    __Vtemp2[1U] = 0x77726573U;
-    __Vtemp2[2U] = 0x615f6c6fU;
-    __Vtemp2[3U] = 0x74646174U;
-    __Vtemp2[4U] = 0x696e69U;
-    VL_READMEM_N(true, 24, 62, 0, VL_CVT_PACK_STR_NW(5, __Vtemp2)
-                 , vlTOPp->ulx3s_pass_through_sim__DOT__i2c__DOT__data_init
-                 , 0, ~0ULL);
-    vlTOPp->ulx3s_pass_through_sim__DOT__i2c__DOT__initia = 1U;
-    vlTOPp->ulx3s_pass_through_sim__DOT__i2c__DOT__init_old = 0U;
+    vlTOPp->cam0_d1 = 0U;
     vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__lane1__DOT__syncbyte = 0U;
     vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__lane0__DOT__syncbyte = 0U;
     vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__Prot__DOT__c = 0xffffU;
@@ -82,6 +67,8 @@ void Vulx3s_pass_through_sim::_settle__TOP__2(Vulx3s_pass_through_sim__Syms* __r
     // Body
     vlTOPp->cam0_clk_r_p = 0U;
     vlTOPp->cam0_clk_r_n = 0U;
+    vlTOPp->cam0_scl = vlTOPp->ulx3s_pass_through_sim__DOT__cam0_scl_w;
+    vlTOPp->cam0_sda = vlTOPp->ulx3s_pass_through_sim__DOT__cam0_sda_w;
     vlTOPp->TMDSd = ((7U & (IData)(vlTOPp->TMDSd)) 
                      | ((IData)(vlTOPp->pixclk) << 3U));
     vlTOPp->TMDSd = ((8U & (IData)(vlTOPp->TMDSd)) 
@@ -338,8 +325,8 @@ void Vulx3s_pass_through_sim::_settle__TOP__2(Vulx3s_pass_through_sim__Syms* __r
                                   << 1U) | (IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__lane1__DOT__IDDR__DOT__A))));
     vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__sync_mipi_clk_8 
         = (1U & (IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__div8__DOT__counter));
-    vlTOPp->debug2 = vlTOPp->ulx3s_pass_through_sim__DOT__debug2__out__out10;
-    vlTOPp->debug3 = vlTOPp->ulx3s_pass_through_sim__DOT__debug3__out__out11;
+    vlTOPp->debug2 = vlTOPp->ulx3s_pass_through_sim__DOT__debug2__out__out8;
+    vlTOPp->debug3 = vlTOPp->ulx3s_pass_through_sim__DOT__debug3__out__out9;
     vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__DE__DOT__ecc 
         = (0xbfU & (IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__DE__DOT__ecc));
     vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__DE__DOT__ecc 
@@ -507,7 +494,7 @@ void Vulx3s_pass_through_sim::_settle__TOP__2(Vulx3s_pass_through_sim__Syms* __r
                        (0x3fe0U & (vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__DE__DOT__out_r 
                                    >> 0x12U)))));
     vlTOPp->debug0 = vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__debug0_r;
-    vlTOPp->cam0_d1_r_p = (1U & ((((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__term_r)
+    vlTOPp->cam0_d0_r_p = (1U & ((((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__term_r)
                                     ? 0U : 0U) & ((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__term_r)
                                                    ? 0xffffffffU
                                                    : 0U)) 
@@ -519,13 +506,13 @@ void Vulx3s_pass_through_sim::_settle__TOP__2(Vulx3s_pass_through_sim__Syms* __r
                                                    : 0U)) 
                                  & ((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__term_r)
                                      ? 0xffffffffU : 0U)));
-    vlTOPp->cam0_d0_r_n = (1U & ((((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__term_r)
+    vlTOPp->cam0_d1_r_p = (1U & ((((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__term_r)
                                     ? 0U : 0U) & ((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__term_r)
                                                    ? 0xffffffffU
                                                    : 0U)) 
                                  & ((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__term_r)
                                      ? 0xffffffffU : 0U)));
-    vlTOPp->cam0_d0_r_p = (1U & ((((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__term_r)
+    vlTOPp->cam0_d0_r_n = (1U & ((((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__term_r)
                                     ? 0U : 0U) & ((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__term_r)
                                                    ? 0xffffffffU
                                                    : 0U)) 
@@ -540,13 +527,9 @@ void Vulx3s_pass_through_sim::_settle__TOP__2(Vulx3s_pass_through_sim__Syms* __r
     vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__rec_data 
         = ((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__Prot__DOT__rec_data_r) 
            & (~ (IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__RxFSM__DOT__stop_rx_r)));
-    vlTOPp->cam0_sda = vlTOPp->ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__sda0;
     vlTOPp->ulx3s_pass_through_sim__DOT__HDMI__DOT____Vcellinp__encoder0__H_VSync_Ctr 
         = (((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__HDMI__DOT__vSync) 
             << 1U) | (IData)(vlTOPp->ulx3s_pass_through_sim__DOT__HDMI__DOT__hSync));
-    vlTOPp->cam0_scl = ((IData)(vlTOPp->ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__sending)
-                         ? (1U & (~ (IData)(vlTOPp->clk_i2c)))
-                         : 1U);
     vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__Prot__DOT__c_calk 
         = ((0xfffeU & (IData)(vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__Prot__DOT__c_calk)) 
            | (1U & ((((((((((((((((((vlTOPp->ulx3s_pass_through_sim__DOT__mipi__DOT__DE__DOT__data_r 
@@ -4293,7 +4276,6 @@ void Vulx3s_pass_through_sim::_eval_initial(Vulx3s_pass_through_sim__Syms* __res
     Vulx3s_pass_through_sim* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->_initial__TOP__1(vlSymsp);
-    vlTOPp->__Vm_traceActivity[0xdU] = 1U;
     vlTOPp->__Vm_traceActivity[0xcU] = 1U;
     vlTOPp->__Vm_traceActivity[0xbU] = 1U;
     vlTOPp->__Vm_traceActivity[0xaU] = 1U;
@@ -4307,12 +4289,9 @@ void Vulx3s_pass_through_sim::_eval_initial(Vulx3s_pass_through_sim__Syms* __res
     vlTOPp->__Vm_traceActivity[2U] = 1U;
     vlTOPp->__Vm_traceActivity[1U] = 1U;
     vlTOPp->__Vm_traceActivity[0U] = 1U;
-    vlTOPp->__Vclklast__TOP__ulx3s_pass_through_sim__DOT__clk250 
-        = vlTOPp->ulx3s_pass_through_sim__DOT__clk250;
-    vlTOPp->__Vclklast__TOP__ulx3s_pass_through_sim__DOT__clk100Mhz 
-        = vlTOPp->ulx3s_pass_through_sim__DOT__clk100Mhz;
     vlTOPp->__Vclklast__TOP__pixclk = vlTOPp->pixclk;
-    vlTOPp->__Vclklast__TOP__clk_i2c = vlTOPp->clk_i2c;
+    vlTOPp->__Vclklast__TOP__clk250 = vlTOPp->clk250;
+    vlTOPp->__Vclklast__TOP__sys_clk = vlTOPp->sys_clk;
     vlTOPp->__Vclklast__TOP__cam0_clk = vlTOPp->cam0_clk;
     vlTOPp->__Vclklast__TOP____VinpClk__TOP__ulx3s_pass_through_sim__DOT__mipi__DOT__SYNC__DOT__eclki_r2 
         = vlTOPp->__VinpClk__TOP__ulx3s_pass_through_sim__DOT__mipi__DOT__SYNC__DOT__eclki_r2;
@@ -4336,7 +4315,6 @@ void Vulx3s_pass_through_sim::_eval_settle(Vulx3s_pass_through_sim__Syms* __rest
     Vulx3s_pass_through_sim* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->_settle__TOP__2(vlSymsp);
-    vlTOPp->__Vm_traceActivity[0xdU] = 1U;
     vlTOPp->__Vm_traceActivity[0xcU] = 1U;
     vlTOPp->__Vm_traceActivity[0xbU] = 1U;
     vlTOPp->__Vm_traceActivity[0xaU] = 1U;
@@ -4378,11 +4356,12 @@ void Vulx3s_pass_through_sim::_ctor_var_reset() {
     TMDSd = VL_RAND_RESET_I(4);
     ftdi_rxd = VL_RAND_RESET_I(1);
     ftdi_txden = VL_RAND_RESET_I(1);
-    clk_i2c = VL_RAND_RESET_I(1);
+    sys_clk = VL_RAND_RESET_I(1);
+    clk250 = VL_RAND_RESET_I(1);
     ulx3s_pass_through_sim__DOT__clk400 = VL_RAND_RESET_I(1);
     ulx3s_pass_through_sim__DOT__clk100Mhz = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__clk250 = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__mipi_clk05 = VL_RAND_RESET_I(1);
+    ulx3s_pass_through_sim__DOT__cam0_sda_w = VL_RAND_RESET_I(1);
+    ulx3s_pass_through_sim__DOT__cam0_scl_w = VL_RAND_RESET_I(1);
     ulx3s_pass_through_sim__DOT__addr_write = VL_RAND_RESET_I(19);
     ulx3s_pass_through_sim__DOT__color = VL_RAND_RESET_I(8);
     ulx3s_pass_through_sim__DOT__red_v = VL_RAND_RESET_I(8);
@@ -4398,36 +4377,8 @@ void Vulx3s_pass_through_sim::_ctor_var_reset() {
     ulx3s_pass_through_sim__DOT__ready = VL_RAND_RESET_I(1);
     ulx3s_pass_through_sim__DOT__start = VL_RAND_RESET_I(1);
     ulx3s_pass_through_sim__DOT__counter = VL_RAND_RESET_I(8);
-    ulx3s_pass_through_sim__DOT__debug2__out__out10 = 0;
-    ulx3s_pass_through_sim__DOT__debug3__out__out11 = 0;
-    ulx3s_pass_through_sim__DOT__i2c__DOT__send_data = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam_ready_r = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__ready_old = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam_ready0 = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__datain = VL_RAND_RESET_I(8);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__slave_addr = VL_RAND_RESET_I(8);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__state = VL_RAND_RESET_I(8);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__register_in = VL_RAND_RESET_I(16);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__initia = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__init_old = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__counter = VL_RAND_RESET_I(32);
-    { int __Vi0=0; for (; __Vi0<62; ++__Vi0) {
-            ulx3s_pass_through_sim__DOT__i2c__DOT__data_init[__Vi0] = VL_RAND_RESET_I(24);
-    }}
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__r_w = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__valid_r = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__state = VL_RAND_RESET_I(8);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__send_data_old = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__rising_edge = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__counter = VL_RAND_RESET_I(32);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__sda0 = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__sending = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__ready0 = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__clkdelay0 = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__clkdelay1 = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__scl0 = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__scl1 = VL_RAND_RESET_I(1);
-    ulx3s_pass_through_sim__DOT__i2c__DOT__cam0__DOT__scl2 = VL_RAND_RESET_I(1);
+    ulx3s_pass_through_sim__DOT__debug2__out__out8 = 0;
+    ulx3s_pass_through_sim__DOT__debug3__out__out9 = 0;
     ulx3s_pass_through_sim__DOT__mipi__DOT__mipi_clk_8 = VL_RAND_RESET_I(1);
     ulx3s_pass_through_sim__DOT__mipi__DOT__rec_data = VL_RAND_RESET_I(1);
     ulx3s_pass_through_sim__DOT__mipi__DOT__lane0byte = VL_RAND_RESET_I(8);
@@ -4895,7 +4846,7 @@ void Vulx3s_pass_through_sim::_ctor_var_reset() {
     __Vdly__ulx3s_pass_through_sim__DOT__mipi__DOT__DE__DOT__wordcount_r = VL_RAND_RESET_I(16);
     __VinpClk__TOP__ulx3s_pass_through_sim__DOT__mipi__DOT__SYNC__DOT__eclki_r2 = VL_RAND_RESET_I(1);
     __Vchglast__TOP__ulx3s_pass_through_sim__DOT__mipi__DOT__SYNC__DOT__eclki_r2 = VL_RAND_RESET_I(1);
-    { int __Vi0=0; for (; __Vi0<14; ++__Vi0) {
+    { int __Vi0=0; for (; __Vi0<13; ++__Vi0) {
             __Vm_traceActivity[__Vi0] = VL_RAND_RESET_I(1);
     }}
 }

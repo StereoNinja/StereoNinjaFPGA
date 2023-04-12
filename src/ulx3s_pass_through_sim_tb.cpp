@@ -7,7 +7,7 @@
 #include <sys/types.h>
 #include <signal.h>
 #include "verilated.h"
-#include "Vulx3s_pass_through.h"
+#include "Vulx3s_pass_through_sim.h"
 #include "testb.h"
 #include <bitset>
 #include"BigInt.hpp"
@@ -35,12 +35,12 @@ const unsigned char BitReverseTable256[] =
 
 int	main(int argc, char **argv) {
 	Verilated::commandArgs(argc, argv);	
-			//tb->m_core->lane0_d=a[i-52];
-			//tb->m_core->lane0_d=((0x01370137b8)&(1<<(i-50)))/(pow(2,(i-50)));
-			//tb->m_core->lane1_d=((0x3FF03FF0b8)&(1<<(i-50)))/(pow(2,(i-50)));
-	TESTB<Vulx3s_pass_through>	*tb
-		= new TESTB<Vulx3s_pass_through>;
-	tb->opentrace("MIPI_Sim.vcd");
+			//tb->m_core->cam0_d0=a[i-52];
+			//tb->m_core->cam0_d0=((0x01370137b8)&(1<<(i-50)))/(pow(2,(i-50)));
+			//tb->m_core->cam0_d1=((0x3FF03FF0b8)&(1<<(i-50)))/(pow(2,(i-50)));
+	TESTB<Vulx3s_pass_through_sim>	*tb
+		= new TESTB<Vulx3s_pass_through_sim>;
+	tb->opentrace("TOPSIM.vcd");
 	uint32_t data=(shortpackage(0x37,0x01,0x00));
 	uint64_t lane0reg=(shortpackage(0x37,0x01,0x00));
 	uint64_t lane1reg=shortpackage(0xF0,0x3f,0x00);
@@ -50,8 +50,8 @@ int	main(int argc, char **argv) {
 	//std::string a_string="100010000100100000111000001010000001100000001000000100010101010111000";
 	//std::string b_string="100100001000000001000000001100000010000000010000011101000000010111000";
 
-	std::string a_string=hex_to_bits("00F000FF0581C2C8B8BBF3B900FF022ab8");
-	std::string b_string=hex_to_bits("00000100DFF87C755AD472DC02000E80b8");
+	std::string a_string=hex_to_bits("20F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab8");
+	std::string b_string=hex_to_bits("10F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800F000FF0581C2C8B8BBF3B900FF022ab800000100DFF87C755AD472DC02000E80b8");
 	//std::string a_string=hex_to_bits("006900FF78D28C82784F1E1E00FF022ab8");
 	//std::string b_string=hex_to_bits("00E50100E93C70E0C582C7F000000E80b8");
 	
@@ -83,23 +83,23 @@ int	main(int argc, char **argv) {
 		//tb->m_core->lane0=((lane0reg)&(1<<i))/(pow(2,i));
 		//tb->m_core->lane1=((lane1reg)&(1<<i))/(pow(2,i));
 		if(i==0){
-			tb->m_core->lane0_p=1;
-			tb->m_core->lane0_n=1;
-			tb->m_core->lane1_p=1;
-			tb->m_core->lane1_n=1;
+			tb->m_core->cam0_d0_r_p=1;
+			tb->m_core->cam0_d0_r_n=1;
+			tb->m_core->cam0_d1_r_p=1;
+			tb->m_core->cam0_d1_r_n=1;
 		}
 		if(i==10){
-			tb->m_core->lane0_p=0;
-			tb->m_core->lane0_n=1;
-			tb->m_core->lane1_p=0;
-			tb->m_core->lane1_n=1;
+			tb->m_core->cam0_d0_r_p=0;
+			tb->m_core->cam0_d0_r_n=1;
+			tb->m_core->cam0_d1_r_p=0;
+			tb->m_core->cam0_d1_r_n=1;
 		}
 		if(i==20)
 		{
-			tb->m_core->lane0_p=0;
-			tb->m_core->lane0_n=0;
-			tb->m_core->lane1_p=0;
-			tb->m_core->lane1_n=0;
+			tb->m_core->cam0_d0_r_p=0;
+			tb->m_core->cam0_d0_r_n=0;
+			tb->m_core->cam0_d1_r_p=0;
+			tb->m_core->cam0_d1_r_n=0;
 		}
 		if(i>=200)
 		{
@@ -108,31 +108,31 @@ int	main(int argc, char **argv) {
 			//a=0x110907050301022ab8;
 			//BigInt a=0x110907050301022ab8;
 			//BigInt b=0x1210080604020E80b8;
-			//tb->m_core->lane0_d=1&(0x110907050301022ab8>>(i-50));
-			tb->m_core->lane0_d=a[i-200];
-			tb->m_core->lane1_d=b[i-200];
-			//tb->m_core->lane1_d=a[i-200];			
-			//tb->m_core->lane1_d=1&(0x1210080604020E80b8>>(i-200));
+			//tb->m_core->cam0_d0=1&(0x110907050301022ab8>>(i-50));
+			tb->m_core->cam0_d0=a[i-200];
+			tb->m_core->cam0_d1=b[i-200];
+			//tb->m_core->cam0_d1=a[i-200];			
+			//tb->m_core->cam0_d1=1&(0x1210080604020E80b8>>(i-200));
 
 		}
 		if(i==5000){
-			tb->m_core->lane0_p=1;
-			tb->m_core->lane0_n=1;
-			tb->m_core->lane1_p=1;
-			tb->m_core->lane1_n=1;
+			tb->m_core->cam0_d0_r_p=1;
+			tb->m_core->cam0_d0_r_n=1;
+			tb->m_core->cam0_d1_r_p=1;
+			tb->m_core->cam0_d1_r_n=1;
 		}
 		if(i==5010){
-			tb->m_core->lane0_p=0;
-			tb->m_core->lane0_n=1;
-			tb->m_core->lane1_p=0;
-			tb->m_core->lane1_n=1;
+			tb->m_core->cam0_d0_r_p=0;
+			tb->m_core->cam0_d0_r_n=1;
+			tb->m_core->cam0_d1_r_p=0;
+			tb->m_core->cam0_d1_r_n=1;
 		}
 		if(i==5080)
 		{
-			tb->m_core->lane0_p=0;
-			tb->m_core->lane0_n=0;
-			tb->m_core->lane1_p=0;
-			tb->m_core->lane1_n=0;
+			tb->m_core->cam0_d0_r_p=0;
+			tb->m_core->cam0_d0_r_n=0;
+			tb->m_core->cam0_d1_r_p=0;
+			tb->m_core->cam0_d1_r_n=0;
 		}
 		if(i>=5250)
 		{
@@ -141,31 +141,31 @@ int	main(int argc, char **argv) {
 			//a=0x110907050301022ab8;
 			//BigInt a=0x110907050301022ab8;
 			//BigInt b=0x1210080604020E80b8;
-			//tb->m_core->lane0_d=1&(0x110907050301022ab8>>(i-50));
-			tb->m_core->lane0_d=a[i-5250];
-			tb->m_core->lane1_d=b[i-5250];
-			//tb->m_core->lane1_d=a[i-200];			
-			//tb->m_core->lane1_d=1&(0x1210080604020E80b8>>(i-200));
+			//tb->m_core->cam0_d0=1&(0x110907050301022ab8>>(i-50));
+			tb->m_core->cam0_d0=a[i-5250];
+			tb->m_core->cam0_d1=b[i-5250];
+			//tb->m_core->cam0_d1=a[i-200];			
+			//tb->m_core->cam0_d1=1&(0x1210080604020E80b8>>(i-200));
 
 		}
 		if(i==10000){
-			tb->m_core->lane0_p=1;
-			tb->m_core->lane0_n=1;
-			tb->m_core->lane1_p=1;
-			tb->m_core->lane1_n=1;
+			tb->m_core->cam0_d0_r_p=1;
+			tb->m_core->cam0_d0_r_n=1;
+			tb->m_core->cam0_d1_r_p=1;
+			tb->m_core->cam0_d1_r_n=1;
 		}
 		if(i==10010){
-			tb->m_core->lane0_p=0;
-			tb->m_core->lane0_n=1;
-			tb->m_core->lane1_p=0;
-			tb->m_core->lane1_n=1;
+			tb->m_core->cam0_d0_r_p=0;
+			tb->m_core->cam0_d0_r_n=1;
+			tb->m_core->cam0_d1_r_p=0;
+			tb->m_core->cam0_d1_r_n=1;
 		}
 		if(i==10080)
 		{
-			tb->m_core->lane0_p=0;
-			tb->m_core->lane0_n=0;
-			tb->m_core->lane1_p=0;
-			tb->m_core->lane1_n=0;
+			tb->m_core->cam0_d0_r_p=0;
+			tb->m_core->cam0_d0_r_n=0;
+			tb->m_core->cam0_d1_r_p=0;
+			tb->m_core->cam0_d1_r_n=0;
 		}
 		if(i>=10250)
 		{
@@ -174,32 +174,32 @@ int	main(int argc, char **argv) {
 			//a=0x110907050301022ab8;
 			//BigInt a=0x110907050301022ab8;
 			//BigInt b=0x1210080604020E80b8;
-			//tb->m_core->lane0_d=1&(0x110907050301022ab8>>(i-50));
-			tb->m_core->lane0_d=a1[i-10250];
-			tb->m_core->lane1_d=b1[i-10250];
-			//tb->m_core->lane1_d=a[i-200];			
-			//tb->m_core->lane1_d=1&(0x1210080604020E80b8>>(i-200));
+			//tb->m_core->cam0_d0=1&(0x110907050301022ab8>>(i-50));
+			tb->m_core->cam0_d0=a1[i-10250];
+			tb->m_core->cam0_d1=b1[i-10250];
+			//tb->m_core->cam0_d1=a[i-200];			
+			//tb->m_core->cam0_d1=1&(0x1210080604020E80b8>>(i-200));
 
 		}
 
 		if(i==15000){
-			tb->m_core->lane0_p=1;
-			tb->m_core->lane0_n=1;
-			tb->m_core->lane1_p=1;
-			tb->m_core->lane1_n=1;
+			tb->m_core->cam0_d0_r_p=1;
+			tb->m_core->cam0_d0_r_n=1;
+			tb->m_core->cam0_d1_r_p=1;
+			tb->m_core->cam0_d1_r_n=1;
 		}
 		if(i==15010){
-			tb->m_core->lane0_p=0;
-			tb->m_core->lane0_n=1;
-			tb->m_core->lane1_p=0;
-			tb->m_core->lane1_n=1;
+			tb->m_core->cam0_d0_r_p=0;
+			tb->m_core->cam0_d0_r_n=1;
+			tb->m_core->cam0_d1_r_p=0;
+			tb->m_core->cam0_d1_r_n=1;
 		}
 		if(i==15080)
 		{
-			tb->m_core->lane0_p=0;
-			tb->m_core->lane0_n=0;
-			tb->m_core->lane1_p=0;
-			tb->m_core->lane1_n=0;
+			tb->m_core->cam0_d0_r_p=0;
+			tb->m_core->cam0_d0_r_n=0;
+			tb->m_core->cam0_d1_r_p=0;
+			tb->m_core->cam0_d1_r_n=0;
 		}
 		if(i>=15250)
 		{
@@ -208,11 +208,11 @@ int	main(int argc, char **argv) {
 			//a=0x110907050301022ab8;
 			//BigInt a=0x110907050301022ab8;
 			//BigInt b=0x1210080604020E80b8;
-			//tb->m_core->lane0_d=1&(0x110907050301022ab8>>(i-50));
-			tb->m_core->lane0_d=a[i-15250];
-			tb->m_core->lane1_d=b[i-15250];
-			//tb->m_core->lane1_d=a[i-200];			
-			//tb->m_core->lane1_d=1&(0x1210080604020E80b8>>(i-200));
+			//tb->m_core->cam0_d0=1&(0x110907050301022ab8>>(i-50));
+			tb->m_core->cam0_d0=a[i-15250];
+			tb->m_core->cam0_d1=b[i-15250];
+			//tb->m_core->cam0_d1=a[i-200];			
+			//tb->m_core->cam0_d1=1&(0x1210080604020E80b8>>(i-200));
 
 		}
 		tb->tick();

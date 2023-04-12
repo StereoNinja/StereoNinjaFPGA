@@ -1,12 +1,10 @@
 module ulx3s_pass_through_sim(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,debug3,input reset,btn,input fire ,input cam0_clk,inout cam0_d0,cam0_d1,cam0_d0_r_p,cam0_d0_r_n,cam0_d1_r_p,cam0_d1_r_n,cam0_clk_r_p,cam0_clk_r_n,
-		output[7:0] led,output[3:0] TMDSd,output ftdi_rxd,output ftdi_txden,input clk_i2c);	
+		output[7:0] led,output[3:0] TMDSd,output ftdi_rxd,output ftdi_txden,input sys_clk,clk250);	
 	//This FIle for Sim only
 	wire clk400;
-	wire clk100Mhz;
-	wire clk250;
+	wire clk100Mhz;	
 	wire cam0_sda_w,cam0_scl_w;
 	wire term;
-	wire mipi_clk05;
 	assign cam0_sda=cam0_sda_w;
 	assign cam0_scl=cam0_scl_w;	
 	//Terminierung von cam0
@@ -17,7 +15,7 @@ module ulx3s_pass_through_sim(input pixclk,inout cam0_sda,inout cam0_scl,debug0,
 	assign cam0_clk_r_p=1?0:'bz;
 	assign cam0_clk_r_n=1?0:'bz;	
 	//	
-	Cam_Init i2c (.clk400(clk_i2c),.reset(reset),.init(fire),.sda(cam0_sda_w),.scl(cam0_scl_w));	
+	//Cam_Init i2c (.clk400(clk_i2c),.reset(reset),.init(fire),.sda(cam0_sda_w),.scl(cam0_scl_w));	
 	
 
 	
@@ -27,7 +25,7 @@ module ulx3s_pass_through_sim(input pixclk,inout cam0_sda,inout cam0_scl,debug0,
 	wire ram_clk,rec_data;
 	wire[20:0] read_addr;
 	wire[18:0] addr_write;
-	MIPI_Reciever mipi(.cX(cX),.cY(cY),.rec_data_o(rec_data),.sys_clk(clk100Mhz),.mipi_clk(cam0_clk),.reset(reset),.lane0_d(cam0_d0),.lane1_d(cam0_d1),.lane0_p(cam0_d0_r_p),.lane0_n(cam0_d0_r_n),.lane1_p(cam0_d1_r_p),.lane1_n(cam0_d1_r_n),.data_o(data),.adress_out(data_adress),.ram_clk(ram_clk),.debug0(debug0),.debug1(debug1),.debug2(debug2),.debug3(debug3),.termination(term));	
+	MIPI_Reciever mipi(.cX(cX),.cY(cY),.rec_data_o(rec_data),.sys_clk(sys_clk),.mipi_clk(cam0_clk),.reset(reset),.lane0_d(cam0_d0),.lane1_d(cam0_d1),.lane0_p(cam0_d0_r_p),.lane0_n(cam0_d0_r_n),.lane1_p(cam0_d1_r_p),.lane1_n(cam0_d1_r_n),.data_o(data),.adress_out(data_adress),.ram_clk(ram_clk),.debug0(debug0),.debug1(debug1),.debug2(debug2),.debug3(debug3),.termination(term));	
 	assign led=0;
 	reg [7:0] color;
 	reg [7:0] red_v,green_v,blue_v;	
@@ -277,7 +275,7 @@ module dpram_dualclock
 		output reg [31:0] data_out
 	);
 		reg [31:0] ram[76799:0];	
-		initial $readmemh("testimage.mem",ram);	
+		initial $readmemh("TOPFILES/testimage.mem",ram);	
 
 		// Port A 
 		always @ (posedge clk)

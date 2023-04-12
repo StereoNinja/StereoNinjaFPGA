@@ -25,7 +25,7 @@
 	`else
 		clock clkmult(.clkin_25MHz(pixclk),.clk_250MHz(clk_high),.clk_25MHz(clk_low));		
 	`endif 
-	HDMI_Transciever #(
+	HDMI_Transciever /*#(
 			.h_pixel(1280),				  
 			.h_front_porch(110),		
 			.h_back_porch(220),		
@@ -33,7 +33,7 @@
 			.v_pixel(720),				  
 			.v_front_porch(5),		
 			.v_back_porch(20),		
-			.v_tot_pixel(750)) HDMI (.clk_low(clk_low),.clk_high(clk_high),.red(red),.green(green),.blue(blue),.TMDSd(TMDSd),.reset(reset),.addr(addr));	
+			.v_tot_pixel(750)) */HDMI (.clk_low(clk_low),.clk_high(clk_high),.red(red),.green(green),.blue(blue),.TMDSd(TMDSd),.reset(reset),.addr(addr));	
 	always @(posedge pixclk) begin
 		if(reset==1)begin		
 			red<=0;

@@ -43,6 +43,7 @@ public:
 		Verilated::traceEverOn(true);
 		m_core->pixclk = 0;
 		m_core->cam0_clk = 0;
+		m_core->sys_clk= 0;
 
 		//m_core->byte_clk_8 = 0;
 		eval(); // Get our initial values set properly.
@@ -82,14 +83,15 @@ public:
 		// logic depends.  This forces that logic to be recalculated
 		// before the top of the clock.
 		eval();
-		m_core->pixclk = (((m_tickcount-1)%16)<8) ? 1 : 0;
+		m_core->pixclk = (((m_tickcount-1)%38)<19) ? 1 : 0;
 		//m_core->mipi_clk_2= (((m_tickcount-1)%4)<2) ? 1 : 0;
 		//m_core->mipi_clk_4= (((m_tickcount-1)%8)<4) ? 1 : 0;
 		m_core->cam0_clk= (((m_tickcount-1)%2)<1) ? 1 : 0;
-		
+		m_core->sys_clk= (((m_tickcount-1)%18)<9) ? 1 : 0;
+		m_core->clk250= (((m_tickcount-1)%8)<4) ? 1 : 0;	
 				
 				eval();
-				if (m_trace) m_trace->dump((vluint64_t)(1100*m_tickcount));
+				if (m_trace) m_trace->dump((vluint64_t)(1090*m_tickcount));
 				
 		eval();
 		if (m_trace) {

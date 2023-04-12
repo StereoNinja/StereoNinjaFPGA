@@ -230,15 +230,15 @@ VL_INLINE_OPT void VHDMI_Transciever_Sim::_sequent__TOP__6(VHDMI_Transciever_Sim
         }
     }
     vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__hSync 
-        = ((IData)(vlTOPp->reset) ? 0U : (1U & ((0x56eU 
+        = ((IData)(vlTOPp->reset) ? 0U : (1U & ((0x290U 
                                                  <= (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX)) 
-                                                & (0x596U 
+                                                & (0x2f0U 
                                                    > (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX)))));
     if (vlTOPp->reset) {
         vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__addr_r = 0U;
         __Vdly__HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX = 0U;
     } else {
-        if ((0x671U == (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX))) {
+        if ((0x31fU == (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX))) {
             __Vdly__HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX = 0U;
         } else {
             __Vdly__HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX 
@@ -249,13 +249,13 @@ VL_INLINE_OPT void VHDMI_Transciever_Sim::_sequent__TOP__6(VHDMI_Transciever_Sim
                                  : vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__addr_r));
         }
         vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__vSync 
-            = ((((0x2d5U <= (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterY)) 
-                 & (0x2daU > (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterY))) 
-                & (0x670U > (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX))) 
-               | ((0x2d4U == (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterY)) 
-                  & (0x670U <= (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX))));
-        if ((0x671U == (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX))) {
-            if ((0x2edU == (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterY))) {
+            = ((((0x1eaU <= (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterY)) 
+                 & (0x1ecU > (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterY))) 
+                & (0x31eU > (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX))) 
+               | ((0x1e9U == (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterY)) 
+                  & (0x31eU <= (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX))));
+        if ((0x31fU == (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX))) {
+            if ((0x20cU == (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterY))) {
                 __Vdly__HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterY = 0U;
                 vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__addr_r = 0U;
             } else {
@@ -303,9 +303,9 @@ VL_INLINE_OPT void VHDMI_Transciever_Sim::_sequent__TOP__6(VHDMI_Transciever_Sim
         = (((IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__vSync) 
             << 1U) | (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__hSync));
     vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__DrawArea 
-        = ((IData)(vlTOPp->reset) ? 0U : (3U & ((0x500U 
+        = ((IData)(vlTOPp->reset) ? 0U : (3U & ((0x280U 
                                                  > (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterX)) 
-                                                & (0x2d0U 
+                                                & (0x1e0U 
                                                    > (IData)(vlTOPp->HDMI_Transciever_Sim__DOT__HDMI__DOT__CounterY)))));
     vlTOPp->__Vfunc_HDMI_Transciever_Sim__DOT__HDMI__DOT__encoder0__DOT__N1__15__data 
         = vlTOPp->HDMI_Transciever_Sim__DOT__blue;

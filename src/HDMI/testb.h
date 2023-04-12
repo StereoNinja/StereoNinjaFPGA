@@ -81,13 +81,11 @@ public:
 		// before the top of the clock.
 		eval();
 		m_core->pixclk= (((m_tickcount-1)%10)<5) ? 1 : 0;
-				m_core->clk_high = 1;
-				eval();
-				if (m_trace) m_trace->dump((vluint64_t)(10*m_tickcount));
-				m_core->clk_high = 0;
+		m_core->clk_high= (((m_tickcount-1)%2)<1) ? 1 : 0;
+				
 		eval();
 		if (m_trace) {
-			m_trace->dump((vluint64_t)(10*m_tickcount+5));
+			m_trace->dump((vluint64_t)(4000*m_tickcount+5));
 			m_trace->flush();
 		}
 	}
