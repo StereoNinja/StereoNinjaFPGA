@@ -7,4 +7,4 @@ read_verilog HDMI/TMDS_Encoder.v
 read_verilog Serial/SERIAL.v
 read_verilog Serial/TX.v
 
-synth_ecp5 -json pass_through.json
+synth_ecp5 -abc9 -json pass_through.json
