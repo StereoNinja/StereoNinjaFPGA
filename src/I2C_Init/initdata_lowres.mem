@@ -39,12 +39,12 @@
 030908 // Output pixel clock divider (/10 for 10-bit/8 for 8-bit)
 030b01 // Output sytem clock divider (always /2)
 030c00 // PLL output system clock multiplier MSB
-030d57 // PLL output system clock multiplier LSB (DDR clockas compared to 0x0307)//72 70 57 working
+030d72 // PLL output system clock multiplier LSB (DDR clockas compared to 0x0307)//72 70 57 working
 062402 // Test pattern window width MSB
 062580 // Test pattern window width LSB
 062601 // Test pattern window height MSB
 0627e0 // Test pattern window height LSB
-060107 //Test Patter
+060100 //Test Patter
 455e00 // CMOS Image Sensor Tuning for all below
 471e4b
 47670f

@@ -45,6 +45,9 @@ clean:
 	rm -rf pass_through.bit
 	rm -rf pass_through.config
 	rm -rf pass_through.json
+	rm -rf pass_through_cam2.bit
+	rm -rf pass_through_cam2.config
+	rm -rf pass_through_cam2.json
 	rm -rf MIPI_Serial.bit
 	rm -rf MIPI_Serial.config
 	rm -rf MIPI_Serial.json
@@ -98,7 +101,21 @@ prog_MIPI_Serial: MIPI_Serial.bit
 
 
 
+pass_through_cam2.bit: pass_through_cam2.config
+	ecppack pass_through_cam2.config pass_through_cam2.bit
 
+pass_through_cam2.config: pass_through_cam2.json
+	nextpnr-ecp5 --85k --json pass_through_cam2.json  \
+		--lpf LPF/ulx3s_v20.lpf \
+		--package CABGA381 \
+		--textcfg pass_through_cam2.config\
+		--lpf-allow-unconstrained		
+
+pass_through_cam2.json: pass_through_cam2.ys  
+	yosys pass_through_cam2.ys 
+
+prog_pass_through_cam2: pass_through_cam2.bit
+	sudo ujprog pass_through_cam2.bit
 
 
 
