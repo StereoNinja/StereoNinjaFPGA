@@ -92,6 +92,7 @@ module HDMI_Transciever
 	assign TMDSd[0]=TMDS_b;
 	assign TMDSd[3]=clk_low;
 
+/*
 	reg[7:0] red_bay,green_bay,blue_bay;
 
 	always @(posedge clk_low) begin
@@ -99,10 +100,10 @@ module HDMI_Transciever
 	    green_bay=(CounterY[0])?(CounterX[0]?green:0):(CounterX[0]?0:green);
 		blue_bay=(CounterY[0])?(CounterX[0]?0:blue):(CounterX[0]?0:0);
 	end
+	*/
 	
-	
-	TMDS_Encoder encoder0 (.clklow(clk_low),.reset(reset),.state(DrawArea),.pix_data(blue_bay),.H_VSync_Ctr({vSync,hSync}),.q_out(TMDS_blue));
-	TMDS_Encoder encoder1 (.clklow(clk_low),.reset(reset),.state(DrawArea),.pix_data(green_bay),.H_VSync_Ctr(2'b0),.q_out(TMDS_green));
-	TMDS_Encoder encoder2 (.clklow(clk_low),.reset(reset),.state(DrawArea),.pix_data(red_bay),.H_VSync_Ctr(2'b0),.q_out(TMDS_red));	
+	TMDS_Encoder encoder0 (.clklow(clk_low),.reset(reset),.state(DrawArea),.pix_data(blue),.H_VSync_Ctr({vSync,hSync}),.q_out(TMDS_blue));
+	TMDS_Encoder encoder1 (.clklow(clk_low),.reset(reset),.state(DrawArea),.pix_data(green),.H_VSync_Ctr(2'b0),.q_out(TMDS_green));
+	TMDS_Encoder encoder2 (.clklow(clk_low),.reset(reset),.state(DrawArea),.pix_data(red),.H_VSync_Ctr(2'b0),.q_out(TMDS_red));	
 		
 endmodule
