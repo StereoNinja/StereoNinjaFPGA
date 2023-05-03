@@ -26,3 +26,10 @@ Todos
 
 
 ![](images/Stereoninja.jpg)
+
+
+- /DOCS_ULX3S Some Documentations for used Hardware and Protocoll Spezifications
+- /ULX3S_ninja PCB for Adapterboard
+- /old Some old Projects for Testing
+- /src Source Code for StereoninjaFPGA
+ 
