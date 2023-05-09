@@ -23,7 +23,8 @@ module MIPI_Reciever(input sys_clk,mipi_clk,reset,lane0_d,lane1_d,inout lane0_p,
 	
 	//simpll sim (.clk(mipi_clk),.oclk(mipi_clk_0125));
 	//DataHandler DH(.mipi_clk_0125(mipi_clk),.reset(reset),.header_detect(debug2_w),.in(out),.recieve_data(rec_data),.FS(FS),.RAW8(RAW8));
-
+ 
+ 
 endmodule
 module Pulsedelay(input clk,in,output out);
 reg[64:0] data=0;
