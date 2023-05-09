@@ -10,7 +10,9 @@ module moduleName (
     reg [7:0] line0[639:0];
     reg [7:0] line1[639:0];
     reg [7:0] line2[639:0];
-    
+    assign address_out=address_in;
+    always @(posedge clock) begin
+        
+    end
 
-    
 endmodule

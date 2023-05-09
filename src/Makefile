@@ -45,6 +45,9 @@ clean:
 	rm -rf pass_through.bit
 	rm -rf pass_through.config
 	rm -rf pass_through.json
+	rm -rf pass_through_hs_only.bit
+	rm -rf pass_through_hs_only.config
+	rm -rf pass_through_hs_only.json
 	rm -rf pass_through_cam2.bit
 	rm -rf pass_through_cam2.config
 	rm -rf pass_through_cam2.json
@@ -72,6 +75,47 @@ pass_through.json: pass_through.ys
 
 prog_pass_through: pass_through.bit
 	sudo ujprog pass_through.bit
+
+
+
+
+
+
+
+
+
+pass_through_hs_only.bit: pass_through_hs_only.config
+	ecppack pass_through_hs_only.config pass_through_hs_only.bit
+
+pass_through_hs_only.config: pass_through_hs_only.json
+	nextpnr-ecp5 --85k --json pass_through_hs_only.json  \
+		--lpf LPF/ulx3s_v20.lpf \
+		--package CABGA381 \
+		--textcfg pass_through_hs_only.config\
+		--lpf-allow-unconstrained		
+
+pass_through_hs_only.json: pass_through_hs_only.ys  
+	yosys pass_through_hs_only.ys 
+
+prog_pass_through_hs_only: pass_through_hs_only.bit
+	sudo ujprog pass_through_hs_only.bit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 MIPI_Serial.bit: MIPI_Serial.config
