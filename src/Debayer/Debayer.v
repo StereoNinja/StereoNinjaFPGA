@@ -1,7 +1,7 @@
 module Debayer 
     #(  parameter
-		size_x=640,
-        size_y=480)
+		size_x=10,
+        size_y=10)
     (   input clock,reset,
         input[18:0] address_in,
         output[18:0]address_out,

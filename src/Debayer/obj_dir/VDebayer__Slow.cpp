@@ -32,30 +32,47 @@ void VDebayer::_initial__TOP__2(VDebayer__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VDebayer::_initial__TOP__2\n"); );
     VDebayer* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->Debayer__DOT__i = 0U;
-    while (VL_GTS_III(1,32,32, 0x280U, vlTOPp->Debayer__DOT__i)) {
-        vlTOPp->Debayer__DOT____Vlvbound1 = 0U;
-        if (VL_LIKELY((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__i)))) {
-            vlTOPp->Debayer__DOT__line0[(0x3ffU & vlTOPp->Debayer__DOT__i)] 
-                = vlTOPp->Debayer__DOT____Vlvbound1;
-        }
-        vlTOPp->Debayer__DOT____Vlvbound2 = 0U;
-        if (VL_LIKELY((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__i)))) {
-            vlTOPp->Debayer__DOT__line1[(0x3ffU & vlTOPp->Debayer__DOT__i)] 
-                = vlTOPp->Debayer__DOT____Vlvbound2;
-        }
-        vlTOPp->Debayer__DOT____Vlvbound3 = 0U;
-        if (VL_LIKELY((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__i)))) {
-            vlTOPp->Debayer__DOT__line2[(0x3ffU & vlTOPp->Debayer__DOT__i)] 
-                = vlTOPp->Debayer__DOT____Vlvbound3;
-        }
-        vlTOPp->Debayer__DOT____Vlvbound4 = 0U;
-        if (VL_LIKELY((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__i)))) {
-            vlTOPp->Debayer__DOT__line3[(0x3ffU & vlTOPp->Debayer__DOT__i)] 
-                = vlTOPp->Debayer__DOT____Vlvbound4;
-        }
-        vlTOPp->Debayer__DOT__i = ((IData)(1U) + vlTOPp->Debayer__DOT__i);
-    }
+    vlTOPp->Debayer__DOT__line0[0U] = 0U;
+    vlTOPp->Debayer__DOT__line1[0U] = 0U;
+    vlTOPp->Debayer__DOT__line2[0U] = 0U;
+    vlTOPp->Debayer__DOT__line3[0U] = 0U;
+    vlTOPp->Debayer__DOT__line0[1U] = 0U;
+    vlTOPp->Debayer__DOT__line1[1U] = 0U;
+    vlTOPp->Debayer__DOT__line2[1U] = 0U;
+    vlTOPp->Debayer__DOT__line3[1U] = 0U;
+    vlTOPp->Debayer__DOT__line0[2U] = 0U;
+    vlTOPp->Debayer__DOT__line1[2U] = 0U;
+    vlTOPp->Debayer__DOT__line2[2U] = 0U;
+    vlTOPp->Debayer__DOT__line3[2U] = 0U;
+    vlTOPp->Debayer__DOT__line0[3U] = 0U;
+    vlTOPp->Debayer__DOT__line1[3U] = 0U;
+    vlTOPp->Debayer__DOT__line2[3U] = 0U;
+    vlTOPp->Debayer__DOT__line3[3U] = 0U;
+    vlTOPp->Debayer__DOT__line0[4U] = 0U;
+    vlTOPp->Debayer__DOT__line1[4U] = 0U;
+    vlTOPp->Debayer__DOT__line2[4U] = 0U;
+    vlTOPp->Debayer__DOT__line3[4U] = 0U;
+    vlTOPp->Debayer__DOT__line0[5U] = 0U;
+    vlTOPp->Debayer__DOT__line1[5U] = 0U;
+    vlTOPp->Debayer__DOT__line2[5U] = 0U;
+    vlTOPp->Debayer__DOT__line3[5U] = 0U;
+    vlTOPp->Debayer__DOT__line0[6U] = 0U;
+    vlTOPp->Debayer__DOT__line1[6U] = 0U;
+    vlTOPp->Debayer__DOT__line2[6U] = 0U;
+    vlTOPp->Debayer__DOT__line3[6U] = 0U;
+    vlTOPp->Debayer__DOT__line0[7U] = 0U;
+    vlTOPp->Debayer__DOT__line1[7U] = 0U;
+    vlTOPp->Debayer__DOT__line2[7U] = 0U;
+    vlTOPp->Debayer__DOT__line3[7U] = 0U;
+    vlTOPp->Debayer__DOT__line0[8U] = 0U;
+    vlTOPp->Debayer__DOT__line1[8U] = 0U;
+    vlTOPp->Debayer__DOT__line2[8U] = 0U;
+    vlTOPp->Debayer__DOT__line3[8U] = 0U;
+    vlTOPp->Debayer__DOT__line0[9U] = 0U;
+    vlTOPp->Debayer__DOT__line1[9U] = 0U;
+    vlTOPp->Debayer__DOT__line2[9U] = 0U;
+    vlTOPp->Debayer__DOT__line3[9U] = 0U;
+    vlTOPp->Debayer__DOT__i = 0xaU;
     vlTOPp->Debayer__DOT__line_sel = 0U;
 }
 
@@ -104,16 +121,16 @@ void VDebayer::_ctor_var_reset() {
     red = VL_RAND_RESET_I(8);
     green = VL_RAND_RESET_I(8);
     blue = VL_RAND_RESET_I(8);
-    { int __Vi0=0; for (; __Vi0<640; ++__Vi0) {
+    { int __Vi0=0; for (; __Vi0<10; ++__Vi0) {
             Debayer__DOT__line0[__Vi0] = VL_RAND_RESET_I(8);
     }}
-    { int __Vi0=0; for (; __Vi0<640; ++__Vi0) {
+    { int __Vi0=0; for (; __Vi0<10; ++__Vi0) {
             Debayer__DOT__line1[__Vi0] = VL_RAND_RESET_I(8);
     }}
-    { int __Vi0=0; for (; __Vi0<640; ++__Vi0) {
+    { int __Vi0=0; for (; __Vi0<10; ++__Vi0) {
             Debayer__DOT__line2[__Vi0] = VL_RAND_RESET_I(8);
     }}
-    { int __Vi0=0; for (; __Vi0<640; ++__Vi0) {
+    { int __Vi0=0; for (; __Vi0<10; ++__Vi0) {
             Debayer__DOT__line3[__Vi0] = VL_RAND_RESET_I(8);
     }}
     Debayer__DOT__red_r = VL_RAND_RESET_I(8);
@@ -125,10 +142,6 @@ void VDebayer::_ctor_var_reset() {
     Debayer__DOT__address_out_r = VL_RAND_RESET_I(19);
     Debayer__DOT__i = VL_RAND_RESET_I(32);
     Debayer__DOT__raw_pix = VL_RAND_RESET_I(9);
-    Debayer__DOT____Vlvbound1 = VL_RAND_RESET_I(8);
-    Debayer__DOT____Vlvbound2 = VL_RAND_RESET_I(8);
-    Debayer__DOT____Vlvbound3 = VL_RAND_RESET_I(8);
-    Debayer__DOT____Vlvbound4 = VL_RAND_RESET_I(8);
     Debayer__DOT____Vlvbound5 = VL_RAND_RESET_I(8);
     Debayer__DOT____Vlvbound6 = VL_RAND_RESET_I(8);
     Debayer__DOT____Vlvbound7 = VL_RAND_RESET_I(8);

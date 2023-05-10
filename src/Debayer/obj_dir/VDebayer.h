@@ -44,17 +44,13 @@ VL_MODULE(VDebayer) {
     IData/*31:0*/ Debayer__DOT__cY;
     IData/*18:0*/ Debayer__DOT__address_out_r;
     IData/*31:0*/ Debayer__DOT__i;
-    CData/*7:0*/ Debayer__DOT__line0[640];
-    CData/*7:0*/ Debayer__DOT__line1[640];
-    CData/*7:0*/ Debayer__DOT__line2[640];
-    CData/*7:0*/ Debayer__DOT__line3[640];
+    CData/*7:0*/ Debayer__DOT__line0[10];
+    CData/*7:0*/ Debayer__DOT__line1[10];
+    CData/*7:0*/ Debayer__DOT__line2[10];
+    CData/*7:0*/ Debayer__DOT__line3[10];
     
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
-    CData/*7:0*/ Debayer__DOT____Vlvbound1;
-    CData/*7:0*/ Debayer__DOT____Vlvbound2;
-    CData/*7:0*/ Debayer__DOT____Vlvbound3;
-    CData/*7:0*/ Debayer__DOT____Vlvbound4;
     CData/*7:0*/ Debayer__DOT____Vlvbound5;
     CData/*7:0*/ Debayer__DOT____Vlvbound6;
     CData/*7:0*/ Debayer__DOT____Vlvbound7;
