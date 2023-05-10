@@ -33,9 +33,34 @@ VL_MODULE(VDebayer) {
     VL_IN(address_in,18,0);
     VL_OUT(address_out,18,0);
     
+    // LOCAL SIGNALS
+    // Internals; generally not touched by application code
+    CData/*7:0*/ Debayer__DOT__red_r;
+    CData/*7:0*/ Debayer__DOT__green_r;
+    CData/*7:0*/ Debayer__DOT__blue_r;
+    CData/*1:0*/ Debayer__DOT__line_sel;
+    SData/*8:0*/ Debayer__DOT__raw_pix;
+    IData/*31:0*/ Debayer__DOT__cX;
+    IData/*31:0*/ Debayer__DOT__cY;
+    IData/*18:0*/ Debayer__DOT__address_out_r;
+    IData/*31:0*/ Debayer__DOT__i;
+    CData/*7:0*/ Debayer__DOT__line0[640];
+    CData/*7:0*/ Debayer__DOT__line1[640];
+    CData/*7:0*/ Debayer__DOT__line2[640];
+    CData/*7:0*/ Debayer__DOT__line3[640];
+    
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
-    CData/*0:0*/ __Vm_traceActivity[1];
+    CData/*7:0*/ Debayer__DOT____Vlvbound1;
+    CData/*7:0*/ Debayer__DOT____Vlvbound2;
+    CData/*7:0*/ Debayer__DOT____Vlvbound3;
+    CData/*7:0*/ Debayer__DOT____Vlvbound4;
+    CData/*7:0*/ Debayer__DOT____Vlvbound5;
+    CData/*7:0*/ Debayer__DOT____Vlvbound6;
+    CData/*7:0*/ Debayer__DOT____Vlvbound7;
+    CData/*7:0*/ Debayer__DOT____Vlvbound8;
+    CData/*0:0*/ __Vclklast__TOP__clock;
+    CData/*0:0*/ __Vm_traceActivity[2];
     
     // INTERNAL VARIABLES
     // Internals; generally not touched by application code
@@ -73,9 +98,6 @@ VL_MODULE(VDebayer) {
   private:
     static QData _change_request(VDebayer__Syms* __restrict vlSymsp);
     static QData _change_request_1(VDebayer__Syms* __restrict vlSymsp);
-  public:
-    static void _combo__TOP__1(VDebayer__Syms* __restrict vlSymsp);
-  private:
     void _ctor_var_reset() VL_ATTR_COLD;
   public:
     static void _eval(VDebayer__Syms* __restrict vlSymsp);
@@ -86,6 +108,9 @@ VL_MODULE(VDebayer) {
   public:
     static void _eval_initial(VDebayer__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _eval_settle(VDebayer__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _initial__TOP__2(VDebayer__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _sequent__TOP__1(VDebayer__Syms* __restrict vlSymsp);
+    static void _settle__TOP__3(VDebayer__Syms* __restrict vlSymsp) VL_ATTR_COLD;
   private:
     static void traceChgSub0(void* userp, VerilatedVcd* tracep);
     static void traceChgTop0(void* userp, VerilatedVcd* tracep);

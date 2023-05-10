@@ -16,9 +16,13 @@ int	main(int argc, char **argv) {
 		= new TESTB<VDebayer>;
 	tb->opentrace("HDMI_Sim.vcd");
 	//tb->m_core->btn= 0;
-
-	for (int i=0; i < 10000000; i++) {		
+	
+	for (int i=0; i < 1000000; i++) {		
 	    tb->tick();
+		tb->m_core->address_in=i;
+		tb->m_core->raw=255;
+
+
 	}
 	printf("\n\nSimulation complete\n");
 }
