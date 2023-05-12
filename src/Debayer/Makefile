@@ -13,7 +13,7 @@ VDIRFB  := ./obj_dir
 all: $(VCDFILE)
 
 GCC := g++
-CFLAGS = -g -Wall -I$(VINC) -I $(VDIRFB)
+CFLAGS = -g -Wall -I$(VINC) -I $(VDIRFB)  -I/usr/include/opencv4/opencv2 
 #
 # Modern versions of Verilator and C++ may require an -faligned-new flag
 # CFLAGS = -g -Wall -faligned-new -I$(VINC) -I $(VDIRFB)

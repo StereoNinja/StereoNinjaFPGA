@@ -66,23 +66,30 @@ void VDebayer::_eval_initial_loop(VDebayer__Syms* __restrict vlSymsp) {
     } while (VL_UNLIKELY(__Vchange));
 }
 
-VL_INLINE_OPT void VDebayer::_sequent__TOP__1(VDebayer__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VDebayer::_sequent__TOP__1\n"); );
+VL_INLINE_OPT void VDebayer::_combo__TOP__1(VDebayer__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VDebayer::_combo__TOP__1\n"); );
+    VDebayer* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlTOPp->address_out = vlTOPp->address_in;
+}
+
+VL_INLINE_OPT void VDebayer::_sequent__TOP__3(VDebayer__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VDebayer::_sequent__TOP__3\n"); );
     VDebayer* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Variables
     CData/*1:0*/ __Vdly__Debayer__DOT__line_sel;
-    CData/*3:0*/ __Vdlyvdim0__Debayer__DOT__line0__v0;
     CData/*7:0*/ __Vdlyvval__Debayer__DOT__line0__v0;
     CData/*0:0*/ __Vdlyvset__Debayer__DOT__line0__v0;
-    CData/*3:0*/ __Vdlyvdim0__Debayer__DOT__line1__v0;
     CData/*7:0*/ __Vdlyvval__Debayer__DOT__line1__v0;
     CData/*0:0*/ __Vdlyvset__Debayer__DOT__line1__v0;
-    CData/*3:0*/ __Vdlyvdim0__Debayer__DOT__line2__v0;
     CData/*7:0*/ __Vdlyvval__Debayer__DOT__line2__v0;
     CData/*0:0*/ __Vdlyvset__Debayer__DOT__line2__v0;
-    CData/*3:0*/ __Vdlyvdim0__Debayer__DOT__line3__v0;
     CData/*7:0*/ __Vdlyvval__Debayer__DOT__line3__v0;
     CData/*0:0*/ __Vdlyvset__Debayer__DOT__line3__v0;
+    SData/*9:0*/ __Vdlyvdim0__Debayer__DOT__line0__v0;
+    SData/*9:0*/ __Vdlyvdim0__Debayer__DOT__line1__v0;
+    SData/*9:0*/ __Vdlyvdim0__Debayer__DOT__line2__v0;
+    SData/*9:0*/ __Vdlyvdim0__Debayer__DOT__line3__v0;
     IData/*31:0*/ __Vdly__Debayer__DOT__cX;
     IData/*31:0*/ __Vdly__Debayer__DOT__cY;
     // Body
@@ -95,7 +102,7 @@ VL_INLINE_OPT void VDebayer::_sequent__TOP__1(VDebayer__Syms* __restrict vlSymsp
     __Vdlyvset__Debayer__DOT__line0__v0 = 0U;
     vlTOPp->Debayer__DOT__address_out_r = ((IData)(vlTOPp->reset)
                                             ? 0U : 
-                                           ((0x13U 
+                                           ((0x500U 
                                              == vlTOPp->address_in)
                                              ? 0U : 
                                             (0x7ffffU 
@@ -106,19 +113,14 @@ VL_INLINE_OPT void VDebayer::_sequent__TOP__1(VDebayer__Syms* __restrict vlSymsp
         __Vdly__Debayer__DOT__cY = 0U;
         __Vdly__Debayer__DOT__line_sel = 0U;
     } else {
-        if ((0x63U <= vlTOPp->address_in)) {
+        if ((0x4afffU <= vlTOPp->address_in)) {
             __Vdly__Debayer__DOT__cX = 0U;
             __Vdly__Debayer__DOT__cY = 0U;
             __Vdly__Debayer__DOT__line_sel = 0U;
         }
-        if ((9U <= vlTOPp->Debayer__DOT__cX)) {
+        if ((0x27fU <= vlTOPp->Debayer__DOT__cX)) {
             __Vdly__Debayer__DOT__cY = ((IData)(1U) 
                                         + vlTOPp->Debayer__DOT__cY);
-            __Vdly__Debayer__DOT__line_sel = ((3U > (IData)(vlTOPp->Debayer__DOT__line_sel))
-                                               ? (3U 
-                                                  & ((IData)(1U) 
-                                                     + (IData)(vlTOPp->Debayer__DOT__line_sel)))
-                                               : 0U);
             __Vdly__Debayer__DOT__cX = 0U;
         } else {
             __Vdly__Debayer__DOT__cX = ((IData)(1U) 
@@ -126,44 +128,534 @@ VL_INLINE_OPT void VDebayer::_sequent__TOP__1(VDebayer__Syms* __restrict vlSymsp
         }
         if ((0U == (IData)(vlTOPp->Debayer__DOT__line_sel))) {
             vlTOPp->Debayer__DOT____Vlvbound5 = vlTOPp->raw;
-            if ((9U >= (0xfU & vlTOPp->Debayer__DOT__cX))) {
+            if ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))) {
                 __Vdlyvval__Debayer__DOT__line0__v0 
                     = vlTOPp->Debayer__DOT____Vlvbound5;
                 __Vdlyvset__Debayer__DOT__line0__v0 = 1U;
                 __Vdlyvdim0__Debayer__DOT__line0__v0 
-                    = (0xfU & vlTOPp->Debayer__DOT__cX);
+                    = (0x3ffU & vlTOPp->Debayer__DOT__cX);
+            }
+            if ((0x27fU <= vlTOPp->Debayer__DOT__cX)) {
+                vlTOPp->Debayer__DOT__raw_pix[8U] = 
+                    ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer__DOT__cX)))
+                      ? vlTOPp->Debayer__DOT__line0
+                     [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer__DOT__cX))]
+                      : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[7U] = 
+                    ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                      ? vlTOPp->Debayer__DOT__line0
+                     [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                      : 0U);
+                __Vdly__Debayer__DOT__line_sel = 1U;
+                vlTOPp->Debayer__DOT__raw_pix[6U] = 
+                    ((0x27fU >= (0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                           - (IData)(1U))))
+                      ? vlTOPp->Debayer__DOT__line0
+                     [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                 - (IData)(1U)))] : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[5U] = 
+                    ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer__DOT__cX)))
+                      ? vlTOPp->Debayer__DOT__line3
+                     [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer__DOT__cX))]
+                      : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[4U] = 
+                    ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                      ? vlTOPp->Debayer__DOT__line3
+                     [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                      : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[3U] = 
+                    ((0x27fU >= (0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                           - (IData)(1U))))
+                      ? vlTOPp->Debayer__DOT__line3
+                     [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                 - (IData)(1U)))] : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[2U] = 
+                    ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer__DOT__cX)))
+                      ? vlTOPp->Debayer__DOT__line2
+                     [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer__DOT__cX))]
+                      : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[1U] = 
+                    ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                      ? vlTOPp->Debayer__DOT__line2
+                     [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                      : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[0U] = 
+                    ((0x27fU >= (0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                           - (IData)(1U))))
+                      ? vlTOPp->Debayer__DOT__line2
+                     [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                 - (IData)(1U)))] : 0U);
+            } else {
+                vlTOPp->Debayer__DOT__raw_pix[8U] = 
+                    ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer__DOT__cX)))
+                      ? vlTOPp->Debayer__DOT__line3
+                     [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer__DOT__cX))]
+                      : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[7U] = 
+                    ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                      ? vlTOPp->Debayer__DOT__line3
+                     [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                      : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[6U] = 
+                    ((0x27fU >= (0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                           - (IData)(1U))))
+                      ? vlTOPp->Debayer__DOT__line3
+                     [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                 - (IData)(1U)))] : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[5U] = 
+                    ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer__DOT__cX)))
+                      ? vlTOPp->Debayer__DOT__line2
+                     [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer__DOT__cX))]
+                      : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[4U] = 
+                    ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                      ? vlTOPp->Debayer__DOT__line2
+                     [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                      : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[3U] = 
+                    ((0x27fU >= (0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                           - (IData)(1U))))
+                      ? vlTOPp->Debayer__DOT__line2
+                     [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                 - (IData)(1U)))] : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[2U] = 
+                    ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer__DOT__cX)))
+                      ? vlTOPp->Debayer__DOT__line1
+                     [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer__DOT__cX))]
+                      : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[1U] = 
+                    ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                      ? vlTOPp->Debayer__DOT__line1
+                     [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                      : 0U);
+                vlTOPp->Debayer__DOT__raw_pix[0U] = 
+                    ((0x27fU >= (0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                           - (IData)(1U))))
+                      ? vlTOPp->Debayer__DOT__line1
+                     [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                 - (IData)(1U)))] : 0U);
             }
         } else {
             if ((1U == (IData)(vlTOPp->Debayer__DOT__line_sel))) {
                 vlTOPp->Debayer__DOT____Vlvbound6 = vlTOPp->raw;
-                if ((9U >= (0xfU & vlTOPp->Debayer__DOT__cX))) {
+                if ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))) {
                     __Vdlyvval__Debayer__DOT__line1__v0 
                         = vlTOPp->Debayer__DOT____Vlvbound6;
                     __Vdlyvset__Debayer__DOT__line1__v0 = 1U;
                     __Vdlyvdim0__Debayer__DOT__line1__v0 
-                        = (0xfU & vlTOPp->Debayer__DOT__cX);
+                        = (0x3ffU & vlTOPp->Debayer__DOT__cX);
+                }
+                if ((0x27fU <= vlTOPp->Debayer__DOT__cX)) {
+                    vlTOPp->Debayer__DOT__raw_pix[8U] 
+                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                                 + vlTOPp->Debayer__DOT__cX)))
+                            ? vlTOPp->Debayer__DOT__line1
+                           [(0x3ffU & ((IData)(1U) 
+                                       + vlTOPp->Debayer__DOT__cX))]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[7U] 
+                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                            ? vlTOPp->Debayer__DOT__line1
+                           [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                            : 0U);
+                    __Vdly__Debayer__DOT__line_sel = 2U;
+                    vlTOPp->Debayer__DOT__raw_pix[6U] 
+                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                                 - (IData)(1U))))
+                            ? vlTOPp->Debayer__DOT__line1
+                           [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                       - (IData)(1U)))]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[5U] 
+                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                                 + vlTOPp->Debayer__DOT__cX)))
+                            ? vlTOPp->Debayer__DOT__line0
+                           [(0x3ffU & ((IData)(1U) 
+                                       + vlTOPp->Debayer__DOT__cX))]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[4U] 
+                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                            ? vlTOPp->Debayer__DOT__line0
+                           [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[3U] 
+                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                                 - (IData)(1U))))
+                            ? vlTOPp->Debayer__DOT__line0
+                           [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                       - (IData)(1U)))]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[2U] 
+                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                                 + vlTOPp->Debayer__DOT__cX)))
+                            ? vlTOPp->Debayer__DOT__line3
+                           [(0x3ffU & ((IData)(1U) 
+                                       + vlTOPp->Debayer__DOT__cX))]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[1U] 
+                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                            ? vlTOPp->Debayer__DOT__line3
+                           [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[0U] 
+                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                                 - (IData)(1U))))
+                            ? vlTOPp->Debayer__DOT__line3
+                           [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                       - (IData)(1U)))]
+                            : 0U);
+                } else {
+                    vlTOPp->Debayer__DOT__raw_pix[8U] 
+                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                                 + vlTOPp->Debayer__DOT__cX)))
+                            ? vlTOPp->Debayer__DOT__line0
+                           [(0x3ffU & ((IData)(1U) 
+                                       + vlTOPp->Debayer__DOT__cX))]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[7U] 
+                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                            ? vlTOPp->Debayer__DOT__line0
+                           [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[6U] 
+                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                                 - (IData)(1U))))
+                            ? vlTOPp->Debayer__DOT__line0
+                           [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                       - (IData)(1U)))]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[5U] 
+                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                                 + vlTOPp->Debayer__DOT__cX)))
+                            ? vlTOPp->Debayer__DOT__line3
+                           [(0x3ffU & ((IData)(1U) 
+                                       + vlTOPp->Debayer__DOT__cX))]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[4U] 
+                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                            ? vlTOPp->Debayer__DOT__line3
+                           [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[3U] 
+                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                                 - (IData)(1U))))
+                            ? vlTOPp->Debayer__DOT__line3
+                           [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                       - (IData)(1U)))]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[2U] 
+                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                                 + vlTOPp->Debayer__DOT__cX)))
+                            ? vlTOPp->Debayer__DOT__line2
+                           [(0x3ffU & ((IData)(1U) 
+                                       + vlTOPp->Debayer__DOT__cX))]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[1U] 
+                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                            ? vlTOPp->Debayer__DOT__line2
+                           [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                            : 0U);
+                    vlTOPp->Debayer__DOT__raw_pix[0U] 
+                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                                 - (IData)(1U))))
+                            ? vlTOPp->Debayer__DOT__line2
+                           [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                       - (IData)(1U)))]
+                            : 0U);
                 }
             } else {
                 if ((2U == (IData)(vlTOPp->Debayer__DOT__line_sel))) {
                     vlTOPp->Debayer__DOT____Vlvbound7 
                         = vlTOPp->raw;
-                    if ((9U >= (0xfU & vlTOPp->Debayer__DOT__cX))) {
+                    if ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))) {
                         __Vdlyvval__Debayer__DOT__line2__v0 
                             = vlTOPp->Debayer__DOT____Vlvbound7;
                         __Vdlyvset__Debayer__DOT__line2__v0 = 1U;
                         __Vdlyvdim0__Debayer__DOT__line2__v0 
-                            = (0xfU & vlTOPp->Debayer__DOT__cX);
+                            = (0x3ffU & vlTOPp->Debayer__DOT__cX);
+                    }
+                    if ((0x27fU <= vlTOPp->Debayer__DOT__cX)) {
+                        vlTOPp->Debayer__DOT__raw_pix[8U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           ((IData)(1U) 
+                                            + vlTOPp->Debayer__DOT__cX)))
+                                ? vlTOPp->Debayer__DOT__line2
+                               [(0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer__DOT__cX))]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[7U] 
+                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                                ? vlTOPp->Debayer__DOT__line2
+                               [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                                : 0U);
+                        __Vdly__Debayer__DOT__line_sel = 3U;
+                        vlTOPp->Debayer__DOT__raw_pix[6U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           (vlTOPp->Debayer__DOT__cX 
+                                            - (IData)(1U))))
+                                ? vlTOPp->Debayer__DOT__line2
+                               [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                           - (IData)(1U)))]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[5U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           ((IData)(1U) 
+                                            + vlTOPp->Debayer__DOT__cX)))
+                                ? vlTOPp->Debayer__DOT__line1
+                               [(0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer__DOT__cX))]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[4U] 
+                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                                ? vlTOPp->Debayer__DOT__line1
+                               [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[3U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           (vlTOPp->Debayer__DOT__cX 
+                                            - (IData)(1U))))
+                                ? vlTOPp->Debayer__DOT__line1
+                               [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                           - (IData)(1U)))]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[2U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           ((IData)(1U) 
+                                            + vlTOPp->Debayer__DOT__cX)))
+                                ? vlTOPp->Debayer__DOT__line0
+                               [(0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer__DOT__cX))]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[1U] 
+                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                                ? vlTOPp->Debayer__DOT__line0
+                               [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[0U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           (vlTOPp->Debayer__DOT__cX 
+                                            - (IData)(1U))))
+                                ? vlTOPp->Debayer__DOT__line0
+                               [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                           - (IData)(1U)))]
+                                : 0U);
+                    } else {
+                        vlTOPp->Debayer__DOT__raw_pix[8U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           ((IData)(1U) 
+                                            + vlTOPp->Debayer__DOT__cX)))
+                                ? vlTOPp->Debayer__DOT__line1
+                               [(0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer__DOT__cX))]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[7U] 
+                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                                ? vlTOPp->Debayer__DOT__line1
+                               [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[6U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           (vlTOPp->Debayer__DOT__cX 
+                                            - (IData)(1U))))
+                                ? vlTOPp->Debayer__DOT__line1
+                               [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                           - (IData)(1U)))]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[5U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           ((IData)(1U) 
+                                            + vlTOPp->Debayer__DOT__cX)))
+                                ? vlTOPp->Debayer__DOT__line0
+                               [(0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer__DOT__cX))]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[4U] 
+                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                                ? vlTOPp->Debayer__DOT__line0
+                               [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[3U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           (vlTOPp->Debayer__DOT__cX 
+                                            - (IData)(1U))))
+                                ? vlTOPp->Debayer__DOT__line0
+                               [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                           - (IData)(1U)))]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[2U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           ((IData)(1U) 
+                                            + vlTOPp->Debayer__DOT__cX)))
+                                ? vlTOPp->Debayer__DOT__line3
+                               [(0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer__DOT__cX))]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[1U] 
+                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))
+                                ? vlTOPp->Debayer__DOT__line3
+                               [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                                : 0U);
+                        vlTOPp->Debayer__DOT__raw_pix[0U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           (vlTOPp->Debayer__DOT__cX 
+                                            - (IData)(1U))))
+                                ? vlTOPp->Debayer__DOT__line3
+                               [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                           - (IData)(1U)))]
+                                : 0U);
                     }
                 } else {
                     if ((3U == (IData)(vlTOPp->Debayer__DOT__line_sel))) {
                         vlTOPp->Debayer__DOT____Vlvbound8 
                             = vlTOPp->raw;
-                        if ((9U >= (0xfU & vlTOPp->Debayer__DOT__cX))) {
+                        if ((0x27fU >= (0x3ffU & vlTOPp->Debayer__DOT__cX))) {
                             __Vdlyvval__Debayer__DOT__line3__v0 
                                 = vlTOPp->Debayer__DOT____Vlvbound8;
                             __Vdlyvset__Debayer__DOT__line3__v0 = 1U;
                             __Vdlyvdim0__Debayer__DOT__line3__v0 
-                                = (0xfU & vlTOPp->Debayer__DOT__cX);
+                                = (0x3ffU & vlTOPp->Debayer__DOT__cX);
+                        }
+                        if ((0x27fU <= vlTOPp->Debayer__DOT__cX)) {
+                            vlTOPp->Debayer__DOT__raw_pix[8U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & ((IData)(1U) 
+                                                  + vlTOPp->Debayer__DOT__cX)))
+                                    ? vlTOPp->Debayer__DOT__line0
+                                   [(0x3ffU & ((IData)(1U) 
+                                               + vlTOPp->Debayer__DOT__cX))]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[7U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & vlTOPp->Debayer__DOT__cX))
+                                    ? vlTOPp->Debayer__DOT__line0
+                                   [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                                    : 0U);
+                            __Vdly__Debayer__DOT__line_sel = 0U;
+                            vlTOPp->Debayer__DOT__raw_pix[6U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & (vlTOPp->Debayer__DOT__cX 
+                                                  - (IData)(1U))))
+                                    ? vlTOPp->Debayer__DOT__line0
+                                   [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                               - (IData)(1U)))]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[5U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & ((IData)(1U) 
+                                                  + vlTOPp->Debayer__DOT__cX)))
+                                    ? vlTOPp->Debayer__DOT__line3
+                                   [(0x3ffU & ((IData)(1U) 
+                                               + vlTOPp->Debayer__DOT__cX))]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[4U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & vlTOPp->Debayer__DOT__cX))
+                                    ? vlTOPp->Debayer__DOT__line3
+                                   [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[3U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & (vlTOPp->Debayer__DOT__cX 
+                                                  - (IData)(1U))))
+                                    ? vlTOPp->Debayer__DOT__line3
+                                   [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                               - (IData)(1U)))]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[2U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & ((IData)(1U) 
+                                                  + vlTOPp->Debayer__DOT__cX)))
+                                    ? vlTOPp->Debayer__DOT__line2
+                                   [(0x3ffU & ((IData)(1U) 
+                                               + vlTOPp->Debayer__DOT__cX))]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[1U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & vlTOPp->Debayer__DOT__cX))
+                                    ? vlTOPp->Debayer__DOT__line2
+                                   [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[0U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & (vlTOPp->Debayer__DOT__cX 
+                                                  - (IData)(1U))))
+                                    ? vlTOPp->Debayer__DOT__line2
+                                   [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                               - (IData)(1U)))]
+                                    : 0U);
+                        } else {
+                            vlTOPp->Debayer__DOT__raw_pix[8U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & ((IData)(1U) 
+                                                  + vlTOPp->Debayer__DOT__cX)))
+                                    ? vlTOPp->Debayer__DOT__line2
+                                   [(0x3ffU & ((IData)(1U) 
+                                               + vlTOPp->Debayer__DOT__cX))]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[7U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & vlTOPp->Debayer__DOT__cX))
+                                    ? vlTOPp->Debayer__DOT__line2
+                                   [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[6U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & (vlTOPp->Debayer__DOT__cX 
+                                                  - (IData)(1U))))
+                                    ? vlTOPp->Debayer__DOT__line2
+                                   [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                               - (IData)(1U)))]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[5U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & ((IData)(1U) 
+                                                  + vlTOPp->Debayer__DOT__cX)))
+                                    ? vlTOPp->Debayer__DOT__line1
+                                   [(0x3ffU & ((IData)(1U) 
+                                               + vlTOPp->Debayer__DOT__cX))]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[4U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & vlTOPp->Debayer__DOT__cX))
+                                    ? vlTOPp->Debayer__DOT__line1
+                                   [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[3U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & (vlTOPp->Debayer__DOT__cX 
+                                                  - (IData)(1U))))
+                                    ? vlTOPp->Debayer__DOT__line1
+                                   [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                               - (IData)(1U)))]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[2U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & ((IData)(1U) 
+                                                  + vlTOPp->Debayer__DOT__cX)))
+                                    ? vlTOPp->Debayer__DOT__line0
+                                   [(0x3ffU & ((IData)(1U) 
+                                               + vlTOPp->Debayer__DOT__cX))]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[1U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & vlTOPp->Debayer__DOT__cX))
+                                    ? vlTOPp->Debayer__DOT__line0
+                                   [(0x3ffU & vlTOPp->Debayer__DOT__cX)]
+                                    : 0U);
+                            vlTOPp->Debayer__DOT__raw_pix[0U] 
+                                = ((0x27fU >= (0x3ffU 
+                                               & (vlTOPp->Debayer__DOT__cX 
+                                                  - (IData)(1U))))
+                                    ? vlTOPp->Debayer__DOT__line0
+                                   [(0x3ffU & (vlTOPp->Debayer__DOT__cX 
+                                               - (IData)(1U)))]
+                                    : 0U);
                         }
                     }
                 }
@@ -172,195 +664,106 @@ VL_INLINE_OPT void VDebayer::_sequent__TOP__1(VDebayer__Syms* __restrict vlSymsp
         vlTOPp->Debayer__DOT__red_r = 0U;
         vlTOPp->Debayer__DOT__green_r = 0U;
         vlTOPp->Debayer__DOT__blue_r = 0U;
-        if (((((0U != vlTOPp->Debayer__DOT__cX) & (9U 
-                                                   != vlTOPp->Debayer__DOT__cX)) 
-              & (0U != vlTOPp->Debayer__DOT__cY)) & 
-             (9U != vlTOPp->Debayer__DOT__cY))) {
-            if ((0U == (IData)(vlTOPp->Debayer__DOT__line_sel))) {
-                vlTOPp->Debayer__DOT__raw_pix = (((
-                                                   (9U 
-                                                    >= 
-                                                    (0xfU 
-                                                     & vlTOPp->Debayer__DOT__cX))
-                                                    ? 
-                                                   (1U 
-                                                    & vlTOPp->Debayer__DOT__line1
-                                                    [
-                                                    (0xfU 
-                                                     & vlTOPp->Debayer__DOT__cX)])
-                                                    : 0U) 
-                                                  << 8U) 
-                                                 | ((9U 
-                                                     >= 
-                                                     (0xfU 
-                                                      & (vlTOPp->Debayer__DOT__cX 
-                                                         - (IData)(1U))))
-                                                     ? 
-                                                    vlTOPp->Debayer__DOT__line1
-                                                    [
-                                                    (0xfU 
-                                                     & (vlTOPp->Debayer__DOT__cX 
-                                                        - (IData)(1U)))]
-                                                     : 0U));
+        if ((1U & vlTOPp->Debayer__DOT__cX)) {
+            if ((1U & vlTOPp->Debayer__DOT__cY)) {
+                vlTOPp->Debayer__DOT__red_r = (0xffU 
+                                               & ((vlTOPp->Debayer__DOT__raw_pix
+                                                   [3U] 
+                                                   + 
+                                                   vlTOPp->Debayer__DOT__raw_pix
+                                                   [5U]) 
+                                                  >> 1U));
+                vlTOPp->Debayer__DOT__green_r = vlTOPp->Debayer__DOT__raw_pix
+                    [4U];
+                vlTOPp->Debayer__DOT__blue_r = (0xffU 
+                                                & ((vlTOPp->Debayer__DOT__raw_pix
+                                                    [1U] 
+                                                    + 
+                                                    vlTOPp->Debayer__DOT__raw_pix
+                                                    [7U]) 
+                                                   >> 1U));
             } else {
-                if ((1U == (IData)(vlTOPp->Debayer__DOT__line_sel))) {
-                    vlTOPp->Debayer__DOT__raw_pix = 
-                        ((((9U >= (0xfU & vlTOPp->Debayer__DOT__cX))
-                            ? (1U & vlTOPp->Debayer__DOT__line2
-                               [(0xfU & vlTOPp->Debayer__DOT__cX)])
-                            : 0U) << 8U) | ((9U >= 
-                                             (0xfU 
-                                              & (vlTOPp->Debayer__DOT__cX 
-                                                 - (IData)(1U))))
-                                             ? vlTOPp->Debayer__DOT__line2
-                                            [(0xfU 
-                                              & (vlTOPp->Debayer__DOT__cX 
-                                                 - (IData)(1U)))]
-                                             : 0U));
-                } else {
-                    if ((2U == (IData)(vlTOPp->Debayer__DOT__line_sel))) {
-                        vlTOPp->Debayer__DOT__raw_pix 
-                            = ((((9U >= (0xfU & vlTOPp->Debayer__DOT__cX))
-                                  ? (1U & vlTOPp->Debayer__DOT__line3
-                                     [(0xfU & vlTOPp->Debayer__DOT__cX)])
-                                  : 0U) << 8U) | ((9U 
-                                                   >= 
-                                                   (0xfU 
-                                                    & (vlTOPp->Debayer__DOT__cX 
-                                                       - (IData)(1U))))
-                                                   ? 
-                                                  vlTOPp->Debayer__DOT__line3
-                                                  [
-                                                  (0xfU 
-                                                   & (vlTOPp->Debayer__DOT__cX 
-                                                      - (IData)(1U)))]
-                                                   : 0U));
-                    } else {
-                        if ((3U == (IData)(vlTOPp->Debayer__DOT__line_sel))) {
-                            vlTOPp->Debayer__DOT__raw_pix 
-                                = ((((9U >= (0xfU & vlTOPp->Debayer__DOT__cX))
-                                      ? (1U & vlTOPp->Debayer__DOT__line0
-                                         [(0xfU & vlTOPp->Debayer__DOT__cX)])
-                                      : 0U) << 8U) 
-                                   | ((9U >= (0xfU 
-                                              & (vlTOPp->Debayer__DOT__cX 
-                                                 - (IData)(1U))))
-                                       ? vlTOPp->Debayer__DOT__line0
-                                      [(0xfU & (vlTOPp->Debayer__DOT__cX 
-                                                - (IData)(1U)))]
-                                       : 0U));
-                        }
-                    }
-                }
+                vlTOPp->Debayer__DOT__red_r = (0xffU 
+                                               & ((((vlTOPp->Debayer__DOT__raw_pix
+                                                     [0U] 
+                                                     + 
+                                                     vlTOPp->Debayer__DOT__raw_pix
+                                                     [2U]) 
+                                                    + 
+                                                    vlTOPp->Debayer__DOT__raw_pix
+                                                    [6U]) 
+                                                   + 
+                                                   vlTOPp->Debayer__DOT__raw_pix
+                                                   [8U]) 
+                                                  >> 2U));
+                vlTOPp->Debayer__DOT__green_r = (0xffU 
+                                                 & ((vlTOPp->Debayer__DOT__raw_pix
+                                                     [1U] 
+                                                     + 
+                                                     vlTOPp->Debayer__DOT__raw_pix
+                                                     [7U]) 
+                                                    >> 1U));
+                vlTOPp->Debayer__DOT__blue_r = vlTOPp->Debayer__DOT__raw_pix
+                    [4U];
             }
-            if ((1U & vlTOPp->Debayer__DOT__cX)) {
-                if ((1U & vlTOPp->Debayer__DOT__cY)) {
-                    vlTOPp->Debayer__DOT__red_r = (0xffU 
-                                                   & (((1U 
-                                                        & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                                           >> 3U)) 
-                                                       + 
-                                                       (1U 
-                                                        & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                                           >> 5U))) 
-                                                      >> 1U));
-                    vlTOPp->Debayer__DOT__green_r = 
-                        vlTOPp->Debayer__DOT__line1
-                        [4U];
-                    vlTOPp->Debayer__DOT__blue_r = 
-                        (0xffU & (((1U & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                          >> 1U)) + 
-                                   (1U & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                          >> 7U))) 
-                                  >> 1U));
-                } else {
-                    vlTOPp->Debayer__DOT__red_r = (0xffU 
-                                                   & (((((1U 
-                                                          & (IData)(vlTOPp->Debayer__DOT__raw_pix)) 
-                                                         + 
-                                                         (1U 
-                                                          & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                                             >> 2U))) 
-                                                        + 
-                                                        (1U 
-                                                         & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                                            >> 6U))) 
-                                                       + 
-                                                       (1U 
-                                                        & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                                           >> 8U))) 
-                                                      >> 2U));
-                    vlTOPp->Debayer__DOT__green_r = 
-                        (0xffU & (((1U & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                          >> 1U)) + 
-                                   (1U & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                          >> 7U))) 
-                                  >> 1U));
-                    vlTOPp->Debayer__DOT__blue_r = 
-                        (1U & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                               >> 4U));
-                }
+        } else {
+            if ((1U & vlTOPp->Debayer__DOT__cY)) {
+                vlTOPp->Debayer__DOT__red_r = vlTOPp->Debayer__DOT__raw_pix
+                    [4U];
+                vlTOPp->Debayer__DOT__green_r = vlTOPp->Debayer__DOT__raw_pix
+                    [4U];
+                vlTOPp->Debayer__DOT__blue_r = (0xffU 
+                                                & ((((vlTOPp->Debayer__DOT__raw_pix
+                                                      [1U] 
+                                                      + 
+                                                      vlTOPp->Debayer__DOT__raw_pix
+                                                      [3U]) 
+                                                     + 
+                                                     vlTOPp->Debayer__DOT__raw_pix
+                                                     [5U]) 
+                                                    + 
+                                                    vlTOPp->Debayer__DOT__raw_pix
+                                                    [7U]) 
+                                                   >> 2U));
             } else {
-                if ((1U & vlTOPp->Debayer__DOT__cY)) {
-                    vlTOPp->Debayer__DOT__red_r = (1U 
-                                                   & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                                      >> 4U));
-                    vlTOPp->Debayer__DOT__green_r = 
-                        vlTOPp->Debayer__DOT__line1
-                        [4U];
-                    vlTOPp->Debayer__DOT__blue_r = 
-                        (0xffU & (((((1U & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                            >> 1U)) 
-                                     + (1U & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                              >> 3U))) 
-                                    + (1U & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                             >> 5U))) 
-                                   + (1U & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                            >> 7U))) 
-                                  >> 2U));
-                } else {
-                    vlTOPp->Debayer__DOT__red_r = (0xffU 
-                                                   & (((1U 
-                                                        & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                                           >> 1U)) 
-                                                       + 
-                                                       (1U 
-                                                        & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                                           >> 7U))) 
-                                                      >> 1U));
-                    vlTOPp->Debayer__DOT__green_r = 
-                        vlTOPp->Debayer__DOT__line1
-                        [4U];
-                    vlTOPp->Debayer__DOT__blue_r = 
-                        (0xffU & (((1U & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                          >> 3U)) + 
-                                   (1U & ((IData)(vlTOPp->Debayer__DOT__raw_pix) 
-                                          >> 5U))) 
-                                  >> 1U));
-                }
+                vlTOPp->Debayer__DOT__red_r = (0xffU 
+                                               & ((vlTOPp->Debayer__DOT__raw_pix
+                                                   [1U] 
+                                                   + 
+                                                   vlTOPp->Debayer__DOT__raw_pix
+                                                   [7U]) 
+                                                  >> 1U));
+                vlTOPp->Debayer__DOT__green_r = vlTOPp->Debayer__DOT__raw_pix
+                    [4U];
+                vlTOPp->Debayer__DOT__blue_r = (0xffU 
+                                                & ((vlTOPp->Debayer__DOT__raw_pix
+                                                    [3U] 
+                                                    + 
+                                                    vlTOPp->Debayer__DOT__raw_pix
+                                                    [5U]) 
+                                                   >> 1U));
             }
         }
     }
     vlTOPp->Debayer__DOT__cX = __Vdly__Debayer__DOT__cX;
     vlTOPp->Debayer__DOT__cY = __Vdly__Debayer__DOT__cY;
     vlTOPp->Debayer__DOT__line_sel = __Vdly__Debayer__DOT__line_sel;
-    if (__Vdlyvset__Debayer__DOT__line1__v0) {
-        vlTOPp->Debayer__DOT__line1[__Vdlyvdim0__Debayer__DOT__line1__v0] 
-            = __Vdlyvval__Debayer__DOT__line1__v0;
-    }
-    if (__Vdlyvset__Debayer__DOT__line2__v0) {
-        vlTOPp->Debayer__DOT__line2[__Vdlyvdim0__Debayer__DOT__line2__v0] 
-            = __Vdlyvval__Debayer__DOT__line2__v0;
+    if (__Vdlyvset__Debayer__DOT__line0__v0) {
+        vlTOPp->Debayer__DOT__line0[__Vdlyvdim0__Debayer__DOT__line0__v0] 
+            = __Vdlyvval__Debayer__DOT__line0__v0;
     }
     if (__Vdlyvset__Debayer__DOT__line3__v0) {
         vlTOPp->Debayer__DOT__line3[__Vdlyvdim0__Debayer__DOT__line3__v0] 
             = __Vdlyvval__Debayer__DOT__line3__v0;
     }
-    if (__Vdlyvset__Debayer__DOT__line0__v0) {
-        vlTOPp->Debayer__DOT__line0[__Vdlyvdim0__Debayer__DOT__line0__v0] 
-            = __Vdlyvval__Debayer__DOT__line0__v0;
+    if (__Vdlyvset__Debayer__DOT__line2__v0) {
+        vlTOPp->Debayer__DOT__line2[__Vdlyvdim0__Debayer__DOT__line2__v0] 
+            = __Vdlyvval__Debayer__DOT__line2__v0;
     }
-    vlTOPp->address_out = vlTOPp->Debayer__DOT__address_out_r;
+    if (__Vdlyvset__Debayer__DOT__line1__v0) {
+        vlTOPp->Debayer__DOT__line1[__Vdlyvdim0__Debayer__DOT__line1__v0] 
+            = __Vdlyvval__Debayer__DOT__line1__v0;
+    }
     vlTOPp->red = vlTOPp->Debayer__DOT__red_r;
     vlTOPp->green = vlTOPp->Debayer__DOT__green_r;
     vlTOPp->blue = vlTOPp->Debayer__DOT__blue_r;
@@ -370,8 +773,9 @@ void VDebayer::_eval(VDebayer__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VDebayer::_eval\n"); );
     VDebayer* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
+    vlTOPp->_combo__TOP__1(vlSymsp);
     if (((IData)(vlTOPp->clock) & (~ (IData)(vlTOPp->__Vclklast__TOP__clock)))) {
-        vlTOPp->_sequent__TOP__1(vlSymsp);
+        vlTOPp->_sequent__TOP__3(vlSymsp);
         vlTOPp->__Vm_traceActivity[1U] = 1U;
     }
     // Final

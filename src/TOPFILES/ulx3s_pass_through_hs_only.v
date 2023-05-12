@@ -24,12 +24,13 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,deb
 	wire[16:0] data_adress;
 	wire[31:0 ] data,cX,cY;
 	wire ram_clk,rec_data;
-	wire[20:0] read_addr;
+	wire[20:0] read_addr,read_addr_2;
 	wire[18:0] addr_write;
 	MIPI_Reciever  mipi(.cX(cX),.cY(cY),.rec_data_o(rec_data),.sys_clk(clk100Mhz),.mipi_clk(cam0_clk),.reset(reset),.lane0_d(cam0_d0),.lane1_d(cam0_d1),.lane0_p(cam0_d0_r_p),.lane0_n(cam0_d0_r_n),.lane1_p(cam0_d1_r_p),.lane1_n(cam0_d1_r_n),.data_o(data),.adress_out(data_adress),.ram_clk(ram_clk),.debug0(debug0),.debug1(debug1),.debug2(debug2),.debug3(debug3),.termination(term));	
 	assign led=0;
 	reg [7:0] color;
-	reg [7:0] red_v,green_v,blue_v;	
+	reg [7:0] raw_v;	
+	wire [7:0] red_v,green_v,blue_v;	
 	reg[7:0] grey0,grey1,grey2,grey3;
 	wire[31:0] ramdata;
 	wire[7:0] hex;
@@ -58,9 +59,13 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,deb
 			counter<=counter+1;
 			color_w<={8'h00,color_w[31:8]};			
 		end
-		red_v<=color_w[7:0];		
+		raw_v<=color_w[7:0];		
 	end	
-	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(red_v),.green(red_v),.blue(red_v),.addr(read_addr),.TMDSd(TMDSd));
+
+
+	//Debayer debay(.clock(pixclk),.reset(reset),.address_in(read_addr),.address_out(read_addr_2),.raw(raw_v),.red(red_v),.green(green_v),.blue(blue_v));  
+
+	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(raw_v),.green(raw_v),.blue(raw_v),.addr(read_addr),.TMDSd(TMDSd));
 
 	/*always @(posedge pixclk) begin		
 		//////////////////////Serial debugger
