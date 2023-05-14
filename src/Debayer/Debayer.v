@@ -134,14 +134,13 @@ module Debayer
             if(cX[0]==1)begin
                         if(cY[0]==1)begin////Green
                             //red_r<=(raw_pix[3]+raw_pix[5])/2;
-                            red_r<=255;
-                            
+                            red_r<=255;                            
                             green_r<=raw_pix[4];
                             //blue_r<=(raw_pix[1]+raw_pix[7])/2;
                             blue_r<=255;
 
                         end else begin////Blue
-                           // red_r<=(raw_pix[0]+raw_pix[2]+raw_pix[6]+raw_pix[8])/4;
+                            //red_r<=(raw_pix[0]+raw_pix[2]+raw_pix[6]+raw_pix[8])/4;
                             //green_r<=(raw_pix[1]+raw_pix[7])/2;
                             red_r<=255;
                             green_r<=255;
