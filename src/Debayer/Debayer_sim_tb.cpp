@@ -66,7 +66,7 @@ int	main(int argc, char **argv) {
 	int adress=0;
 	tb->m_core->address_in=adress;
 	
-	for (int i=0; i < 640*480*4; i++){		
+	for (int i=0; i < 640*480*2; i++){		
 	    tb->tick();		
 		if(i%2==1){					
 			image_o[3*adress]=3*tb->m_core->red;

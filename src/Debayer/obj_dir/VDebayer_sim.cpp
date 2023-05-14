@@ -105,7 +105,10 @@ VL_INLINE_OPT void VDebayer_sim::_sequent__TOP__2(VDebayer_sim__Syms* __restrict
     IData/*31:0*/ __Vdly__Debayer_sim__DOT__color_w;
     IData/*31:0*/ __Vdly__Debayer_sim__DOT__debay__DOT__cX;
     IData/*31:0*/ __Vdly__Debayer_sim__DOT__debay__DOT__cY;
+    IData/*18:0*/ __Vdly__Debayer_sim__DOT__debay__DOT__address_out_r;
     // Body
+    __Vdly__Debayer_sim__DOT__debay__DOT__address_out_r 
+        = vlTOPp->Debayer_sim__DOT__debay__DOT__address_out_r;
     __Vdly__Debayer_sim__DOT__color_w = vlTOPp->Debayer_sim__DOT__color_w;
     __Vdly__Debayer_sim__DOT__counter = vlTOPp->Debayer_sim__DOT__counter;
     __Vdly__Debayer_sim__DOT__debay__DOT__cY = vlTOPp->Debayer_sim__DOT__debay__DOT__cY;
@@ -116,7 +119,7 @@ VL_INLINE_OPT void VDebayer_sim::_sequent__TOP__2(VDebayer_sim__Syms* __restrict
     __Vdlyvset__Debayer_sim__DOT__debay__DOT__line2__v0 = 0U;
     __Vdlyvset__Debayer_sim__DOT__debay__DOT__line1__v0 = 0U;
     __Vdlyvset__Debayer_sim__DOT__debay__DOT__line0__v0 = 0U;
-    vlTOPp->Debayer_sim__DOT__debay__DOT__address_out_r 
+    __Vdly__Debayer_sim__DOT__debay__DOT__address_out_r 
         = ((IData)(vlTOPp->reset) ? 0U : ((0x500U == vlTOPp->address_in)
                                            ? 0U : (0x7ffffU 
                                                    & ((IData)(1U) 
@@ -150,117 +153,59 @@ VL_INLINE_OPT void VDebayer_sim::_sequent__TOP__2(VDebayer_sim__Syms* __restrict
                     = (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX);
             }
             if ((0x27fU <= vlTOPp->Debayer_sim__DOT__debay__DOT__cX)) {
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[8U] 
-                    = ((0x27fU >= (0x3ffU & ((IData)(1U) 
-                                             + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                       [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[7U] 
-                    = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                       [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                        : 0U);
                 __Vdly__Debayer_sim__DOT__debay__DOT__line_sel = 1U;
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[6U] 
-                    = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                             - (IData)(1U))))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                       [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                   - (IData)(1U)))]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[5U] 
-                    = ((0x27fU >= (0x3ffU & ((IData)(1U) 
-                                             + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                       [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[4U] 
-                    = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                       [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[3U] 
-                    = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                             - (IData)(1U))))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                       [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                   - (IData)(1U)))]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[2U] 
-                    = ((0x27fU >= (0x3ffU & ((IData)(1U) 
-                                             + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                       [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[1U] 
-                    = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                       [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[0U] 
-                    = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                             - (IData)(1U))))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                       [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                   - (IData)(1U)))]
-                        : 0U);
-            } else {
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[8U] 
-                    = ((0x27fU >= (0x3ffU & ((IData)(1U) 
-                                             + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                       [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[7U] 
-                    = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                       [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[6U] 
-                    = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                             - (IData)(1U))))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                       [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                   - (IData)(1U)))]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[5U] 
-                    = ((0x27fU >= (0x3ffU & ((IData)(1U) 
-                                             + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                       [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[4U] 
-                    = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                       [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[3U] 
-                    = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                             - (IData)(1U))))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                       [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                   - (IData)(1U)))]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[2U] 
-                    = ((0x27fU >= (0x3ffU & ((IData)(1U) 
-                                             + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                       [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[1U] 
-                    = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                       [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                        : 0U);
-                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[0U] 
-                    = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                             - (IData)(1U))))
-                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                       [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                   - (IData)(1U)))]
-                        : 0U);
             }
+            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[8U] 
+                = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                         + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
+                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
+                   [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
+                    : 0U);
+            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[7U] 
+                = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
+                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
+                   [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
+                    : 0U);
+            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[6U] 
+                = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                         - (IData)(1U))))
+                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
+                   [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                               - (IData)(1U)))] : 0U);
+            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[5U] 
+                = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                         + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
+                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
+                   [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
+                    : 0U);
+            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[4U] 
+                = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
+                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
+                   [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
+                    : 0U);
+            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[3U] 
+                = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                         - (IData)(1U))))
+                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
+                   [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                               - (IData)(1U)))] : 0U);
+            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[2U] 
+                = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                         + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
+                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
+                   [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
+                    : 0U);
+            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[1U] 
+                = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
+                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
+                   [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
+                    : 0U);
+            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[0U] 
+                = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                         - (IData)(1U))))
+                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
+                   [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                               - (IData)(1U)))] : 0U);
         } else {
             if ((1U == (IData)(vlTOPp->Debayer_sim__DOT__debay__DOT__line_sel))) {
                 vlTOPp->Debayer_sim__DOT__debay__DOT____Vlvbound6 
@@ -273,123 +218,62 @@ VL_INLINE_OPT void VDebayer_sim::_sequent__TOP__2(VDebayer_sim__Syms* __restrict
                         = (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX);
                 }
                 if ((0x27fU <= vlTOPp->Debayer_sim__DOT__debay__DOT__cX)) {
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[8U] 
-                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
-                                                 + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                           [(0x3ffU & ((IData)(1U) 
-                                       + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[7U] 
-                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                           [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                            : 0U);
                     __Vdly__Debayer_sim__DOT__debay__DOT__line_sel = 2U;
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[6U] 
-                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                                 - (IData)(1U))))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                           [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                       - (IData)(1U)))]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[5U] 
-                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
-                                                 + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                           [(0x3ffU & ((IData)(1U) 
-                                       + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[4U] 
-                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                           [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[3U] 
-                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                                 - (IData)(1U))))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                           [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                       - (IData)(1U)))]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[2U] 
-                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
-                                                 + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                           [(0x3ffU & ((IData)(1U) 
-                                       + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[1U] 
-                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                           [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[0U] 
-                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                                 - (IData)(1U))))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                           [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                       - (IData)(1U)))]
-                            : 0U);
-                } else {
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[8U] 
-                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
-                                                 + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                           [(0x3ffU & ((IData)(1U) 
-                                       + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[7U] 
-                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                           [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[6U] 
-                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                                 - (IData)(1U))))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                           [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                       - (IData)(1U)))]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[5U] 
-                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
-                                                 + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                           [(0x3ffU & ((IData)(1U) 
-                                       + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[4U] 
-                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                           [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[3U] 
-                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                                 - (IData)(1U))))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                           [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                       - (IData)(1U)))]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[2U] 
-                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
-                                                 + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                           [(0x3ffU & ((IData)(1U) 
-                                       + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[1U] 
-                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                           [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                            : 0U);
-                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[0U] 
-                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                                 - (IData)(1U))))
-                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                           [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                       - (IData)(1U)))]
-                            : 0U);
                 }
+                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[8U] 
+                    = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                             + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
+                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
+                       [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
+                        : 0U);
+                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[7U] 
+                    = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
+                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
+                       [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
+                        : 0U);
+                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[6U] 
+                    = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                             - (IData)(1U))))
+                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
+                       [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                   - (IData)(1U)))]
+                        : 0U);
+                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[5U] 
+                    = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                             + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
+                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
+                       [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
+                        : 0U);
+                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[4U] 
+                    = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
+                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
+                       [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
+                        : 0U);
+                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[3U] 
+                    = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                             - (IData)(1U))))
+                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
+                       [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                   - (IData)(1U)))]
+                        : 0U);
+                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[2U] 
+                    = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                             + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
+                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
+                       [(0x3ffU & ((IData)(1U) + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
+                        : 0U);
+                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[1U] 
+                    = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
+                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
+                       [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
+                        : 0U);
+                vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[0U] 
+                    = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                             - (IData)(1U))))
+                        ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
+                       [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                   - (IData)(1U)))]
+                        : 0U);
             } else {
                 if ((2U == (IData)(vlTOPp->Debayer_sim__DOT__debay__DOT__line_sel))) {
                     vlTOPp->Debayer_sim__DOT__debay__DOT____Vlvbound7 
@@ -402,135 +286,65 @@ VL_INLINE_OPT void VDebayer_sim::_sequent__TOP__2(VDebayer_sim__Syms* __restrict
                             = (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX);
                     }
                     if ((0x27fU <= vlTOPp->Debayer_sim__DOT__debay__DOT__cX)) {
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[8U] 
-                            = ((0x27fU >= (0x3ffU & 
-                                           ((IData)(1U) 
-                                            + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                               [(0x3ffU & ((IData)(1U) 
-                                           + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[7U] 
-                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                               [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                                : 0U);
                         __Vdly__Debayer_sim__DOT__debay__DOT__line_sel = 3U;
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[6U] 
-                            = ((0x27fU >= (0x3ffU & 
-                                           (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                            - (IData)(1U))))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                               [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                           - (IData)(1U)))]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[5U] 
-                            = ((0x27fU >= (0x3ffU & 
-                                           ((IData)(1U) 
-                                            + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                               [(0x3ffU & ((IData)(1U) 
-                                           + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[4U] 
-                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                               [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[3U] 
-                            = ((0x27fU >= (0x3ffU & 
-                                           (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                            - (IData)(1U))))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                               [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                           - (IData)(1U)))]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[2U] 
-                            = ((0x27fU >= (0x3ffU & 
-                                           ((IData)(1U) 
-                                            + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                               [(0x3ffU & ((IData)(1U) 
-                                           + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[1U] 
-                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                               [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[0U] 
-                            = ((0x27fU >= (0x3ffU & 
-                                           (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                            - (IData)(1U))))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                               [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                           - (IData)(1U)))]
-                                : 0U);
-                    } else {
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[8U] 
-                            = ((0x27fU >= (0x3ffU & 
-                                           ((IData)(1U) 
-                                            + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                               [(0x3ffU & ((IData)(1U) 
-                                           + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[7U] 
-                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                               [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[6U] 
-                            = ((0x27fU >= (0x3ffU & 
-                                           (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                            - (IData)(1U))))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                               [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                           - (IData)(1U)))]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[5U] 
-                            = ((0x27fU >= (0x3ffU & 
-                                           ((IData)(1U) 
-                                            + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                               [(0x3ffU & ((IData)(1U) 
-                                           + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[4U] 
-                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                               [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[3U] 
-                            = ((0x27fU >= (0x3ffU & 
-                                           (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                            - (IData)(1U))))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                               [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                           - (IData)(1U)))]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[2U] 
-                            = ((0x27fU >= (0x3ffU & 
-                                           ((IData)(1U) 
-                                            + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                               [(0x3ffU & ((IData)(1U) 
-                                           + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[1U] 
-                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                               [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                                : 0U);
-                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[0U] 
-                            = ((0x27fU >= (0x3ffU & 
-                                           (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                            - (IData)(1U))))
-                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                               [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                           - (IData)(1U)))]
-                                : 0U);
                     }
+                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[8U] 
+                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                                 + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
+                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
+                           [(0x3ffU & ((IData)(1U) 
+                                       + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
+                            : 0U);
+                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[7U] 
+                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
+                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
+                           [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
+                            : 0U);
+                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[6U] 
+                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                                 - (IData)(1U))))
+                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
+                           [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                       - (IData)(1U)))]
+                            : 0U);
+                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[5U] 
+                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                                 + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
+                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
+                           [(0x3ffU & ((IData)(1U) 
+                                       + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
+                            : 0U);
+                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[4U] 
+                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
+                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
+                           [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
+                            : 0U);
+                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[3U] 
+                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                                 - (IData)(1U))))
+                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
+                           [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                       - (IData)(1U)))]
+                            : 0U);
+                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[2U] 
+                        = ((0x27fU >= (0x3ffU & ((IData)(1U) 
+                                                 + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
+                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
+                           [(0x3ffU & ((IData)(1U) 
+                                       + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
+                            : 0U);
+                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[1U] 
+                        = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
+                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
+                           [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
+                            : 0U);
+                    vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[0U] 
+                        = ((0x27fU >= (0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                                 - (IData)(1U))))
+                            ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
+                           [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                       - (IData)(1U)))]
+                            : 0U);
                 } else {
                     if ((3U == (IData)(vlTOPp->Debayer_sim__DOT__debay__DOT__line_sel))) {
                         vlTOPp->Debayer_sim__DOT__debay__DOT____Vlvbound8 
@@ -543,141 +357,71 @@ VL_INLINE_OPT void VDebayer_sim::_sequent__TOP__2(VDebayer_sim__Syms* __restrict
                                 = (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX);
                         }
                         if ((0x27fU <= vlTOPp->Debayer_sim__DOT__debay__DOT__cX)) {
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[8U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & ((IData)(1U) 
-                                                  + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                                   [(0x3ffU & ((IData)(1U) 
-                                               + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[7U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                                   [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                                    : 0U);
                             __Vdly__Debayer_sim__DOT__debay__DOT__line_sel = 0U;
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[6U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                                  - (IData)(1U))))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                                   [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                               - (IData)(1U)))]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[5U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & ((IData)(1U) 
-                                                  + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                                   [(0x3ffU & ((IData)(1U) 
-                                               + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[4U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                                   [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[3U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                                  - (IData)(1U))))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line3
-                                   [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                               - (IData)(1U)))]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[2U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & ((IData)(1U) 
-                                                  + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                                   [(0x3ffU & ((IData)(1U) 
-                                               + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[1U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                                   [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[0U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                                  - (IData)(1U))))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                                   [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                               - (IData)(1U)))]
-                                    : 0U);
-                        } else {
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[8U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & ((IData)(1U) 
-                                                  + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                                   [(0x3ffU & ((IData)(1U) 
-                                               + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[7U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                                   [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[6U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                                  - (IData)(1U))))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
-                                   [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                               - (IData)(1U)))]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[5U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & ((IData)(1U) 
-                                                  + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                                   [(0x3ffU & ((IData)(1U) 
-                                               + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[4U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                                   [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[3U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                                  - (IData)(1U))))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
-                                   [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                               - (IData)(1U)))]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[2U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & ((IData)(1U) 
-                                                  + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                                   [(0x3ffU & ((IData)(1U) 
-                                               + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[1U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                                   [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
-                                    : 0U);
-                            vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[0U] 
-                                = ((0x27fU >= (0x3ffU 
-                                               & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                                  - (IData)(1U))))
-                                    ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
-                                   [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
-                                               - (IData)(1U)))]
-                                    : 0U);
                         }
+                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[8U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           ((IData)(1U) 
+                                            + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
+                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
+                               [(0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
+                                : 0U);
+                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[7U] 
+                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
+                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
+                               [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
+                                : 0U);
+                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[6U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                            - (IData)(1U))))
+                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line2
+                               [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                           - (IData)(1U)))]
+                                : 0U);
+                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[5U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           ((IData)(1U) 
+                                            + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
+                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
+                               [(0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
+                                : 0U);
+                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[4U] 
+                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
+                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
+                               [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
+                                : 0U);
+                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[3U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                            - (IData)(1U))))
+                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line1
+                               [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                           - (IData)(1U)))]
+                                : 0U);
+                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[2U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           ((IData)(1U) 
+                                            + vlTOPp->Debayer_sim__DOT__debay__DOT__cX)))
+                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
+                               [(0x3ffU & ((IData)(1U) 
+                                           + vlTOPp->Debayer_sim__DOT__debay__DOT__cX))]
+                                : 0U);
+                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[1U] 
+                            = ((0x27fU >= (0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX))
+                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
+                               [(0x3ffU & vlTOPp->Debayer_sim__DOT__debay__DOT__cX)]
+                                : 0U);
+                        vlTOPp->Debayer_sim__DOT__debay__DOT__raw_pix[0U] 
+                            = ((0x27fU >= (0x3ffU & 
+                                           (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                            - (IData)(1U))))
+                                ? vlTOPp->Debayer_sim__DOT__debay__DOT__line0
+                               [(0x3ffU & (vlTOPp->Debayer_sim__DOT__debay__DOT__cX 
+                                           - (IData)(1U)))]
+                                : 0U);
                     }
                 }
             }
@@ -746,10 +490,6 @@ VL_INLINE_OPT void VDebayer_sim::_sequent__TOP__2(VDebayer_sim__Syms* __restrict
     vlTOPp->Debayer_sim__DOT__debay__DOT__cY = __Vdly__Debayer_sim__DOT__debay__DOT__cY;
     vlTOPp->Debayer_sim__DOT__debay__DOT__line_sel 
         = __Vdly__Debayer_sim__DOT__debay__DOT__line_sel;
-    if (__Vdlyvset__Debayer_sim__DOT__debay__DOT__line0__v0) {
-        vlTOPp->Debayer_sim__DOT__debay__DOT__line0[__Vdlyvdim0__Debayer_sim__DOT__debay__DOT__line0__v0] 
-            = __Vdlyvval__Debayer_sim__DOT__debay__DOT__line0__v0;
-    }
     if (__Vdlyvset__Debayer_sim__DOT__debay__DOT__line3__v0) {
         vlTOPp->Debayer_sim__DOT__debay__DOT__line3[__Vdlyvdim0__Debayer_sim__DOT__debay__DOT__line3__v0] 
             = __Vdlyvval__Debayer_sim__DOT__debay__DOT__line3__v0;
@@ -761,6 +501,10 @@ VL_INLINE_OPT void VDebayer_sim::_sequent__TOP__2(VDebayer_sim__Syms* __restrict
     if (__Vdlyvset__Debayer_sim__DOT__debay__DOT__line1__v0) {
         vlTOPp->Debayer_sim__DOT__debay__DOT__line1[__Vdlyvdim0__Debayer_sim__DOT__debay__DOT__line1__v0] 
             = __Vdlyvval__Debayer_sim__DOT__debay__DOT__line1__v0;
+    }
+    if (__Vdlyvset__Debayer_sim__DOT__debay__DOT__line0__v0) {
+        vlTOPp->Debayer_sim__DOT__debay__DOT__line0[__Vdlyvdim0__Debayer_sim__DOT__debay__DOT__line0__v0] 
+            = __Vdlyvval__Debayer_sim__DOT__debay__DOT__line0__v0;
     }
     vlTOPp->red = vlTOPp->Debayer_sim__DOT__debay__DOT__red_r;
     vlTOPp->blue = vlTOPp->Debayer_sim__DOT__debay__DOT__blue_r;
@@ -780,13 +524,15 @@ VL_INLINE_OPT void VDebayer_sim::_sequent__TOP__2(VDebayer_sim__Syms* __restrict
     vlTOPp->Debayer_sim__DOT__counter = __Vdly__Debayer_sim__DOT__counter;
     vlTOPp->Debayer_sim__DOT__ramdata = ((0x12bffU 
                                           >= (0x1ffffU 
-                                              & (vlTOPp->address_in 
+                                              & (vlTOPp->Debayer_sim__DOT__debay__DOT__address_out_r 
                                                  >> 2U)))
                                           ? vlTOPp->Debayer_sim__DOT__DPR__DOT__ram
                                          [(0x1ffffU 
-                                           & (vlTOPp->address_in 
+                                           & (vlTOPp->Debayer_sim__DOT__debay__DOT__address_out_r 
                                               >> 2U))]
                                           : 0U);
+    vlTOPp->Debayer_sim__DOT__debay__DOT__address_out_r 
+        = __Vdly__Debayer_sim__DOT__debay__DOT__address_out_r;
 }
 
 VL_INLINE_OPT void VDebayer_sim::_sequent__TOP__5(VDebayer_sim__Syms* __restrict vlSymsp) {

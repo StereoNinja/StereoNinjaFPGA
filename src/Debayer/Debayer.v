@@ -28,7 +28,7 @@ module Debayer
          end  
          line_sel<=0;       
     end   
-    assign address_out=address_in;
+    assign address_out=(address_in+2*size_x>=size_x*size_y-1)?0:address_in+2*size_x;
     assign red=red_r;
     assign green=green_r;
     assign blue=blue_r;
@@ -42,13 +42,14 @@ module Debayer
             address_out_r<=0;
             line_sel<=0;
         end else begin
-            //////////////////////////////////////soft reset at frameend
-            if(address_in>=size_x*size_y-1)begin
+            //////////////////////////////////////
+            if(address_in==2*size_x-1)begin
                 cX<=0;
                 cY<=0;
                 line_sel<=0;
-            end   
-            ////////////////////////////////////cX and cY Generation
+                address_out_r<=2*size_x;
+            end            
+            ////////////////////////////////////
             if(cX>=size_x-1)begin
                 cY<=cY+1;
                 cX<=0;                
@@ -59,20 +60,9 @@ module Debayer
             case (line_sel) 
                 0:begin
                    line0[cX]<=raw;
-                   if(cX>=size_x-1)begin
-                    //raw_pix={line0[cX+1],line0[cX],line0[cX-1],line3[cX+1],line3[cX],line3[cX-1],line2[cX+1],line2[cX],line2[cX-1]};
-                    raw_pix[8]=line0[cX+1];
-                    raw_pix[7]=line0[cX];
-                    raw_pix[6]=line0[cX-1];
-                    raw_pix[5]=line3[cX+1];
-                    raw_pix[4]=line3[cX];
-                    raw_pix[3]=line3[cX-1];
-                    raw_pix[2]=line2[cX+1];
-                    raw_pix[1]=line2[cX];
-                    raw_pix[0]=line2[cX-1];
+                   if(cX>=size_x-1)begin                                      
                     line_sel<=1;
-                   end else begin
-                    //raw_pix={line3[cX+1],line3[cX],line3[cX-1],line2[cX+1],line2[cX],line2[cX-1],line1[cX+1],line1[cX],line1[cX-1]};
+                   end 
                     raw_pix[8]=line3[cX+1];
                     raw_pix[7]=line3[cX];
                     raw_pix[6]=line3[cX-1];
@@ -81,24 +71,13 @@ module Debayer
                     raw_pix[3]=line2[cX-1];
                     raw_pix[2]=line1[cX+1];
                     raw_pix[1]=line1[cX];
-                    raw_pix[0]=line1[cX-1];
-                   end                   
+                    raw_pix[0]=line1[cX-1];                                   
                 end 
                 1:begin
                     line1[cX]<=raw;
-                     if(cX>=size_x-1)begin
-                        //raw_pix={line1[cX+1],line1[cX],line1[cX-1],line0[cX+1],line0[cX],line0[cX-1],line3[cX+1],line3[cX],line3[cX-1]};
-                        raw_pix[8]=line1[cX+1];
-                        raw_pix[7]=line1[cX];
-                        raw_pix[6]=line1[cX-1];
-                        raw_pix[5]=line0[cX+1];
-                        raw_pix[4]=line0[cX];
-                        raw_pix[3]=line0[cX-1];
-                        raw_pix[2]=line3[cX+1];
-                        raw_pix[1]=line3[cX];
-                        raw_pix[0]=line3[cX-1];
+                     if(cX>=size_x-1)begin                        
                         line_sel<=2;
-                     end else begin
+                     end 
                         raw_pix[8]=line0[cX+1];
                         raw_pix[7]=line0[cX];
                         raw_pix[6]=line0[cX-1];
@@ -107,25 +86,13 @@ module Debayer
                         raw_pix[3]=line3[cX-1];
                         raw_pix[2]=line2[cX+1];
                         raw_pix[1]=line2[cX];
-                        raw_pix[0]=line2[cX-1];
-                     end                     
+                        raw_pix[0]=line2[cX-1];                                       
                 end 
                 2:begin
                     line2[cX]<=raw;
-                    if(cX>=size_x-1)begin
-                        //raw_pix={line2[cX+1],line2[cX],line2[cX-1],line1[cX+1],line1[cX],line1[cX-1],line0[cX+1],line0[cX],line0[cX-1]};
-                        raw_pix[8]=line2[cX+1];
-                        raw_pix[7]=line2[cX];
-                        raw_pix[6]=line2[cX-1];
-                        raw_pix[5]=line1[cX+1];
-                        raw_pix[4]=line1[cX];
-                        raw_pix[3]=line1[cX-1];
-                        raw_pix[2]=line0[cX+1];
-                        raw_pix[1]=line0[cX];
-                        raw_pix[0]=line0[cX-1];
+                    if(cX>=size_x-1)begin                        
                         line_sel<=3;
-                     end else begin
-                        //raw_pix={line1[cX+1],line1[cX],line1[cX-1],line0[cX+1],line0[cX],line0[cX-1],line3[cX+1],line3[cX],line3[cX-1]}; 
+                     end                         
                         raw_pix[8]=line1[cX+1];
                         raw_pix[7]=line1[cX];
                         raw_pix[6]=line1[cX-1];
@@ -134,25 +101,13 @@ module Debayer
                         raw_pix[3]=line0[cX-1];
                         raw_pix[2]=line3[cX+1];
                         raw_pix[1]=line3[cX];
-                        raw_pix[0]=line3[cX-1];
-                     end                    
+                        raw_pix[0]=line3[cX-1];                                    
                 end 
                 3:begin
                     line3[cX]<=raw;
-                    if(cX>=size_x-1)begin
-                        //raw_pix={line3[cX+1],line3[cX],line3[cX-1],line2[cX+1],line2[cX],line2[cX-1],line1[cX+1],line1[cX],line1[cX-1]};
-                        raw_pix[8]=line0[cX+1];
-                        raw_pix[7]=line0[cX];
-                        raw_pix[6]=line0[cX-1];
-                        raw_pix[5]=line3[cX+1];
-                        raw_pix[4]=line3[cX];
-                        raw_pix[3]=line3[cX-1];
-                        raw_pix[2]=line2[cX+1];
-                        raw_pix[1]=line2[cX];
-                        raw_pix[0]=line2[cX-1];
+                    if(cX>=size_x-1)begin                        
                         line_sel<=0;
-                     end else begin
-                        //raw_pix={line2[cX+1],line2[cX],line2[cX-1],line1[cX+1],line1[cX],line1[cX-1],line0[cX+1],line0[cX],line0[cX-1]}; 
+                     end                         
                         raw_pix[8]=line2[cX+1];
                         raw_pix[7]=line2[cX];
                         raw_pix[6]=line2[cX-1];
@@ -161,18 +116,13 @@ module Debayer
                         raw_pix[3]=line1[cX-1];
                         raw_pix[2]=line0[cX+1];
                         raw_pix[1]=line0[cX];
-                        raw_pix[0]=line0[cX-1];
-                     end                    
+                        raw_pix[0]=line0[cX-1];                                       
                 end 
                 default: begin
                 end
             endcase
             ///////////////////////////////////////Adress Bufferin Delay
-            if(address_in==(2*size_x))begin
-                address_out_r<=0;
-            end else begin
-                address_out_r<=address_out_r+1;
-            end
+            
             ///////////////////////////////////////Interpolation
             red_r<=0;
             green_r<=0;
@@ -180,30 +130,38 @@ module Debayer
             ////////////////////////////////////////////
             //012 raw_pix
             //345
-            //678            
-
-              if(cX[0]==1)begin
+            //678
+            if(cX[0]==1)begin
                         if(cY[0]==1)begin////Green
-                            red_r<=(raw_pix[3]+raw_pix[5])/2;
+                            //red_r<=(raw_pix[3]+raw_pix[5])/2;
+                            red_r<=255;
+                            
                             green_r<=raw_pix[4];
-                            blue_r<=(raw_pix[1]+raw_pix[7])/2;
+                            //blue_r<=(raw_pix[1]+raw_pix[7])/2;
+                            blue_r<=255;
+
                         end else begin////Blue
-                            red_r<=(raw_pix[0]+raw_pix[2]+raw_pix[6]+raw_pix[8])/4;
-                            green_r<=(raw_pix[1]+raw_pix[7])/2;
+                           // red_r<=(raw_pix[0]+raw_pix[2]+raw_pix[6]+raw_pix[8])/4;
+                            //green_r<=(raw_pix[1]+raw_pix[7])/2;
+                            red_r<=255;
+                            green_r<=255;
                             blue_r<=raw_pix[4];
                         end
                     end else begin
                         if(cY[0]==1)begin////Red
                             red_r<=raw_pix[4];
-                            green_r<=raw_pix[4];
-                            blue_r<=(raw_pix[1]+raw_pix[3]+raw_pix[5]+raw_pix[7])/4;
+                            //green_r<=raw_pix[4];
+                            green_r<=255;
+                            //blue_r<=(raw_pix[1]+raw_pix[3]+raw_pix[5]+raw_pix[7])/4;
+                            blue_r<=255;
                         end else begin////Green
-                            red_r<=(raw_pix[1]+raw_pix[7])/2;
+                            //red_r<=(raw_pix[1]+raw_pix[7])/2;
+                            red_r<=255;
                             green_r<=raw_pix[4];
-                            blue_r<=(raw_pix[3]+raw_pix[5])/2;
+                            //blue_r<=(raw_pix[3]+raw_pix[5])/2;
+                            blue_r<=255;
                         end
-                    end
-                            
+                    end                            
         end        
     end
 

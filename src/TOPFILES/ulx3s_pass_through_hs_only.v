@@ -36,7 +36,7 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,deb
 	wire[7:0] hex;
 	reg[18:0] pixcount=0;
 		
-	dpram_dualclock DPR(.data_a(data),.addr_a(data_adress),.addr_b(read_addr[18:2]),
+	dpram_dualclock DPR(.data_a(data),.addr_a(data_adress),.addr_b(read_addr_2[18:2]),
 	.we_a(btn),.we_b(0),.clk(ram_clk),.clk_b(pixclk),.data_out(ramdata));
 
 	wire[31:0] color_w;
@@ -63,9 +63,9 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,deb
 	end	
 
 
-	//Debayer debay(.clock(pixclk),.reset(reset),.address_in(read_addr),.address_out(read_addr_2),.raw(raw_v),.red(red_v),.green(green_v),.blue(blue_v));  
+	Debayer debay(.clock(pixclk),.reset(reset),.address_in(read_addr),.address_out(read_addr_2),.raw(raw_v),.red(red_v),.green(green_v),.blue(blue_v));  
 
-	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(raw_v),.green(raw_v),.blue(raw_v),.addr(read_addr),.TMDSd(TMDSd));
+	HDMI_Transciever HDMI(.clk_low(pixclk),.reset(reset),.clk_high(clk250),.red(red_v),.green(green_v),.blue(blue_v),.addr(read_addr),.TMDSd(TMDSd));
 
 	/*always @(posedge pixclk) begin		
 		//////////////////////Serial debugger
@@ -281,7 +281,7 @@ module dpram_dualclock
 		output reg [31:0] data_out
 	);
 		reg [31:0] ram[76799:0];	
-		initial $readmemh("testimage.mem",ram);	
+		initial $readmemh("raw.mem",ram);	
 
 		// Port A 
 		always @ (posedge clk)
