@@ -4,7 +4,7 @@
 .PHONY: all
 
 #.DELETE_ON_ERROR:
-TOPMOD  := Debayer
+TOPMOD  := Debayer_sim
 VLOGFIL := $(TOPMOD).v
 VCDFILE := $(TOPMOD).vcd
 SIMPROG := $(TOPMOD)_tb

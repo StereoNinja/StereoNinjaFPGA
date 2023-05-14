@@ -2,7 +2,7 @@ from PIL import Image
 import numpy as np
 
 
-path='src/Debayer/image.jpeg'
+path='src/Debayer/image.png'
 image=Image.open(path)
 pix_arr=np.array(image)
 x,y =image.size
@@ -32,6 +32,10 @@ for b in range(480):
       raw[b,a]=(red[b,a,0]+green[b,a,1]+blue[b,a,2])
       
 
+
+img=Image.new('L',(raw.shape[1],raw.shape[0]))
+img.putdata(raw.flatten())
+img.save('src/Debayer/raw.png')
 
 line=np.zeros((640),dtype=np.uint8)
 

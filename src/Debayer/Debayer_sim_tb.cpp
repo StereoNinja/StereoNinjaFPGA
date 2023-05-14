@@ -7,7 +7,7 @@
 #include <sys/types.h>
 #include <signal.h>
 #include "verilated.h"
-#include "VDebayer.h"
+#include "VDebayer_sim.h"
 #include "testb.h"
 
 
@@ -20,8 +20,8 @@
 
 int	main(int argc, char **argv) {
 	Verilated::commandArgs(argc, argv);
-	TESTB<VDebayer>	*tb
-		= new TESTB<VDebayer>;
+	TESTB<VDebayer_sim>	*tb
+		= new TESTB<VDebayer_sim>;
 	tb->opentrace("Debayer_Sim.vcd");
 	//tb->m_core->btn= 0;
 	///////////////////////////////////
@@ -65,19 +65,19 @@ int	main(int argc, char **argv) {
 
 	int adress=0;
 	tb->m_core->address_in=adress;
-	tb->m_core->raw=image_g[adress];
-	for (int i=0; i < 640*480*2; i++) {		
+	
+	for (int i=0; i < 640*480*4; i++){		
 	    tb->tick();		
-		if(i%2==1){			
-			adress=adress+1;
+		if(i%2==1){					
 			image_o[3*adress]=3*tb->m_core->red;
 			image_o[3*adress+1]=3*tb->m_core->green;
 			image_o[3*adress+2]=3*tb->m_core->blue;
-			tb->m_core->address_in=adress;
-			tb->m_core->raw=image_g[adress];			
+			tb->m_core->address_in=adress;			
+			adress=adress+1;	
+			if(adress>640*480){
+				adress=0;
+			}		
 		}
-		
-
 	}
 
 	for (size_t a = 0; a < 480; a++)
