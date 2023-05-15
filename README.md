@@ -18,7 +18,7 @@ Todos
 - [x] MIPI Protocoll Decoding
 - [x] Writing MIPI Videostream in Dualport Ram
 - [x] Passthrough IMX219 to HDMI at 640x480 Pixel in greyscale
-- [ ] Debayering for Colors
+- [x] Debayering for Colors -works partially 
 - [ ] Testing IMX219 at other Resolutions 
 - [ ] Testing Design with two Cameras
 - [ ] Creating Side-by-Side(Half) HDMI 3D Output at 1280x720 
