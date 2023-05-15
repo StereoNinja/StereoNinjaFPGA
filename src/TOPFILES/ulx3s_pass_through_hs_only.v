@@ -10,10 +10,10 @@ module ulx3s(input pixclk,inout cam0_sda,inout cam0_scl,debug0,debug1,debug2,deb
 	assign cam0_sda=cam0_sda_w;
 	assign cam0_scl=cam0_scl_w;	
 	//Terminierung von cam0
-	assign cam0_d0_r_p=(1)?0:'bz;
-	assign cam0_d0_r_n=(1)?0:'bz;
-	assign cam0_d1_r_p=(1)?0:'bz;
-	assign cam0_d1_r_n=(1)?0:'bz;
+	assign cam0_d0_r_p=(term)?0:'bz;
+	assign cam0_d0_r_n=(term)?0:'bz;
+	assign cam0_d1_r_p=(term)?0:'bz;
+	assign cam0_d1_r_n=(term)?0:'bz;
 	assign cam0_clk_r_p=1?0:'bz;
 	assign cam0_clk_r_n=1?0:'bz;	
 	//	
